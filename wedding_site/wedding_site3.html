@@ -225,6 +225,8 @@ ul,ol,li {list-style:none;}
     left: 0px;
     background-color: rgba(0,0,0,0.3);	}
 
+
+/*
 .bottom_li{display: block; position: absolute; width: 604px; height: 110px;  background: #238CFA ; margin:18px 0 0 18px;
     opacity: 1; box-sizing: border-box; border-radius: 10px;
 }
@@ -247,6 +249,57 @@ ul,ol,li {list-style:none;}
     width: 1px;
     height: 35px;
     background-color: #fff;}
+*/
+
+.bottom_li {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center;    /* 세로 중앙 정렬 */
+    position: absolute;
+    width: 604px;
+    height: 110px;
+    background: #238CFA;
+    margin: 18px 0 0 18px;
+    opacity: 1;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.bottom_li ul {
+    display: flex; /* ul도 flex로 변경 */
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* ul이 부모 너비에 맞게 확장 */
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none; /* 기본 리스트 스타일 제거 */
+}
+
+.bottom_li li {
+    width: 33%; /* 필요에 따라 유지 */
+    text-align: center;
+    line-height: 110px; /* 세로 정렬 */
+    color: #fff;
+    font-family: SunBatang-Light;
+    font-size: 1.9em;
+    cursor: pointer;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.bottom_li li:nth-child(n+2)::after {
+    position: absolute;
+    left: 0;
+    top: 38px;
+    content: "";
+    width: 1px;
+    height: 35px;
+    background-color: #fff;
+}
+
+
+
 
 .dim {position: fixed; display: none; top:0; left: 0; width: 100vw; height: 100vh; 	}
 .dim::before {
@@ -638,9 +691,9 @@ ul,ol,li {list-style:none;}
 <div class="bottom_fix">
     <div class="bottom_li">
     <ul>
-        <li class="navi"></li>
+        <!--<li class="navi"></li>-->
         <li class="chuk">축의금</li>
-        <li><a href="shop.php?mcode=1736321765"  target="_blank"></a></li>  
+        <!--<li><a href="shop.php?mcode=1736321765"  target="_blank"></a></li> --> 
     </ul>
    </div>
 </div>
@@ -1006,7 +1059,7 @@ $('.close1').click(function(){
 
 
 </script>
-<!--<script language="javascript" src="https://tjini.cafe24.com/css/effect.js?v=1"></script>-->
+<script language="javascript" src="https://tjini.cafe24.com/css/effect.js?v=1"></script>
 
 <br>
 <br>
