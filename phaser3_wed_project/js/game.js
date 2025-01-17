@@ -82,9 +82,7 @@ class Example extends Phaser.Scene
 
 		// 포인터 클릭 시 발사
 		this.input.on('pointerup', () => {
-			//const chick = chicks.get(cannon.x, cannon.y - 100); // 그룹에서 발사체 가져오기
-			const chick = chicks.getFirstDead(); // 비활성화된 발사체 가져오기
-
+			const chick = chicks.get(cannon.x, cannon.y - 100); // 그룹에서 발사체 가져오기
 			if (chick) {
 				chick.setActive(true);
 				chick.setVisible(true);
@@ -102,9 +100,10 @@ class Example extends Phaser.Scene
 				// 하단 경계 충돌 이벤트
 				chick.body.world.on('worldbounds', (body) => {
                 if (body.gameObject === chick && chick.y > this.scale.height) {
-                    chick.setActive(false); // 그룹에서 비활성화
-                    chick.setVisible(false); // 화면에서 제거
-                    chick.body.stop(); // 속도 멈춤
+                    // 하단 경계 벗어났을 경우
+                    chick.setActive(false);
+                    chick.setVisible(false);
+                    chick.body.stop();
                 }
 			}
 		});
