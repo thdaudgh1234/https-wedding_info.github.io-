@@ -36,7 +36,7 @@ class Example extends Phaser.Scene
 		// 발사체 그룹 생성
 		const chicks = this.physics.add.group({
 			defaultKey: 'chick', // 기본 이미지 키
-			maxSize: 10000,         // 최대 발사체 수
+			maxSize: 1,         // 최대 발사체 수
 			bounceX: 1, // X축 반사
 			bounceY: 1, // Y축 반사
 			collideWorldBounds: true, // 경계 충돌 활성화
@@ -82,7 +82,9 @@ class Example extends Phaser.Scene
 
 		// 포인터 클릭 시 발사
 		this.input.on('pointerup', () => {
-			const chick = chicks.get(cannon.x, cannon.y - 100); // 그룹에서 발사체 가져오기
+			//const chick = chicks.get(cannon.x, cannon.y - 100); // 그룹에서 발사체 가져오기
+			const chick = chicks.getFirstDead(); // 비활성화된 발사체 가져오기
+
 			if (chick) {
 				chick.setActive(true);
 				chick.setVisible(true);
@@ -90,11 +92,20 @@ class Example extends Phaser.Scene
 				chick.body.setVelocity(0, 0); // 초기 속도 리셋
 				chick.body.enable = true; // 물리 활성화
 				chick.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
-				chick.body.bounce.set(1); // 모든 방향으로 완전 반사
+				chick.body.bounce.set(1); // 상단, 좌우 경계에서 반사
+				chick.body.checkWorldBounds = true; // 경계 체크 활성화
 				chick.play('fly'); // 애니메이션 재생
 
 				// 발사 방향 속도 설정
 				this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
+
+				// 하단 경계 충돌 이벤트
+				chick.body.world.on('worldbounds', (body) => {
+                if (body.gameObject === chick && chick.y > this.scale.height) {
+                    chick.setActive(false); // 그룹에서 비활성화
+                    chick.setVisible(false); // 화면에서 제거
+                    chick.body.stop(); // 속도 멈춤
+                }
 			}
 		});
 		/*
