@@ -6,6 +6,7 @@ class Example extends Phaser.Scene
         this.load.image('backdrop', 'assets/540x960_bg.png');
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
+		this.load.image('goal', 'assets/100x100_goal.png');
         this.load.spritesheet('chick', 'assets/100x100_bullet.png', { frameWidth: 100, frameHeight: 100 });
     }
 
@@ -16,9 +17,11 @@ class Example extends Phaser.Scene
 
         //this.add.image(0, 0, 'backdrop').setScale(1);
 		this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
+		
+		const goal = this.add.image(this.scale.width / 2+50, this.scale.height / 3 - 80, 'goal').setDepth(1);
 
-        const cannonHead = this.add.image(this.scale.width / 2, this.scale.height / 3 - 80, 'cannon_head').setDepth(1);
-        const cannon = this.add.image(this.scale.width / 2, this.scale.height / 3, 'cannon_body').setDepth(0);
+        const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 50, 'cannon_head').setDepth(1);
+        const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
         const chick = this.physics.add.sprite(cannon.x, cannon.y - 50, 'chick').setScale(1);
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
         const line = new Phaser.Geom.Line();
@@ -27,10 +30,16 @@ class Example extends Phaser.Scene
 
         let angle = 0;
 		
+		// 물리 세계 경계 설정 (화면 크기)
+		this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
+
 		// 발사체 그룹 생성
 		const chicks = this.physics.add.group({
 			defaultKey: 'chick', // 기본 이미지 키
 			maxSize: 10000,         // 최대 발사체 수
+			bounceX: 1, // X축 반사
+			bounceY: 1, // Y축 반사
+			collideWorldBounds: true, // 경계 충돌 활성화
 		});
 
 		/*
@@ -43,15 +52,15 @@ class Example extends Phaser.Scene
         });
 */
 		this.input.on('pointermove', (pointer) => {
-			angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
+			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			cannonHead.rotation = angle;
 
 			const shaftLength = 128; // 화살표 몸통 길이
 			const arrowHeight = 30;  // 화살표 머리 높이
 			const arrowWidth = 30;   // 화살표 머리 밑변 너비
 
-			const endX = cannon.x + Math.cos(angle) * shaftLength;
-			const endY = cannon.y + Math.sin(angle) * shaftLength;
+			const endX = cannonHead.x + Math.cos(angle) * shaftLength;
+			const endY = cannonHead.y + Math.sin(angle) * shaftLength;
 
 			const arrowHead = new Phaser.Geom.Triangle(
 				endX, endY,
@@ -64,7 +73,7 @@ class Example extends Phaser.Scene
 			graphics.clear();
 			graphics.lineStyle(2, 0xffffff);
 			graphics.beginPath();
-			graphics.moveTo(cannon.x, cannon.y);
+			graphics.moveTo(cannonHead.x, cannonHead.y);
 			graphics.lineTo(endX, endY);
 			graphics.strokePath();
 			graphics.fillStyle(0xffffff);
@@ -73,13 +82,15 @@ class Example extends Phaser.Scene
 
 		// 포인터 클릭 시 발사
 		this.input.on('pointerup', () => {
-			const chick = chicks.get(cannon.x, cannon.y - 150); // 그룹에서 발사체 가져오기
+			const chick = chicks.get(cannon.x, cannon.y - 100); // 그룹에서 발사체 가져오기
 			if (chick) {
 				chick.setActive(true);
 				chick.setVisible(true);
 				chick.setScale(1);
 				chick.body.setVelocity(0, 0); // 초기 속도 리셋
 				chick.body.enable = true; // 물리 활성화
+				chick.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
+				chick.body.bounce.set(1); // 모든 방향으로 완전 반사
 				chick.play('fly'); // 애니메이션 재생
 
 				// 발사 방향 속도 설정
