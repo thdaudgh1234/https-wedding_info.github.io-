@@ -4,6 +4,9 @@ const config = {
   width: 800,        // 게임 화면 너비
   height: 600,       // 게임 화면 높이
   backgroundColor: '#2d2d2d', // 배경색
+  audio: {
+    disableWebAudio: false, // Web Audio API를 활성화
+  },
   scene: {
     preload: preload,
     create: create,
@@ -28,3 +31,5 @@ function create() {
 function update() {
   // 게임 로직 업데이트 (빈 상태로 시작)
 }
+
+
