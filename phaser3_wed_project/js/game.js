@@ -72,7 +72,7 @@ class Example extends Phaser.Scene {
                 chick.play('fly'); // 애니메이션 재생
 
                 // 발사 방향 속도 설정
-                this.physics.velocityFromRotation(angle, 1300, chick.body.velocity);
+                this.physics.velocityFromRotation(angle, 1200, chick.body.velocity);
             }
         });
 
@@ -109,10 +109,11 @@ class Example extends Phaser.Scene {
     update() {
         // 발사체가 하단 경계를 넘었는지 확인
         this.chicks.children.iterate((chick) => {
-            if (chick.active && chick.y > this.scale.height) {
+            if (chick.active && chick.y >= this.scale.height) {
                 chick.setActive(false); // 그룹에서 비활성화
                 chick.setVisible(false); // 화면에서 제거
                 chick.body.stop(); // 속도 멈춤
+                chick.body.enable = false; // 물리 비활성화
             }
         });
     }
