@@ -100,12 +100,11 @@ class Example extends Phaser.Scene
 				// 하단 경계 충돌 이벤트
 				chick.body.world.on('worldbounds', (body) => {
                 if (body.gameObject === chick && chick.y > this.scale.height) {
-                    // 하단 경계 벗어났을 경우
-                    chick.setActive(false);
-                    chick.setVisible(false);
-                    chick.body.stop();
+                    chick.setActive(false); // 그룹에서 비활성화
+                    chick.setVisible(false); // 화면에서 제거
+                    chick.body.stop(); // 속도 멈춤
                 }
-			}
+			})
 		});
 		/*
         this.input.on('pointerup', () =>
