@@ -6,18 +6,19 @@ class Example extends Phaser.Scene
         this.load.image('backdrop', 'assets/540x960_bg.png');
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
-        this.load.spritesheet('chick', 'assets/100x100_bullet.png', { frameWidth: 16, frameHeight: 18 });
+        this.load.spritesheet('chick', 'assets/100x100_bullet.png', { frameWidth: 100, frameHeight: 100 });
     }
 
     create ()
     {
-        this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0, 1, 2, 3 ]), frameRate: 5, repeat: -1 });
+        this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0 ]), frameRate: 1, repeat: -1 });
+		//this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0, 1, 2, 3 ]), frameRate: 5, repeat: -1 });
 
         //this.add.image(0, 0, 'backdrop').setScale(1);
 		this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 
         const cannonHead = this.add.image(130, 416, 'cannon_head').setDepth(1);
-        const cannon = this.add.image(130, 464, 'cannon_body').setDepth(1);
+        const cannon = this.add.image(130, 464, 'cannon_body').setDepth(0);
         const chick = this.physics.add.sprite(cannon.x, cannon.y - 50, 'chick').setScale(1);
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
         const line = new Phaser.Geom.Line();
@@ -40,7 +41,7 @@ class Example extends Phaser.Scene
 
 			const shaftLength = 128; // 화살표 몸통 길이
 			const arrowHeight = 30;  // 화살표 머리 높이
-			const arrowWidth = 20;   // 화살표 머리 밑변 너비
+			const arrowWidth = 30;   // 화살표 머리 밑변 너비
 
 			const endX = cannon.x + Math.cos(angle) * shaftLength;
 			const endY = cannon.y + Math.sin(angle) * shaftLength;
