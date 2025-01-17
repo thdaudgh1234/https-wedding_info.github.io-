@@ -13,7 +13,7 @@ class Example extends Phaser.Scene {
 
         this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 
-        const goal = this.add.image(this.scale.width / 2 + 50, this.scale.height / 3 - 80, 'goal').setDepth(1);
+        const goal = this.physics.add.staticImage(this.scale.width / 2 + 50, this.scale.height / 3 - 80, 'goal').setDepth(1);
 
         const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 50, 'cannon_head').setDepth(1);
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
@@ -76,6 +76,32 @@ class Example extends Phaser.Scene {
                 this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
             }
         });
+
+        // 충돌 감지 설정
+        this.physics.add.collider(chicks, goal, (chick, goal) => {
+		// 게임 정지
+		this.physics.pause(); // 물리 동작 멈춤
+		this.input.enabled = false; // 입력 이벤트 비활성화
+
+		// 클리어 메시지 표시
+		const clearText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 50, 'Clear!', {
+			fontSize: '48px',
+			color: '#ffffff',
+		}).setOrigin(0.5);
+
+		// Next 버튼 추가
+		const nextButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 50, 'Next', {
+			fontSize: '32px',
+			color: '#00ff00',
+			backgroundColor: '#000000',
+			padding: { x: 10, y: 10 },
+		}).setOrigin(0.5).setInteractive();
+
+		// Next 버튼 클릭 이벤트
+		nextButton.on('pointerup', () => {
+			window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
+		});
+	});
 
         this.chicks = chicks; // 업데이트 메서드에서 사용하기 위해 저장
     }
