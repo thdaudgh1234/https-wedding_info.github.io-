@@ -128,7 +128,7 @@ class Example extends Phaser.Scene {
 								targets: chick,
 								scaleX: 0,
 								scaleY: 0,
-								duration: 1000,
+								duration: 500,
 								ease: 'Linear',
 								onUpdate: () => {
 									// 크기가 일정 이하로 작아지면 객체 제거
