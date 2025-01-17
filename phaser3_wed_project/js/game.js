@@ -109,11 +109,25 @@ class Example extends Phaser.Scene {
     update() {
         // 발사체가 하단 경계를 넘었는지 확인
         this.chicks.children.iterate((chick) => {
-            if (chick.active && chick.y >= this.scale.height) {
-                chick.setActive(false); // 그룹에서 비활성화
-                chick.setVisible(false); // 화면에서 제거
-                chick.body.stop(); // 속도 멈춤
-                chick.body.enable = false; // 물리 비활성화
+            if (chick.active && chick.y >= this.scale.height - 50) {
+                // 엉덩방아 애니메이션
+                this.tweens.add({
+                    targets: chick,
+                    scaleX: 1.5,
+                    scaleY: 1.5,
+                    yoyo: true,
+                    duration: 300,
+                    onComplete: () => {
+                        chick.body.setGravityY(500); // 중력을 다시 설정
+                    },
+                });
+                // 객체가 하단 화면 밖으로 나가면 제거
+                if (chick.y > this.scale.height + 100) {
+                    chick.setActive(false); // 그룹에서 비활성화
+                    chick.setVisible(false); // 화면에서 제거
+                    chick.body.stop(); // 속도 멈춤
+                    chick.body.enable = false; // 물리 비활성화
+                }
             }
         });
     }
