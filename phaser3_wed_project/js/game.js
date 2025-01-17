@@ -1,35 +1,60 @@
-// Phaser 게임 구성
+class Example extends Phaser.Scene
+{
+    preload ()
+    {
+        this.load.setBaseURL('https://cdn.phaserfiles.com/v385');
+        this.load.image('backdrop', 'assets/pics/platformer-backdrop.png');
+        this.load.image('cannon_head', 'assets/tests/timer/cannon_head.png');
+        this.load.image('cannon_body', 'assets/tests/timer/cannon_body.png');
+        this.load.spritesheet('chick', 'assets/sprites/chick.png', { frameWidth: 16, frameHeight: 18 });
+    }
+
+    create ()
+    {
+        this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0, 1, 2, 3 ]), frameRate: 5, repeat: -1 });
+
+        this.add.image(320, 256, 'backdrop').setScale(2);
+
+        const cannonHead = this.add.image(130, 416, 'cannon_head').setDepth(1);
+        const cannon = this.add.image(130, 464, 'cannon_body').setDepth(1);
+        const chick = this.physics.add.sprite(cannon.x, cannon.y - 50, 'chick').setScale(2);
+        const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
+        const line = new Phaser.Geom.Line();
+
+        chick.disableBody(true, true);
+
+        let angle = 0;
+
+        this.input.on('pointermove', (pointer) =>
+        {
+            angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
+            cannonHead.rotation = angle;
+            Phaser.Geom.Line.SetToAngle(line, cannon.x, cannon.y - 50, angle, 128);
+            graphics.clear().strokeLineShape(line);
+        });
+
+        this.input.on('pointerup', () =>
+        {
+            chick.enableBody(true, cannon.x, cannon.y - 50, true, true);
+            chick.play('fly');
+            this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
+        });
+    }
+}
+
 const config = {
-  type: Phaser.AUTO, // 렌더링 방식 (WebGL 또는 Canvas를 자동 선택)
-  width: 800,        // 게임 화면 너비
-  height: 600,       // 게임 화면 높이
-  backgroundColor: '#2d2d2d', // 배경색
-  audio: {
-    disableWebAudio: false, // Web Audio API를 활성화
-  },
-  scene: {
-    preload: preload,
-    create: create,
-    update: update,
-  }
+    type: Phaser.AUTO,
+    width: 640,
+    height: 512,
+    parent: 'phaser-example',
+    pixelArt: true,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300 }
+        }
+    },
+    scene: Example
 };
 
-// 게임 생성
 const game = new Phaser.Game(config);
-
-// 리소스 로드
-function preload() {
-  this.load.image('logo', 'assets/phaser3-logo.png'); // 예제 로고 이미지 로드
-}
-
-// 초기 설정
-function create() {
-  const logo = this.add.image(400, 300, 'logo'); // 로고를 화면 중앙에 추가
-}
-
-// 매 프레임 업데이트
-function update() {
-  // 게임 로직 업데이트 (빈 상태로 시작)
-}
-
-
