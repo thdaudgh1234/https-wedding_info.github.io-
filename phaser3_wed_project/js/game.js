@@ -1,119 +1,93 @@
-class Example extends Phaser.Scene
-{
-    preload ()
-    {
+class Example extends Phaser.Scene {
+    preload() {
         this.load.setBaseURL('https://thdaudgh1234.github.io/https-wedding_info.github.io-/phaser3_wed_project/');
         this.load.image('backdrop', 'assets/540x960_bg.png');
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
-		this.load.image('goal', 'assets/100x100_goal.png');
+        this.load.image('goal', 'assets/100x100_goal.png');
         this.load.spritesheet('chick', 'assets/100x100_bullet.png', { frameWidth: 100, frameHeight: 100 });
     }
 
-    create ()
-    {
-        this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0 ]), frameRate: 1, repeat: -1 });
-		//this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0, 1, 2, 3 ]), frameRate: 5, repeat: -1 });
+    create() {
+        this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [0]), frameRate: 1, repeat: -1 });
 
-        //this.add.image(0, 0, 'backdrop').setScale(1);
-		this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
-		
-		const goal = this.add.image(this.scale.width / 2+50, this.scale.height / 3 - 80, 'goal').setDepth(1);
+        this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
+
+        const goal = this.add.image(this.scale.width / 2 + 50, this.scale.height / 3 - 80, 'goal').setDepth(1);
 
         const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 50, 'cannon_head').setDepth(1);
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
-        const chick = this.physics.add.sprite(cannon.x, cannon.y - 50, 'chick').setScale(1);
-        const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
-        const line = new Phaser.Geom.Line();
 
-        chick.disableBody(true, true);
+        const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
 
         let angle = 0;
-		
-		// 물리 세계 경계 설정 (화면 크기)
-		this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
 
-		// 발사체 그룹 생성
-		const chicks = this.physics.add.group({
-			defaultKey: 'chick', // 기본 이미지 키
-			maxSize: 1,         // 최대 발사체 수
-			bounceX: 1, // X축 반사
-			bounceY: 1, // Y축 반사
-			collideWorldBounds: true, // 경계 충돌 활성화
-		});
+        // 물리 세계 경계 설정 (화면 크기)
+        this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
 
-		/*
-        this.input.on('pointermove', (pointer) =>
-        {
-            angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
+        // 발사체 그룹 생성
+        const chicks = this.physics.add.group({
+            defaultKey: 'chick',
+            maxSize: 1, // 한 번에 한 발만 활성화
+        });
+
+        // 포인터 이동 시 대포와 조준선 업데이트
+        this.input.on('pointermove', (pointer) => {
+            angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
             cannonHead.rotation = angle;
-            Phaser.Geom.Line.SetToAngle(line, cannon.x, cannon.y - 50, angle, 128);
-            graphics.clear().strokeLineShape(line);
+
+            const shaftLength = 128;
+            const endX = cannonHead.x + Math.cos(angle) * shaftLength;
+            const endY = cannonHead.y + Math.sin(angle) * shaftLength;
+
+            const arrowHead = new Phaser.Geom.Triangle(
+                endX, endY,
+                endX - Math.cos(angle - Math.PI / 2) * 15 - Math.cos(angle) * 30,
+                endY - Math.sin(angle - Math.PI / 2) * 15 - Math.sin(angle) * 30,
+                endX - Math.cos(angle + Math.PI / 2) * 15 - Math.cos(angle) * 30,
+                endY - Math.sin(angle + Math.PI / 2) * 15 - Math.sin(angle) * 30
+            );
+
+            graphics.clear();
+            graphics.lineStyle(2, 0xffffff);
+            graphics.beginPath();
+            graphics.moveTo(cannonHead.x, cannonHead.y);
+            graphics.lineTo(endX, endY);
+            graphics.strokePath();
+            graphics.fillStyle(0xffffff);
+            graphics.fillTriangleShape(arrowHead);
         });
-*/
-		this.input.on('pointermove', (pointer) => {
-			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-			cannonHead.rotation = angle;
 
-			const shaftLength = 128; // 화살표 몸통 길이
-			const arrowHeight = 30;  // 화살표 머리 높이
-			const arrowWidth = 30;   // 화살표 머리 밑변 너비
+        // 포인터 클릭 시 발사
+        this.input.on('pointerup', () => {
+            const chick = chicks.get(cannon.x, cannon.y - 100); // 그룹에서 발사체 가져오기
+            if (chick) {
+                chick.setActive(true);
+                chick.setVisible(true);
+                chick.setScale(1);
+                chick.body.setVelocity(0, 0); // 초기 속도 리셋
+                chick.body.enable = true; // 물리 활성화
+                chick.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
+                chick.body.bounce.set(1); // 상단, 좌우 경계에서 반사
+                chick.play('fly'); // 애니메이션 재생
 
-			const endX = cannonHead.x + Math.cos(angle) * shaftLength;
-			const endY = cannonHead.y + Math.sin(angle) * shaftLength;
-
-			const arrowHead = new Phaser.Geom.Triangle(
-				endX, endY,
-				endX - Math.cos(angle - Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
-				endY - Math.sin(angle - Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight,
-				endX - Math.cos(angle + Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
-				endY - Math.sin(angle + Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight
-			);
-
-			graphics.clear();
-			graphics.lineStyle(2, 0xffffff);
-			graphics.beginPath();
-			graphics.moveTo(cannonHead.x, cannonHead.y);
-			graphics.lineTo(endX, endY);
-			graphics.strokePath();
-			graphics.fillStyle(0xffffff);
-			graphics.fillTriangleShape(arrowHead);
-		});
-
-		// 포인터 클릭 시 발사
-		this.input.on('pointerup', () => {
-			const chick = chicks.get(cannon.x, cannon.y - 100); // 그룹에서 발사체 가져오기
-			if (chick) {
-				chick.setActive(true);
-				chick.setVisible(true);
-				chick.setScale(1);
-				chick.body.setVelocity(0, 0); // 초기 속도 리셋
-				chick.body.enable = true; // 물리 활성화
-				chick.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
-				chick.body.bounce.set(1); // 상단, 좌우 경계에서 반사
-				chick.body.checkWorldBounds = true; // 경계 체크 활성화
-				chick.play('fly'); // 애니메이션 재생
-
-				// 발사 방향 속도 설정
-				this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
-
-				// 하단 경계 충돌 이벤트
-				chick.body.world.on('worldbounds', (body) => {
-                if (body.gameObject === chick && chick.y > this.scale.height) {
-                    chick.setActive(false); // 그룹에서 비활성화
-                    chick.setVisible(false); // 화면에서 제거
-                    chick.body.stop(); // 속도 멈춤
-                }
-				})
-		}});
-		/*
-        this.input.on('pointerup', () =>
-        {
-            chick.enableBody(true, cannon.x, cannon.y - 150, true, true);
-            chick.play('fly');
-            this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
+                // 발사 방향 속도 설정
+                this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
+            }
         });
-		*/
+
+        this.chicks = chicks; // 업데이트 메서드에서 사용하기 위해 저장
+    }
+
+    update() {
+        // 발사체가 하단 경계를 넘었는지 확인
+        this.chicks.children.iterate((chick) => {
+            if (chick.active && chick.y > this.scale.height) {
+                chick.setActive(false); // 그룹에서 비활성화
+                chick.setVisible(false); // 화면에서 제거
+                chick.body.stop(); // 속도 멈춤
+            }
+        });
     }
 }
 
@@ -123,25 +97,20 @@ const config = {
     height: 960,
     parent: 'phaser-example',
     pixelArt: true,
-	scale: {
-    mode: Phaser.Scale.FIT,       // 화면 비율 유지 (Fit 방식)
-    autoCenter: Phaser.Scale.CENTER_BOTH, // 화면 중앙 정렬
-    min: {
-      width: 540, // 최소 너비
-      height: 960 // 최소 높이
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        min: { width: 540, height: 960 },
+        max: { width: 1080, height: 1920 },
     },
-    max: {
-      width: 1080, // 최대 너비
-      height: 1920 // 최대 높이
-    }
-	},
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 500 }
-        }
+            gravity: { y: 500 },
+            debug: false,
+        },
     },
-    scene: Example
+    scene: Example,
 };
 
 const game = new Phaser.Game(config);
