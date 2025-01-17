@@ -68,7 +68,8 @@ class Example extends Phaser.Scene {
                 chick.body.setVelocity(0, 0); // 초기 속도 리셋
                 chick.body.enable = true; // 물리 활성화
                 chick.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
-                chick.body.bounce.set(1); // 상단, 좌우 경계에서 반사
+                chick.body.onWorldBounds = true; // 경계 충돌 감지
+                chick.body.bounce.set(1, 0); // 상단, 좌우 경계에서 반사, 하단은 반사 X
                 chick.play('fly'); // 애니메이션 재생
 
                 // 발사 방향 속도 설정
