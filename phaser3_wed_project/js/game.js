@@ -67,41 +67,36 @@ class Example extends Phaser.Scene {
                 chick.setScale(1);
                 chick.body.setVelocity(0, 0); // 초기 속도 리셋
                 chick.body.enable = true; // 물리 활성화
-                chick.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
-                chick.body.onWorldBounds = true; // 경계 충돌 감지
                 chick.body.bounce.set(1, 0); // 상단, 좌우 경계에서 반사, 하단은 반사 X
                 chick.play('fly'); // 애니메이션 재생
 
                 // 발사 방향 속도 설정
-                this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
+                this.physics.velocityFromRotation(angle, 1400, chick.body.velocity);
             }
         });
 
         // 충돌 감지 설정
         this.physics.add.collider(chicks, goal, (chick, goal) => {
-		// 게임 정지
-		this.physics.pause(); // 물리 동작 멈춤
-		this.input.enabled = false; // 입력 이벤트 비활성화
+            // 충돌 처리
+            this.physics.pause();
+            this.input.enabled = false;
 
-		// 클리어 메시지 표시
-		const clearText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 50, 'Clear!', {
-			fontSize: '48px',
-			color: '#ffffff',
-		}).setOrigin(0.5);
+            this.add.text(this.scale.width / 2, this.scale.height / 2, 'Clear!', {
+                fontSize: '48px',
+                color: '#ffffff',
+            }).setOrigin(0.5);
 
-		// Next 버튼 추가
-		const nextButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 50, 'Next', {
-			fontSize: '32px',
-			color: '#00ff00',
-			backgroundColor: '#000000',
-			padding: { x: 10, y: 10 },
-		}).setOrigin(0.5).setInteractive();
+            const nextButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 100, 'Next', {
+                fontSize: '32px',
+                color: '#00ff00',
+                backgroundColor: '#000000',
+                padding: { x: 10, y: 10 },
+            }).setOrigin(0.5).setInteractive();
 
-		// Next 버튼 클릭 이벤트
-		nextButton.on('pointerup', () => {
-			window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
-		});
-	});
+            nextButton.on('pointerup', () => {
+                window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
+            });
+        });
 
         this.chicks = chicks; // 업데이트 메서드에서 사용하기 위해 저장
     }
