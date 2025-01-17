@@ -3,10 +3,10 @@ class Example extends Phaser.Scene
     preload ()
     {
         this.load.setBaseURL('https://cdn.phaserfiles.com/v385');
-        this.load.image('backdrop', './assets/540x960_bg.png');
-        this.load.image('cannon_head', './assets/100x100_head.png');
-        this.load.image('cannon_body', './assets/100x100_body.png');
-        this.load.spritesheet('chick', './assets/100x100_bullet.png', { frameWidth: 16, frameHeight: 18 });
+        this.load.image('backdrop', 'assets/540x960_bg.png');
+        this.load.image('cannon_head', 'assets/100x100_head.png');
+        this.load.image('cannon_body', 'assets/100x100_body.png');
+        this.load.spritesheet('chick', 'assets/100x100_bullet.png', { frameWidth: 16, frameHeight: 18 });
     }
 
     create ()
