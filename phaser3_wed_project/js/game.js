@@ -25,7 +25,8 @@ class Example extends Phaser.Scene
         chick.disableBody(true, true);
 
         let angle = 0;
-
+		
+		/*
         this.input.on('pointermove', (pointer) =>
         {
             angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
@@ -33,6 +34,35 @@ class Example extends Phaser.Scene
             Phaser.Geom.Line.SetToAngle(line, cannon.x, cannon.y - 50, angle, 128);
             graphics.clear().strokeLineShape(line);
         });
+*/
+		// 포인터 이동 시 화살표 업데이트
+		this.input.on('pointermove', (pointer) => {
+			angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
+
+			const shaftLength = 128; // 화살표 길이
+			const arrowBase = 20;    // 화살표 밑변 크기
+			const arrowHeight = 30;  // 화살표 높이
+
+			const endX = cannon.x + Math.cos(angle) * shaftLength;
+			const endY = cannon.y + Math.sin(angle) * shaftLength;
+
+			const arrowHead = new Phaser.Geom.Triangle(
+				endX, endY,
+				endX - Math.cos(angle - Math.PI / 6) * arrowHeight,
+				endY - Math.sin(angle - Math.PI / 6) * arrowHeight,
+				endX - Math.cos(angle + Math.PI / 6) * arrowHeight,
+				endY - Math.sin(angle + Math.PI / 6) * arrowHeight
+			);
+
+			graphics.clear();
+			graphics.lineStyle(2, 0xffffff);
+			graphics.beginPath();
+			graphics.moveTo(cannon.x, cannon.y - 50);
+			graphics.lineTo(endX, endY);
+			graphics.strokePath();
+			graphics.fillStyle(0xffffff);
+			graphics.fillTriangleShape(arrowHead);
+		});
 
         this.input.on('pointerup', () =>
         {
