@@ -27,6 +27,12 @@ class Example extends Phaser.Scene
 
         let angle = 0;
 		
+		// 발사체 그룹 생성
+		const chicks = this.physics.add.group({
+			defaultKey: 'chick', // 기본 이미지 키
+			maxSize: 10000,         // 최대 발사체 수
+		});
+
 		/*
         this.input.on('pointermove', (pointer) =>
         {
@@ -65,13 +71,29 @@ class Example extends Phaser.Scene
 			graphics.fillTriangleShape(arrowHead);
 		});
 
+		// 포인터 클릭 시 발사
+		this.input.on('pointerup', () => {
+			const chick = chicks.get(cannon.x, cannon.y - 150); // 그룹에서 발사체 가져오기
+			if (chick) {
+				chick.setActive(true);
+				chick.setVisible(true);
+				chick.setScale(1);
+				chick.body.setVelocity(0, 0); // 초기 속도 리셋
+				chick.body.enable = true; // 물리 활성화
+				chick.play('fly'); // 애니메이션 재생
 
+				// 발사 방향 속도 설정
+				this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
+			}
+		});
+		/*
         this.input.on('pointerup', () =>
         {
             chick.enableBody(true, cannon.x, cannon.y - 150, true, true);
             chick.play('fly');
             this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
         });
+		*/
     }
 }
 
