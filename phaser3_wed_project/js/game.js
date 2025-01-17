@@ -104,8 +104,8 @@ class Example extends Phaser.Scene
                     chick.setVisible(false); // 화면에서 제거
                     chick.body.stop(); // 속도 멈춤
                 }
-			})
-		});
+				})
+		}});
 		/*
         this.input.on('pointerup', () =>
         {
