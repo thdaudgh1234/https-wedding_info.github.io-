@@ -13,7 +13,8 @@ class Example extends Phaser.Scene
     {
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0, 1, 2, 3 ]), frameRate: 5, repeat: -1 });
 
-        this.add.image(0, 0, 'backdrop').setScale(1);
+        //this.add.image(0, 0, 'backdrop').setScale(1);
+		this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 
         const cannonHead = this.add.image(130, 416, 'cannon_head').setDepth(1);
         const cannon = this.add.image(130, 464, 'cannon_body').setDepth(1);
@@ -63,7 +64,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 }
+            gravity: { y: 500 }
         }
     },
     scene: Example
