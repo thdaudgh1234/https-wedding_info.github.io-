@@ -44,10 +44,22 @@ class Example extends Phaser.Scene
 
 const config = {
     type: Phaser.AUTO,
-    width: 640,
-    height: 512,
+    width: 540,
+    height: 960,
     parent: 'phaser-example',
     pixelArt: true,
+	scale: {
+    mode: Phaser.Scale.FIT,       // 화면 비율 유지 (Fit 방식)
+    autoCenter: Phaser.Scale.CENTER_BOTH, // 화면 중앙 정렬
+    min: {
+      width: 540, // 최소 너비
+      height: 960 // 최소 높이
+    },
+    max: {
+      width: 1080, // 최대 너비
+      height: 1920 // 최대 높이
+    }
+	},
     physics: {
         default: 'arcade',
         arcade: {
