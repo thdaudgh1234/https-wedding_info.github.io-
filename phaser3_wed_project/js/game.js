@@ -107,30 +107,41 @@ class Example extends Phaser.Scene {
     }
 
     update() {
-        // 발사체가 하단 경계를 넘었는지 확인
-        this.chicks.children.iterate((chick) => {
-            if (chick.active && chick.y >= this.scale.height - 50) {
-                // 엉덩방아 애니메이션
-                this.tweens.add({
-                    targets: chick,
-                    scaleX: 1.5,
-                    scaleY: 1.5,
-                    yoyo: true,
-                    duration: 300,
-                    onComplete: () => {
-                        chick.body.setGravityY(500); // 중력을 다시 설정
-                    },
-                });
-                // 객체가 하단 화면 밖으로 나가면 제거
-                if (chick.y > this.scale.height + 100) {
-                    chick.setActive(false); // 그룹에서 비활성화
-                    chick.setVisible(false); // 화면에서 제거
-                    chick.body.stop(); // 속도 멈춤
-                    chick.body.enable = false; // 물리 비활성화
-                }
-            }
-        });
-    }
+		// 발사체가 하단 경계에 도달했는지 확인
+		this.chicks.children.iterate((chick) => {
+			if (chick.active && !chick.isFalling) {
+				if (chick.y >= this.scale.height - 50) {
+					// 충돌 후 튕기는 애니메이션
+					chick.isFalling = true; // 상태 플래그 설정
+
+					// 크기 및 위치 애니메이션 (튕기는 효과)
+					this.tweens.add({
+						targets: chick,
+						scaleX: 1.5,
+						scaleY: 1.5,
+						y: chick.y - 30, // 살짝 위로 이동
+						yoyo: true, // 원래 위치로 돌아옴
+						duration: 300, // 애니메이션 지속 시간
+						ease: 'Power2',
+						onComplete: () => {
+							// 크기 애니메이션 완료 후 중력 적용
+							chick.body.setGravityY(500);
+							chick.body.setVelocityY(200); // 아래로 떨어지는 속도 설정
+						},
+					});
+				}
+			}
+
+			// 발사체가 하단 경계를 넘어 화면 밖으로 사라졌는지 확인
+			if (chick.y > this.scale.height + 100) {
+				chick.setActive(false); // 그룹에서 비활성화
+				chick.setVisible(false); // 화면에서 제거
+				chick.body.stop(); // 속도 멈춤
+				chick.body.enable = false; // 물리 비활성화
+				chick.isFalling = false; // 상태 플래그 초기화
+			}
+		});
+	}
 }
 
 const config = {
