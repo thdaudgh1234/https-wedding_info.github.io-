@@ -17,8 +17,8 @@ class Example extends Phaser.Scene
         //this.add.image(0, 0, 'backdrop').setScale(1);
 		this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 
-        const cannonHead = this.add.image(130, 416, 'cannon_head').setDepth(1);
-        const cannon = this.add.image(130, 464, 'cannon_body').setDepth(0);
+        const cannonHead = this.add.image(this.scale.width / 2, this.scale.height / 3 - 80, 'cannon_head').setDepth(1);
+        const cannon = this.add.image(this.scale.width / 2, this.scale.height / 3, 'cannon_body').setDepth(0);
         const chick = this.physics.add.sprite(cannon.x, cannon.y - 50, 'chick').setScale(1);
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
         const line = new Phaser.Geom.Line();
@@ -37,7 +37,7 @@ class Example extends Phaser.Scene
         });
 */
 		this.input.on('pointermove', (pointer) => {
-			const angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
+			angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
 
 			const shaftLength = 128; // 화살표 몸통 길이
 			const arrowHeight = 30;  // 화살표 머리 높이
