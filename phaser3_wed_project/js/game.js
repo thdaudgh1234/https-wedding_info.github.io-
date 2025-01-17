@@ -72,7 +72,7 @@ class Example extends Phaser.Scene {
                 chick.play('fly'); // 애니메이션 재생
 
                 // 발사 방향 속도 설정
-                this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
+                this.physics.velocityFromRotation(angle, 1300, chick.body.velocity);
             }
         });
 
