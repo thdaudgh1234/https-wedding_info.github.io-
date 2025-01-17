@@ -4,7 +4,7 @@ class Example extends Phaser.Scene {
         this.load.image('backdrop', 'assets/540x960_bg.png');
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
-        this.load.image('goal', 'assets/100x100_goal.png');
+        this.load.image('goal', 'assets/100x100_2.png');
         this.load.spritesheet('chick', 'assets/100x100_bullet.png', { frameWidth: 100, frameHeight: 100 });
     }
 
