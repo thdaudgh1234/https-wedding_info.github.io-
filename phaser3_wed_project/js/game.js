@@ -38,6 +38,7 @@ class Example extends Phaser.Scene
 */
 		this.input.on('pointermove', (pointer) => {
 			angle = Phaser.Math.Angle.BetweenPoints(cannon, pointer);
+			cannonHead.rotation = angle;
 
 			const shaftLength = 128; // 화살표 몸통 길이
 			const arrowHeight = 30;  // 화살표 머리 높이
@@ -67,7 +68,7 @@ class Example extends Phaser.Scene
 
         this.input.on('pointerup', () =>
         {
-            chick.enableBody(true, cannon.x, cannon.y - 50, true, true);
+            chick.enableBody(true, cannon.x, cannon.y - 150, true, true);
             chick.play('fly');
             this.physics.velocityFromRotation(angle, 600, chick.body.velocity);
         });
