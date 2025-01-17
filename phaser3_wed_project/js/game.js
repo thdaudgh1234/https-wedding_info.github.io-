@@ -3,21 +3,21 @@ class Example extends Phaser.Scene
     preload ()
     {
         this.load.setBaseURL('https://cdn.phaserfiles.com/v385');
-        this.load.image('backdrop', 'assets/pics/platformer-backdrop.png');
-        this.load.image('cannon_head', 'assets/tests/timer/cannon_head.png');
-        this.load.image('cannon_body', 'assets/tests/timer/cannon_body.png');
-        this.load.spritesheet('chick', 'assets/sprites/chick.png', { frameWidth: 16, frameHeight: 18 });
+        this.load.image('backdrop', './assets/540x960_bg.png');
+        this.load.image('cannon_head', './assets/100x100_head.png');
+        this.load.image('cannon_body', './assets/100x100_body.png');
+        this.load.spritesheet('chick', './assets/100x100_bullet.png', { frameWidth: 16, frameHeight: 18 });
     }
 
     create ()
     {
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [ 0, 1, 2, 3 ]), frameRate: 5, repeat: -1 });
 
-        this.add.image(320, 256, 'backdrop').setScale(2);
+        this.add.image(0, 0, 'backdrop').setScale(1);
 
         const cannonHead = this.add.image(130, 416, 'cannon_head').setDepth(1);
         const cannon = this.add.image(130, 464, 'cannon_body').setDepth(1);
-        const chick = this.physics.add.sprite(cannon.x, cannon.y - 50, 'chick').setScale(2);
+        const chick = this.physics.add.sprite(cannon.x, cannon.y - 50, 'chick').setScale(1);
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
         const line = new Phaser.Geom.Line();
 
@@ -63,7 +63,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 1000 }
+            gravity: { y: 300 }
         }
     },
     scene: Example
