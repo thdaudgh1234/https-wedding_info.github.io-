@@ -9,12 +9,16 @@ class Example extends Phaser.Scene {
     }
 
     create() {
+
+		this.scale.lockOrientation('portrait');
+
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [0]), frameRate: 1, repeat: -1 });
 
         //this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 		const backdrop = this.add.image(0, 0, 'backdrop');
 		backdrop.setOrigin(0.5, 0.5); // 중심점을 이미지의 중앙으로 설정
 		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2); // 화면 중앙으로 이동
+		backdrop.setDisplaySize(this.scale.width, this.scale.height);
 		
 		// 비율 유지하며 화면 크기에 맞춤
 		const scaleX = this.scale.width / backdrop.width;
@@ -165,10 +169,10 @@ const config = {
     width: 540, // 기본 너비
     height: 960, // 기본 높이
     parent: 'phaser-example',
-    pixelArt: true, // 픽셀아트 스타일 유지
-    resolution: window.devicePixelRatio, // 디바이스 픽셀 밀도 적용
+    pixelArt: true, // 픽셀 아트 최적화
+    resolution: window.devicePixelRatio, // 고해상도 지원
     scale: {
-        mode: Phaser.Scale.RESIZE, // 화면 크기에 맞게 동적으로 조정
+        mode: Phaser.Scale.FIT, // 화면 크기에 맞게 조정
         autoCenter: Phaser.Scale.CENTER_BOTH, // 화면 중앙 정렬
     },
     physics: {
@@ -178,7 +182,7 @@ const config = {
             debug: false,
         },
     },
-    scene: Example,
+    scene: Example, // 사용하는 씬
 };
 
 const game = new Phaser.Game(config);
