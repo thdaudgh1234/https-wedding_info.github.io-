@@ -11,7 +11,11 @@ class Example extends Phaser.Scene {
     create() {
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [0]), frameRate: 1, repeat: -1 });
 
-        this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
+        //this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
+		const backdrop = this.add.image(0, 0, 'backdrop');
+		backdrop.setOrigin(0.5, 0.5); // 중심점을 이미지의 중앙으로 설정
+		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2); // 화면 중앙으로 이동
+
 
         const goal = this.physics.add.staticImage(this.scale.width / 2 + 60, this.scale.height / 3 - 80, 'goal').setDepth(1);
 
