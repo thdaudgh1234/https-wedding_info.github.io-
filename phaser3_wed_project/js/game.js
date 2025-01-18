@@ -15,6 +15,12 @@ class Example extends Phaser.Scene {
 		const backdrop = this.add.image(0, 0, 'backdrop');
 		backdrop.setOrigin(0.5, 0.5); // 중심점을 이미지의 중앙으로 설정
 		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2); // 화면 중앙으로 이동
+		
+		// 비율 유지하며 화면 크기에 맞춤
+		const scaleX = this.scale.width / backdrop.width;
+		const scaleY = this.scale.height / backdrop.height;
+		const scale = Math.max(scaleX, scaleY); // 비율 유지
+		backdrop.setScale(scale);
 
 
         const goal = this.physics.add.staticImage(this.scale.width / 2 + 60, this.scale.height / 3 - 80, 'goal').setDepth(1);
