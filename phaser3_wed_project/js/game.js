@@ -172,7 +172,8 @@ const config = {
     pixelArt: true, // 픽셀 아트 최적화
     resolution: window.devicePixelRatio, // 고해상도 지원
     scale: {
-        mode: Phaser.Scale.FIT, // 화면 크기에 맞게 조정
+        //mode: Phaser.Scale.FIT, // 화면 크기에 맞게 조정
+		mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH, // 화면 중앙 정렬
     },
     physics: {

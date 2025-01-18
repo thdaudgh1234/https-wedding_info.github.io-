@@ -7,23 +7,19 @@
 	body {
 		margin: 0;
 		padding: 0;
-		overflow: hidden; /* 스크롤 방지 */
+		overflow: hidden;
 	}
-
 	canvas {
 		display: block;
-		margin: auto;
+		margin: 0 auto;
 		position: absolute;
 		top: 0;
 		left: 0;
-		right: 0;
-		bottom: 0;
-
-		height: calc(var(--vh, 1vh) * 100); /* 주소창 제외한 높이 적용 */
-
+		width: 100%;
+		height: calc(var(--vh, 1vh) * 100);
 	}
   </style>
-  <title>My Phaser 3 Game</title>
+  <title>Wedding Game</title>
 </head>
 <body>
 <script src="./js/phaser.js"></script>
