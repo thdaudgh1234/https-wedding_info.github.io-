@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <style>
 	body {
 		margin: 0;
@@ -18,6 +18,9 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
+
+		height: calc(var(--vh, 1vh) * 100); /* 주소창 제외한 높이 적용 */
+
 	}
   </style>
   <title>My Phaser 3 Game</title>
@@ -26,5 +29,14 @@
 <script src="./js/phaser.js"></script>
   <script src="./js/phaser.min.js"></script> <!-- Phaser 파일 추가 -->
   <script src="./js/game.js"></script>  <!-- 커스텀 게임 스크립트 -->
+  <script>
+	function adjustCanvasSize() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    window.addEventListener('resize', adjustCanvasSize);
+    adjustCanvasSize();
+  </script>
+
 </body>
 </html>
