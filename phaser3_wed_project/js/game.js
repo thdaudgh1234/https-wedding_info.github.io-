@@ -119,10 +119,13 @@ class Example extends Phaser.Scene {
             // 추가 효과 (옵션)
         });
 		*/
-		// 파티클 생성 및 설정
-        const particles = this.add.particles('particle'); // ParticleEmitterManager 생성
+		// 파티클 시스템 생성
+        const particles = this.add.particles('particle');
 
-        const fireworkConfig = {
+        // 파티클 설정
+        const emitterConfig = {
+            x: 0,
+            y: 0,
             speed: { min: 100, max: 400 },
             angle: { start: 0, end: 360, steps: 32 },
             lifespan: 1000,
@@ -130,6 +133,7 @@ class Example extends Phaser.Scene {
             scale: { start: 1, end: 0 },
             quantity: 50,
             blendMode: 'ADD',
+            on: false, // 자동 실행 비활성화
         };
 
         // 충돌 감지 설정
@@ -163,11 +167,10 @@ class Example extends Phaser.Scene {
                 this.time.delayedCall(Phaser.Math.Between(100, 1000), () => {
                     const x = Phaser.Math.Between(100, this.scale.width - 100);
                     const y = Phaser.Math.Between(100, this.scale.height - 200);
-                    particles.createEmitter({
-                        ...fireworkConfig,
-                        x: x,
-                        y: y,
-                    });
+
+                    // Emitter 위치를 설정하고 실행
+                    emitter.setPosition(x, y);
+                    emitter.explode(50); // 한번만 실행
                 });
             }
 
