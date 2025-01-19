@@ -108,20 +108,31 @@ class Example extends Phaser.Scene {
             }
         });
 		
-		/*
+		
 		// 발사체와 벽의 충돌 처리
         this.physics.add.collider(bullets, walls, (bullet, wall) => {
-            // 충돌 시 반사 처리
-            const bounceAngle = Phaser.Math.Angle.BetweenPoints(wall, bullet);
-            const velocity = bullet.body.velocity.clone().setMagnitude(1200);
-            this.physics.velocityFromRotation(bounceAngle, velocity.length(), bullet.body.velocity);
+		const velocity = bullet.body.velocity.clone();
+		velocity.y *= -1; // Y축 반사
+		bullet.body.setVelocity(velocity.x, velocity.y);
 
-            // 추가 효과 (옵션)
-        });
-		*/
-		// 파티클 그룹 생성
-        const particleManager = this.add.particles('particle'); // Particle System 생성
+		// 충돌 시 파티클 효과 추가
+		const particles = this.add.particles('particle');
+		particles.createEmitter({
+			x: bullet.x,
+			y: bullet.y,
+			speed: { min: 50, max: 200 },
+			lifespan: 500,
+			scale: { start: 1, end: 0 },
+			blendMode: 'ADD',
+			quantity: 10,
+		});
 
+		// 파티클 1초 후 제거
+		this.time.delayedCall(1000, () => {
+			particles.destroy();
+		});
+		});
+		
 
         // 충돌 감지 설정
         this.physics.add.collider(bullets, goal, (bullet, goal) => {
@@ -149,26 +160,6 @@ class Example extends Phaser.Scene {
                 window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
             });
 
-			// 랜덤 폭죽 효과
-            for (let i = 0; i < 5; i++) {
-                this.time.delayedCall(Phaser.Math.Between(100, 1000), () => {
-                    const x = Phaser.Math.Between(100, this.scale.width - 100);
-                    const y = Phaser.Math.Between(100, this.scale.height - 200);
-
-                    // 새로운 Emitter 설정 및 폭죽 효과
-                    particleManager.addEmitter({
-                        x: x,
-                        y: y,
-                        speed: { min: 100, max: 400 },
-                        angle: { start: 0, end: 360, steps: 32 },
-                        lifespan: 1000,
-                        gravityY: 200,
-                        scale: { start: 1, end: 0 },
-                        blendMode: 'ADD',
-                        maxParticles: 50, // 한번에 사용할 파티클 개수
-                    });
-                });
-            }
 
 
         });
