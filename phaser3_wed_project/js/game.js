@@ -80,6 +80,10 @@ class Example extends Phaser.Scene {
 			duration: 2000, // 한 번 이동하는 데 걸리는 시간 (밀리초)
 			yoyo: true, // 왕복 움직임 활성화
 			repeat: -1, // 무한 반복
+			onUpdate: () => {
+				// 위치 변경 시 충돌 데이터를 갱신
+				movingWall.body.updateFromGameObject();
+			},
 		});
 		
 		// `walls` 그룹에 `movingWall` 추가
