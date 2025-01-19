@@ -115,22 +115,6 @@ class Example extends Phaser.Scene {
 		velocity.y *= -1; // Y축 반사
 		bullet.body.setVelocity(velocity.x, velocity.y);
 
-		// 충돌 시 파티클 효과 추가
-		const particles = this.add.particles('particle');
-		particles.createEmitter({
-			x: bullet.x,
-			y: bullet.y,
-			speed: { min: 50, max: 200 },
-			lifespan: 500,
-			scale: { start: 1, end: 0 },
-			blendMode: 'ADD',
-			quantity: 10,
-		});
-
-		// 파티클 1초 후 제거
-		this.time.delayedCall(1000, () => {
-			particles.destroy();
-		});
 		});
 		
 
