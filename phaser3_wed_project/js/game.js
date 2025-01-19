@@ -108,6 +108,7 @@ class Example extends Phaser.Scene {
             }
         });
 		
+		/*
 		// 발사체와 벽의 충돌 처리
         this.physics.add.collider(bullets, walls, (bullet, wall) => {
             // 충돌 시 반사 처리
@@ -117,7 +118,7 @@ class Example extends Phaser.Scene {
 
             // 추가 효과 (옵션)
         });
-		
+		*/
 		// 파티클 이펙트 설정
         const particles = this.add.particles('particle'); // 파티클 매니저 생성
 
