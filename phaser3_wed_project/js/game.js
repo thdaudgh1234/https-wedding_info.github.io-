@@ -8,6 +8,7 @@ class Example extends Phaser.Scene {
         this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 50, frameHeight: 54 });
 
 		this.load.image('wall', 'assets/100x24_wall.png');
+		this.load.image('particle', 'assets/10x10_effect.png'); // 파티클 이미지
 
     }
 
@@ -47,6 +48,20 @@ class Example extends Phaser.Scene {
             defaultKey: 'bullet',
             maxSize: 1, // 한 번에 한 발만 활성화
         });
+		
+		// 벽 그룹 생성
+        const walls = this.physics.add.staticGroup();
+
+        // 랜덤 위치에 벽 생성 (cannon_head.y - 100 ~ 천장까지)
+        for (let i = 0; i < 5; i++) {
+            const x = Phaser.Math.Between(100, this.scale.width - 100);
+            const y = Phaser.Math.Between(cannonHead.y - 100, 100);
+            walls.create(x, y, 'wall');
+        }
+
+        // goal 객체 아래 고정된 벽 생성
+        walls.create(goal.x, goal.y + goal.height / 2, 'wall');
+
 
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
@@ -92,6 +107,33 @@ class Example extends Phaser.Scene {
                 this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
             }
         });
+		
+		// 발사체와 벽의 충돌 처리
+        this.physics.add.collider(bullets, walls, (bullet, wall) => {
+            // 충돌 시 반사 처리
+            const bounceAngle = Phaser.Math.Angle.BetweenPoints(wall, bullet);
+            const velocity = bullet.body.velocity.clone().setMagnitude(1200);
+            this.physics.velocityFromRotation(bounceAngle, velocity.length(), bullet.body.velocity);
+
+            // 추가 효과 (옵션)
+        });
+		
+		// 파티클 이펙트 설정
+        const particles = this.add.particles('particle'); // 파티클 매니저 생성
+
+        const createFirework = (x, y) => {
+            particles.createEmitter({
+                x: x,
+                y: y,
+                speed: { min: 100, max: 400 },
+                angle: { start: 0, end: 360, steps: 32 },
+                lifespan: 1000,
+                gravityY: 200,
+                scale: { start: 1, end: 0 },
+                quantity: 50,
+                blendMode: 'ADD',
+            });
+        };
 
         // 충돌 감지 설정
         this.physics.add.collider(bullets, goal, (bullet, goal) => {
@@ -118,6 +160,16 @@ class Example extends Phaser.Scene {
             nextButton.on('pointerup', () => {
                 window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
             });
+
+			// 랜덤 폭죽 생성
+            for (let i = 0; i < 5; i++) {
+                this.time.delayedCall(Phaser.Math.Between(100, 1000), () => {
+                    const x = Phaser.Math.Between(100, this.scale.width - 100);
+                    const y = Phaser.Math.Between(100, this.scale.height - 200);
+                    createFirework(x, y);
+                });
+            }
+
         });
 
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
