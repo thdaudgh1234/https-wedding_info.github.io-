@@ -136,6 +136,9 @@ class Example extends Phaser.Scene {
             on: false, // 자동 실행 비활성화
         };
 
+		const emitter = particles.createEmitter(emitterConfig);
+
+
         // 충돌 감지 설정
         this.physics.add.collider(bullets, goal, (bullet, goal) => {
             // 물리 동작 멈춤 (게임 정지)
