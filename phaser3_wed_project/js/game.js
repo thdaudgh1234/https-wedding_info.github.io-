@@ -65,10 +65,9 @@ class Example extends Phaser.Scene {
         }
 		*/
 
-		// 좌우로 움직이는 벽 생성
 		const movingWall = this.physics.add.staticImage(
-			Phaser.Math.Between(100, this.scale.width - 100),
-			(this.scale.height * 3) / 2,
+			this.scale.width / 2, // x 좌표
+			(this.scale.height * 3) / 2, // y 좌표
 			'wall'
 		);
 
