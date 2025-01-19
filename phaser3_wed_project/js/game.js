@@ -4,15 +4,18 @@ class Example extends Phaser.Scene {
         this.load.image('backdrop', 'assets/540x960_bg.png');
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
-        this.load.image('goal', 'assets/100x100_2.png');
-        this.load.spritesheet('chick', 'assets/100x100_bullet.png', { frameWidth: 100, frameHeight: 100 });
+        this.load.image('goal', 'assets/50x54_goal.png');
+        this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 100, frameHeight: 100 });
+
+		this.load.image('wall', 'assets/100x24_wall.png');
+
     }
 
     create() {
 
 		this.scale.lockOrientation('portrait');
 
-        this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('chick', [0]), frameRate: 1, repeat: -1 });
+        this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
 
         //this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 		const backdrop = this.add.image(0, 0, 'backdrop');
@@ -40,8 +43,8 @@ class Example extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
 
         // 발사체 그룹 생성
-        const chicks = this.physics.add.group({
-            defaultKey: 'chick',
+        const bullets = this.physics.add.group({
+            defaultKey: 'bullet',
             maxSize: 1, // 한 번에 한 발만 활성화
         });
 
@@ -74,24 +77,24 @@ class Example extends Phaser.Scene {
 
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
-            const chick = chicks.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
-            if (chick) {
-                chick.setActive(true);
-                chick.setVisible(true);
-                chick.setScale(1);
-                chick.body.setVelocity(0, 0); // 초기 속도 리셋
-                chick.body.enable = true; // 물리 활성화
-                chick.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
-                chick.body.bounce.set(1, 0); // X축 반사 활성화, Y축 반사 비활성화
-                chick.play('fly'); // 애니메이션 재생
+            const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
+            if (bullet) {
+                bullet.setActive(true);
+                bullet.setVisible(true);
+                bullet.setScale(1);
+                bullet.body.setVelocity(0, 0); // 초기 속도 리셋
+                bullet.body.enable = true; // 물리 활성화
+                bullet.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
+                bullet.body.bounce.set(1, 0); // X축 반사 활성화, Y축 반사 비활성화
+                bullet.play('fly'); // 애니메이션 재생
 
                 // 발사 방향 속도 설정
-                this.physics.velocityFromRotation(angle, 1200, chick.body.velocity);
+                this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
             }
         });
 
         // 충돌 감지 설정
-        this.physics.add.collider(chicks, goal, (chick, goal) => {
+        this.physics.add.collider(bullets, goal, (bullet, goal) => {
             // 물리 동작 멈춤 (게임 정지)
             this.physics.pause();
 
@@ -117,20 +120,20 @@ class Example extends Phaser.Scene {
             });
         });
 
-        this.chicks = chicks; // 업데이트 메서드에서 사용하기 위해 저장
+        this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
 
     update() {
 		// 발사체가 하단 경계에 도달했는지 확인
-		this.chicks.children.iterate((chick) => {
-			if (chick.active && !chick.isFalling) {
-				if (chick.y >= this.scale.height - 50) {
+		this.bullets.children.iterate((bullet) => {
+			if (bullet.active && !bullet.isFalling) {
+				if (bullet.y >= this.scale.height - 50) {
 					// 충돌 후 크기 변화 애니메이션 시작
-					chick.isFalling = true; // 상태 플래그 설정
+					bullet.isFalling = true; // 상태 플래그 설정
 
 					// 크기 증가 애니메이션
 					this.tweens.add({
-						targets: chick,
+						targets: bullet,
 						scaleX: 1.5,
 						scaleY: 1.5,
 						yoyo: true,
@@ -139,19 +142,19 @@ class Example extends Phaser.Scene {
 						onComplete: () => {
 							// 크기 감소 애니메이션
 							this.tweens.add({
-								targets: chick,
+								targets: bullet,
 								scaleX: 0,
 								scaleY: 0,
 								duration: 500,
 								ease: 'Linear',
 								onUpdate: () => {
 									// 크기가 일정 이하로 작아지면 객체 제거
-									if (chick.scaleX <= 0.1 && chick.scaleY <= 0.1) {
-										chick.setActive(false); // 그룹에서 비활성화
-										chick.setVisible(false); // 화면에서 제거
-										chick.body.stop(); // 속도 멈춤
-										chick.body.enable = false; // 물리 비활성화
-										chick.isFalling = false; // 상태 플래그 초기화
+									if (bullet.scaleX <= 0.1 && bullet.scaleY <= 0.1) {
+										bullet.setActive(false); // 그룹에서 비활성화
+										bullet.setVisible(false); // 화면에서 제거
+										bullet.body.stop(); // 속도 멈춤
+										bullet.body.enable = false; // 물리 비활성화
+										bullet.isFalling = false; // 상태 플래그 초기화
 									}
 								},
 							});
