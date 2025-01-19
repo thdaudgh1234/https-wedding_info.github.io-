@@ -51,16 +51,18 @@ class Example extends Phaser.Scene {
 		
 		// 벽 그룹 생성
         const walls = this.physics.add.staticGroup();
-
+		
+		/*
         // 랜덤 위치에 벽 생성 (cannon_head.y - 100 ~ 천장까지)
         for (let i = 0; i < 5; i++) {
             const x = Phaser.Math.Between(100, this.scale.width - 100);
             const y = Phaser.Math.Between(cannonHead.y - 100, 100);
             walls.create(x, y, 'wall');
         }
-
-        // goal 객체 아래 고정된 벽 생성
-        walls.create(goal.x, goal.y + goal.height / 2, 'wall');
+		*/
+        
+		// goal 객체 아래 고정된 벽 생성
+        walls.create(goal.x, goal.y + goal.height, 'wall');
 
 
         // 포인터 이동 시 대포와 조준선 업데이트
