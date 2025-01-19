@@ -5,7 +5,7 @@ class Example extends Phaser.Scene {
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
         this.load.image('goal', 'assets/50x54_goal.png');
-        this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 100, frameHeight: 100 });
+        this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 50, frameHeight: 54 });
 
 		this.load.image('wall', 'assets/100x24_wall.png');
 
