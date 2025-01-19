@@ -30,14 +30,12 @@ class Example extends Phaser.Scene {
 		const scale = Math.max(scaleX, scaleY); // 비율 유지
 		backdrop.setScale(scale);
 
-
-        const goal = this.physics.add.staticImage(this.scale.width / 2 + 60, this.scale.height / 3 - 80, 'goal').setDepth(1);
-
-		const goal2 = this.physics.add.staticImage(this.scale.width / 2 + 50, this.scale.height / 3 - 150, 'goal').setDepth(1);
-		
-		const goal3 = this.physics.add.staticImage(this.scale.width / 2 + 40, this.scale.height / 3 - 120, 'goal').setDepth(1);
-
-		const goal4 = this.physics.add.staticImage(this.scale.width / 2 + 30, this.scale.height / 3 - 180, 'goal').setDepth(1);
+		// 목표지점 랜덤위치 생성
+        const goal = this.physics.add.staticImage(
+			Phaser.Math.Between(100, this.scale.width - 100), // x 좌표 범위: 100 ~ this.scale.width - 100
+			Phaser.Math.Between(this.scale.height / 3 - 150, this.scale.height / 3 - 50), // y 좌표 범위: this.scale.height / 3 - 150 ~ this.scale.height / 3 - 50
+			'goal'
+		).setDepth(1);
 
         const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 70, 'cannon_head').setDepth(1);
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
