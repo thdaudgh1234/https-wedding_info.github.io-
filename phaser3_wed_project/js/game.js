@@ -119,21 +119,17 @@ class Example extends Phaser.Scene {
             // 추가 효과 (옵션)
         });
 		*/
-		// 파티클 이펙트 설정
-        const particles = this.add.particles('particle'); // 파티클 매니저 생성
+		// 파티클 생성 및 설정
+        const particles = this.add.particles('particle'); // ParticleEmitterManager 생성
 
-        const createFirework = (x, y) => {
-            particles.createEmitter({
-                x: x,
-                y: y,
-                speed: { min: 100, max: 400 },
-                angle: { start: 0, end: 360, steps: 32 },
-                lifespan: 1000,
-                gravityY: 200,
-                scale: { start: 1, end: 0 },
-                quantity: 50,
-                blendMode: 'ADD',
-            });
+        const fireworkConfig = {
+            speed: { min: 100, max: 400 },
+            angle: { start: 0, end: 360, steps: 32 },
+            lifespan: 1000,
+            gravityY: 200,
+            scale: { start: 1, end: 0 },
+            quantity: 50,
+            blendMode: 'ADD',
         };
 
         // 충돌 감지 설정
@@ -162,14 +158,19 @@ class Example extends Phaser.Scene {
                 window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
             });
 
-			// 랜덤 폭죽 생성
+			 // 랜덤 폭죽 효과
             for (let i = 0; i < 5; i++) {
                 this.time.delayedCall(Phaser.Math.Between(100, 1000), () => {
                     const x = Phaser.Math.Between(100, this.scale.width - 100);
                     const y = Phaser.Math.Between(100, this.scale.height - 200);
-                    createFirework(x, y);
+                    particles.createEmitter({
+                        ...fireworkConfig,
+                        x: x,
+                        y: y,
+                    });
                 });
             }
+
 
         });
 
