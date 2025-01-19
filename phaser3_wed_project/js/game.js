@@ -33,6 +33,12 @@ class Example extends Phaser.Scene {
 
         const goal = this.physics.add.staticImage(this.scale.width / 2 + 60, this.scale.height / 3 - 80, 'goal').setDepth(1);
 
+		const goal2 = this.physics.add.staticImage(this.scale.width / 2 + 50, this.scale.height / 3 - 150, 'goal').setDepth(1);
+		
+		const goal3 = this.physics.add.staticImage(this.scale.width / 2 + 40, this.scale.height / 3 - 120, 'goal').setDepth(1);
+
+		const goal4 = this.physics.add.staticImage(this.scale.width / 2 + 30, this.scale.height / 3 - 180, 'goal').setDepth(1);
+
         const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 70, 'cannon_head').setDepth(1);
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
 
