@@ -64,6 +64,23 @@ class Example extends Phaser.Scene {
             walls.create(x, y, 'wall');
         }
 		*/
+
+		// 좌우로 움직이는 벽 생성
+		const movingWall = this.physics.add.staticImage(
+			Phaser.Math.Between(100, this.scale.width - 100),
+			(this.scale.height * 3) / 2,
+			'wall'
+		);
+
+		//좌우로 움직이는 벽 Tween 설정
+		this.tweens.add({
+			targets: movingWall,
+			x: { from: 100, to: this.scale.width - 100 }, // 좌우 움직임 범위
+			ease: 'Sine.easeInOut', // 부드러운 움직임을 위한 이징 함수
+			duration: 2000, // 한 번 이동하는 데 걸리는 시간 (밀리초)
+			yoyo: true, // 왕복 움직임 활성화
+			repeat: -1, // 무한 반복
+		});
         
 		// 임시 벽 객체 생성 후 높이 가져오기
 		const tempWall = this.add.image(0, 0, 'wall');
