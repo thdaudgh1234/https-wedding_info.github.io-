@@ -119,24 +119,8 @@ class Example extends Phaser.Scene {
             // 추가 효과 (옵션)
         });
 		*/
-		// 파티클 시스템 생성
-        const particles = this.add.particles('particle');
-
-        // 파티클 설정
-        const emitterConfig = {
-            x: 0,
-            y: 0,
-            speed: { min: 100, max: 400 },
-            angle: { start: 0, end: 360, steps: 32 },
-            lifespan: 1000,
-            gravityY: 200,
-            scale: { start: 1, end: 0 },
-            quantity: 50,
-            blendMode: 'ADD',
-            on: false, // 자동 실행 비활성화
-        };
-
-		const emitter = particles.createEmitter(emitterConfig);
+		// 파티클 그룹 생성
+        const particleManager = this.add.particles('particle'); // Particle System 생성
 
 
         // 충돌 감지 설정
@@ -165,15 +149,24 @@ class Example extends Phaser.Scene {
                 window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
             });
 
-			 // 랜덤 폭죽 효과
+			// 랜덤 폭죽 효과
             for (let i = 0; i < 5; i++) {
                 this.time.delayedCall(Phaser.Math.Between(100, 1000), () => {
                     const x = Phaser.Math.Between(100, this.scale.width - 100);
                     const y = Phaser.Math.Between(100, this.scale.height - 200);
 
-                    // Emitter 위치를 설정하고 실행
-                    emitter.setPosition(x, y);
-                    emitter.explode(50); // 한번만 실행
+                    // 새로운 Emitter 설정 및 폭죽 효과
+                    particleManager.addEmitter({
+                        x: x,
+                        y: y,
+                        speed: { min: 100, max: 400 },
+                        angle: { start: 0, end: 360, steps: 32 },
+                        lifespan: 1000,
+                        gravityY: 200,
+                        scale: { start: 1, end: 0 },
+                        blendMode: 'ADD',
+                        maxParticles: 50, // 한번에 사용할 파티클 개수
+                    });
                 });
             }
 
