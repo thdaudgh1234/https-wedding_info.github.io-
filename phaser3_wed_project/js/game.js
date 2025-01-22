@@ -16,7 +16,7 @@ class Example extends Phaser.Scene {
 		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 96, frameHeight: 96 });
 
 		this.load.image('wall', 'assets/100x24_wall.png');
-		this.load.image('particle', 'assets/10x10_effect.png'); // 파티클 이미지
+		this.load.image('particle', 'assets/effects/10x10_effect.png'); // 파티클 이미지
 
     }
 
