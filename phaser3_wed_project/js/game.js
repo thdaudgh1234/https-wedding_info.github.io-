@@ -276,7 +276,7 @@ class Example extends Phaser.Scene {
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
 			if (bullet.active && !bullet.isFalling) {
-				if (bullet.y >= this.scale.height - 50) {
+				if (bullet.y >= this.scale.height - 10) {
 					// 충돌 후 크기 변화 애니메이션 시작
 					bullet.isFalling = true; // 상태 플래그 설정
 
