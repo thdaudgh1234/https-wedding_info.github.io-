@@ -223,7 +223,7 @@ class Example extends Phaser.Scene {
 			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
 			const gravity = this.physics.world.gravity.y; // 중력 가속도
-			const maxPoints = 15; // 최대 포인트 개수
+			const maxPoints = 10; // 최대 포인트 개수
 			const maxBounces = 3; // 최대 반사 횟수
 			let pointCount = 0; // 현재 그린 포인트 개수
 			let bounceCount = 0; // 반사 횟수
