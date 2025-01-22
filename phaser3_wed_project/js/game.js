@@ -214,9 +214,9 @@ class Example extends Phaser.Scene {
 		let angle = 90; // 초기 각도
 		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
-		const pointRadius = 3; // 원의 반지름
-		const trajectoryLength = 2000; // 궤적 길이 (픽셀 단위)
-		const timeStep = 0.05; // 시간 간격
+		const pointRadius = 5; // 원의 반지름
+		const trajectoryLength = 500; // 궤적 길이 (픽셀 단위)
+		const timeStep = 0.03; // 시간 간격
 
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
