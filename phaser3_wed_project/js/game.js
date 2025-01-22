@@ -244,7 +244,7 @@ class Example extends Phaser.Scene {
 		
 			
 		// 발사체와 바닥의 충돌 감지
-		this.physics.add.collider(bullets, floor, (bullet, floor) => {
+		this.physics.add.collider(this.bullets, floor, (bullet, floor) => {
 			if (bullet.active && !bullet.isFalling) {
 				bullet.isFalling = true; // 상태 플래그 설정
 
