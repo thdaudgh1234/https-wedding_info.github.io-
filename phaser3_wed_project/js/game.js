@@ -207,9 +207,6 @@ class Example extends Phaser.Scene {
 		
 		const graphics_cicle = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff, alpha: 0.5 } });
 
-		// 궤적을 시각화할 원의 반지름과 간격 설정
-		const pointRadius = 5; // 원의 반지름
-		const timeStep = 0.05; // 시간 간격
 		// 벽 그룹 생성
 		//const walls = this.physics.add.staticGroup();
 
@@ -233,8 +230,8 @@ class Example extends Phaser.Scene {
 
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY) => {
-			graphics.clear(); // 기존 그래픽 지우기
-			graphics.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
+			graphics_cicle.clear(); // 기존 그래픽 지우기
+			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
 			const gravity = this.physics.world.gravity.y; // 중력 가속도
 
@@ -259,7 +256,7 @@ class Example extends Phaser.Scene {
 				if (y > this.scale.height) break;
 
 				// 궤적 포인트 그리기
-				graphics.fillCircle(x, y, pointRadius);
+				graphics_cicle.fillCircle(x, y, pointRadius);
 
 				pointCount++; // 포인트 개수 증가
 			}
