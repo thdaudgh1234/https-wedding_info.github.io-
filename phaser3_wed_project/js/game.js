@@ -221,11 +221,14 @@ class Example extends Phaser.Scene {
 			graphics_cicle.clear(); // 기존 그래픽 지우기
 			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
-			// 중력 가속도
-			const gravity = this.physics.world.gravity.y;
+			const gravity = this.physics.world.gravity.y; // 중력 가속도
+			const maxPoints = 8; // 최대 포인트 개수
+			let pointCount = 0; // 현재 그린 포인트 개수
 
 			// 포인트를 그리는 반복문
 			for (let t = 0; t < 2; t += timeStep) {
+				if (pointCount >= maxPoints) break; // 포인트 개수가 최대치를 넘으면 중단
+
 				// 예상 위치 계산
 				const x = startX + velocityX * t;
 				const y = startY + velocityY * t + 0.5 * gravity * t * t;
@@ -235,6 +238,8 @@ class Example extends Phaser.Scene {
 
 				// 포인트 그리기
 				graphics_cicle.fillCircle(x, y, pointRadius);
+
+				pointCount++; // 포인트 개수 증가
 			}
 		};
 
@@ -244,7 +249,7 @@ class Example extends Phaser.Scene {
 			loop: true, // 반복 실행
 			callback: () => {
 				// 길이 증가
-				shaftLength += 2;
+				//shaftLength += 2;
 
 				// 최대 길이에 도달하면 리셋
 				if (shaftLength > shaftLengthEnd) {
