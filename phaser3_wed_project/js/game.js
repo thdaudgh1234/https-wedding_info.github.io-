@@ -469,13 +469,13 @@ class Example extends Phaser.Scene {
 				this.scale.height,
 				0x000000,
 				0.6 // 투명도 설정
-			);
+			).setDepth(10);
 
             // Clear 메시지 표시
             this.add.text(this.scale.width / 2, this.scale.height / 2, 'Clear!', {
                 fontSize: '48px',
                 color: '#ffffff',
-            }).setOrigin(0.5);
+            }).setOrigin(0.5).setDepth(11);
 			
 			// 폭죽 애니메이션 실행
 			this.startFireworks();
@@ -488,8 +488,8 @@ class Example extends Phaser.Scene {
                 padding: { x: 10, y: 10 },
             })
                 .setOrigin(0.5)
-                .setInteractive(); // 버튼 클릭 가능하도록 설정
-
+                .setInteractive() // 버튼 클릭 가능하도록 설정
+				.setDepth(11);
             // Next 버튼 클릭 이벤트
             nextButton.on('pointerup', () => {
                 window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
