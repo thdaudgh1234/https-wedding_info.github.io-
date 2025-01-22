@@ -278,46 +278,47 @@ class Example extends Phaser.Scene {
 			this.fireworkTimer.remove(); // 타이머 이벤트 중단
 		}
 	}
+	
+	
+	// 발사체와 바닥의 충돌 감지
+	this.physics.add.collider(this.bullets, floor, (bullet) => {
+		if (bullet.active && !bullet.isFalling) {
+			bullet.isFalling = true; // 상태 플래그 설정
 
+			// 충돌 후 크기 변화 애니메이션
+			this.tweens.add({
+				targets: bullet,
+				scaleX: 1.5,
+				scaleY: 1.5,
+				yoyo: true,
+				duration: 200,
+				ease: 'Power2',
+				onComplete: () => {
+					// 크기 감소 애니메이션
+					this.tweens.add({
+						targets: bullet,
+						scaleX: 0,
+						scaleY: 0,
+						duration: 500,
+						ease: 'Linear',
+						onUpdate: () => {
+							// 크기가 일정 이하로 작아지면 객체 제거
+							if (bullet.scaleX <= 0.1 && bullet.scaleY <= 0.1) {
+								bullet.setActive(false); // 그룹에서 비활성화
+								bullet.setVisible(false); // 화면에서 제거
+								bullet.body.stop(); // 속도 멈춤
+								bullet.body.enable = false; // 물리 비활성화
+								bullet.isFalling = false; // 상태 플래그 초기화
+							}
+						},
+					});
+				},
+			});
+		}
+	});
 
     update() {
 
-		// 발사체와 바닥의 충돌 감지
-		this.physics.add.collider(this.bullets, floor, (bullet) => {
-			if (bullet.active && !bullet.isFalling) {
-				bullet.isFalling = true; // 상태 플래그 설정
-
-				// 충돌 후 크기 변화 애니메이션
-				this.tweens.add({
-					targets: bullet,
-					scaleX: 1.5,
-					scaleY: 1.5,
-					yoyo: true,
-					duration: 300,
-					ease: 'Power2',
-					onComplete: () => {
-						// 크기 감소 애니메이션
-						this.tweens.add({
-							targets: bullet,
-							scaleX: 0,
-							scaleY: 0,
-							duration: 500,
-							ease: 'Linear',
-							onUpdate: () => {
-								// 크기가 일정 이하로 작아지면 객체 제거
-								if (bullet.scaleX <= 0.1 && bullet.scaleY <= 0.1) {
-									bullet.setActive(false); // 그룹에서 비활성화
-									bullet.setVisible(false); // 화면에서 제거
-									bullet.body.stop(); // 속도 멈춤
-									bullet.body.enable = false; // 물리 비활성화
-									bullet.isFalling = false; // 상태 플래그 초기화
-								}
-							},
-						});
-					},
-				});
-			}
-		});
 /*
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
