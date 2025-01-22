@@ -1,4 +1,10 @@
 class Example extends Phaser.Scene {
+
+	constructor() {
+        super();
+        this.isGameStarted = false; // 게임 시작 상태 플래그
+    }
+
     preload() {
         this.load.setBaseURL('https://thdaudgh1234.github.io/https-wedding_info.github.io-/phaser3_wed_project/');
         this.load.image('backdrop', 'assets/540x960_bg.png');
@@ -16,12 +22,88 @@ class Example extends Phaser.Scene {
 		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 96, frameHeight: 96 });
 
 		this.load.image('wall', 'assets/100x24_wall.png');
+		this.load.image('wall_fail', 'assets/100x24_wall.png');
 		this.load.image('particle', 'assets/effects/10x10_effect.png'); // 파티클 이미지
 
     }
 
-    create() {
 
+	create() {
+		// 뒷배경 설정
+		const backdrop = this.add.image(0, 0, 'backdrop').setOrigin(0.5, 0.5);
+		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2);
+		backdrop.setDisplaySize(this.scale.width, this.scale.height);
+
+		// 검은 음영 추가
+		const overlay = this.add.rectangle(
+			this.scale.width / 2,
+			this.scale.height / 2,
+			this.scale.width,
+			this.scale.height,
+			0x000000,
+			0.5 // 투명도 설정
+		);
+
+		// "신랑을 신부와 만나게 해주세요" 문구
+		const message = this.add.text(
+			this.scale.width / 2,
+			this.scale.height / 2 - 100,
+			'신랑을 신부와 만나게 해주세요',
+			{
+				fontSize: '32px',
+				color: '#ffffff',
+				fontFamily: 'Arial',
+			}
+		).setOrigin(0.5);
+
+		// "터치해서 시작하기" 문구
+		const touchToStart = this.add.text(
+			this.scale.width / 2,
+			this.scale.height - 150,
+			'터치해서 시작하기',
+			{
+				fontSize: '24px',
+				color: '#ffffff',
+				fontFamily: 'Arial',
+			}
+		).setOrigin(0.5);
+
+		// 글자 애니메이션 (커졌다 작아지는 효과)
+		this.tweens.add({
+			targets: touchToStart,
+			scaleX: 1.2,
+			scaleY: 1.2,
+			duration: 1000,
+			yoyo: true,
+			repeat: -1, // 무한 반복
+			ease: 'Sine.easeInOut',
+		});
+
+		// 화면 터치 이벤트
+        this.input.on('pointerup', () => {
+            if (this.isGameStarted) {
+                return; // 게임이 이미 시작된 경우 터치 이벤트 무시
+            }
+
+            this.isGameStarted = true; // 게임 시작 플래그 설정
+
+            // 검은 음영 및 텍스트 제거
+            overlay.destroy();
+            message.destroy();
+            touchToStart.destroy();
+
+            // 게임 시작 로직 호출
+            this.startGame();
+        });
+
+	}
+
+
+
+
+    startGame() {
+		
+		
 		this.scale.lockOrientation('portrait');
 
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
@@ -40,6 +122,12 @@ class Example extends Phaser.Scene {
 		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2); // 화면 중앙으로 이동
 		backdrop.setDisplaySize(this.scale.width, this.scale.height);
 		
+		// 바닥 생성
+		const floor = this.physics.add.staticImage(this.scale.width / 2, this.scale.height, 'wall_fail') // wall_fail 이미지를 바닥으로 사용
+			.setOrigin(0.5, 1.0) // 하단 중심 기준으로 설정
+			.setDisplaySize(this.scale.width, 10) // 바닥의 너비를 화면 크기로 설정
+			.refreshBody(); // 물리 엔진에 업데이트
+
 		// 비율 유지하며 화면 크기에 맞춤
 		const scaleX = this.scale.width / backdrop.width;
 		const scaleY = this.scale.height / backdrop.height;
@@ -53,14 +141,12 @@ class Example extends Phaser.Scene {
 			'goal'
 		).setDepth(1);
 
-        const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 70, 'cannon_head').setDepth(1);
+        const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 30, 'cannon_head').setDepth(1);
 		cannonHead.setOrigin(0.5, 1);
 
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
+		cannon.setScale(2);
 
-        const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
-
-        let angle = 0;
 
         // 물리 세계 경계 설정 (화면 크기)
         this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
@@ -115,35 +201,60 @@ class Example extends Phaser.Scene {
 
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
-
-
-        // 포인터 이동 시 대포와 조준선 업데이트
-        this.input.on('pointermove', (pointer) => {
-            angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-            cannonHead.rotation = angle + Math.PI / 2;
-
-            const shaftLength = 128;
-            const endX = cannonHead.x + Math.cos(angle) * shaftLength;
-            const endY = cannonHead.y + Math.sin(angle) * shaftLength;
-
-            const arrowHead = new Phaser.Geom.Triangle(
-                endX, endY,
-                endX - Math.cos(angle - Math.PI / 2) * 15 - Math.cos(angle) * 30,
-                endY - Math.sin(angle - Math.PI / 2) * 15 - Math.sin(angle) * 30,
-                endX - Math.cos(angle + Math.PI / 2) * 15 - Math.cos(angle) * 30,
-                endY - Math.sin(angle + Math.PI / 2) * 15 - Math.sin(angle) * 30
-            );
-
-            graphics.clear();
-            graphics.lineStyle(2, 0xffffff);
-            graphics.beginPath();
-            graphics.moveTo(cannonHead.x, cannonHead.y);
-            graphics.lineTo(endX, endY);
-            graphics.strokePath();
-            graphics.fillStyle(0xffffff);
-            graphics.fillTriangleShape(arrowHead);
-        });
 		
+
+        const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
+
+		const shaftLengthStart = 150; // 시작 거리
+		const shaftLengthEnd = 220; // 끝 거리
+		let shaftLength = shaftLengthStart; // 초기 거리
+		let angle = 90; // 초기 각도
+
+		// 대포 조준선 애니메이션 이벤트
+		this.time.addEvent({
+			delay: 15, // 15ms 간격으로 업데이트
+			loop: true, // 반복 실행
+			callback: () => {
+				// 길이 증가
+				shaftLength += 2;
+
+				// 최대 길이에 도달하면 리셋
+				if (shaftLength > shaftLengthEnd) {
+					shaftLength = shaftLengthStart;
+				}
+
+				// 삼각형 위치 및 크기 계산
+				const startX = cannonHead.x;
+				const startY = cannonHead.y;
+
+				const triangleX = startX + Math.cos(angle) * shaftLength;
+				const triangleY = startY + Math.sin(angle) * shaftLength;
+
+				const scale = 1 - ((shaftLength - shaftLengthStart) / (shaftLengthEnd - shaftLengthStart)); // 크기 계산
+				const arrowHeight = 40 * scale; // 삼각형 높이
+				const arrowWidth = 40 * scale; // 삼각형 밑변 너비
+
+				const arrowHead = new Phaser.Geom.Triangle(
+					triangleX, triangleY,
+					triangleX - Math.cos(angle - Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
+					triangleY - Math.sin(angle - Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight,
+					triangleX - Math.cos(angle + Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
+					triangleY - Math.sin(angle + Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight
+				);
+
+				// 그래픽 업데이트
+				graphics.clear();
+				graphics.fillStyle(0xffffff);
+				graphics.fillTriangleShape(arrowHead);
+			},
+		});
+
+		// 포인터 이동 시 각도 업데이트
+		this.input.on('pointermove', (pointer) => {
+			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			cannonHead.rotation = angle + Math.PI / 2;
+		});
+
 		
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
@@ -181,26 +292,10 @@ class Example extends Phaser.Scene {
 		// 발사체와 벽의 충돌 처리
         this.physics.add.collider(bullets, walls, (bullet, wall) => {
 
-			// 발사체의 이동 각도 계산
-			const bulletAngle = Phaser.Math.Angle.Between(0, 0, bullet.body.velocity.x, bullet.body.velocity.y);
-
-			// 벽의 방향 계산 (수평 또는 수직 벽)
-			let wallAngle = 0;
-			if (wall.width > wall.height) {
-				// 수평 벽
-				wallAngle = Math.PI / 2; // 90도
-			} else {
-				// 수직 벽
-				wallAngle = 0; // 0도
-			}
-
-			// 충돌 각도 계산 (발사체 방향과 벽 방향의 차이)
-			const collisionAngle = Phaser.Math.RadToDeg(bulletAngle - wallAngle);
-
 			// 충돌 위치에 효과 표시
 			const effect = this.add.sprite(bullet.x, bullet.y, 'effect_1');
 			effect.play('effect_1'); // 애니메이션 재생
-			effect.angle = collisionAngle; // 충돌 각도에 따라 회전
+			effect.angle = 0; // 충돌 각도에 따라 회전
 			effect.setScale(2);
 
 			// 애니메이션 완료 후 효과 제거
@@ -220,12 +315,22 @@ class Example extends Phaser.Scene {
         this.physics.add.collider(bullets, goal, (bullet, goal) => {
             // 물리 동작 멈춤 (게임 정지)
             this.physics.pause();
+			
+			// 배경 음영 추가
+			const overlay = this.add.rectangle(
+				this.scale.width / 2,
+				this.scale.height / 2,
+				this.scale.width,
+				this.scale.height,
+				0x000000,
+				0.6 // 투명도 설정
+			).setDepth(10);
 
             // Clear 메시지 표시
             this.add.text(this.scale.width / 2, this.scale.height / 2, 'Clear!', {
                 fontSize: '48px',
                 color: '#ffffff',
-            }).setOrigin(0.5);
+            }).setOrigin(0.5).setDepth(12);
 			
 			// 폭죽 애니메이션 실행
 			this.startFireworks();
@@ -238,8 +343,8 @@ class Example extends Phaser.Scene {
                 padding: { x: 10, y: 10 },
             })
                 .setOrigin(0.5)
-                .setInteractive(); // 버튼 클릭 가능하도록 설정
-
+                .setInteractive() // 버튼 클릭 가능하도록 설정
+				.setDepth(12);
             // Next 버튼 클릭 이벤트
             nextButton.on('pointerup', () => {
                 window.location.href = 'https://thdaudgh1234.github.io/https-wedding_info.github.io-/wedding_site/wedding_site4.html';
@@ -248,6 +353,7 @@ class Example extends Phaser.Scene {
 
 
         });
+		
 
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
@@ -272,6 +378,7 @@ class Example extends Phaser.Scene {
 				const effect = this.add.sprite(x, y, effectKey);
 				effect.setScale(2); // 크기를 2배로 설정
 				effect.play(effectKey); // 랜덤 애니메이션 재생
+				effect.setDepth(11);
 
 				// 애니메이션 완료 후 제거
 				effect.once('animationcomplete', () => {
@@ -286,13 +393,61 @@ class Example extends Phaser.Scene {
 			this.fireworkTimer.remove(); // 타이머 이벤트 중단
 		}
 	}
+	
+	
+	update() {
 
+		if (!this.isGameStarted) {
+            return; // 게임 시작 전에는 update 로직 실행 안 함
+        }
 
-    update() {
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
 			if (bullet.active && !bullet.isFalling) {
-				if (bullet.y >= this.scale.height - 50) {
+				// 발사체가 하단 경계에 닿았는지 확인
+				if (bullet.body.bottom >= this.scale.height) {
+					bullet.isFalling = true; // 상태 플래그 설정
+
+					// 크기 증가 애니메이션
+					this.tweens.add({
+						targets: bullet,
+						scaleX: 1.5,
+						scaleY: 1.5,
+						yoyo: true,
+						duration: 200,
+						ease: 'Power2',
+						onComplete: () => {
+							// 크기 감소 애니메이션
+							this.tweens.add({
+								targets: bullet,
+								scaleX: 0,
+								scaleY: 0,
+								duration: 100,
+								ease: 'Linear',
+								onComplete: () => {
+									// 발사체 제거
+									bullet.setActive(false); // 그룹에서 비활성화
+									bullet.setVisible(false); // 화면에서 제거
+									bullet.body.stop(); // 속도 멈춤
+									bullet.body.enable = false; // 물리 비활성화
+									bullet.isFalling = false; // 상태 플래그 초기화
+								},
+							});
+						},
+					});
+				}
+			}
+		});
+	}
+
+/*
+    update() {
+	
+
+		// 발사체가 하단 경계에 도달했는지 확인
+		this.bullets.children.iterate((bullet) => {
+			if (bullet.active && !bullet.isFalling) {
+				if (bullet.y >= this.scale.height - 30) {
 					// 충돌 후 크기 변화 애니메이션 시작
 					bullet.isFalling = true; // 상태 플래그 설정
 
@@ -329,6 +484,8 @@ class Example extends Phaser.Scene {
 			}
 		});
 	}
+
+	*/
 
 }
 
