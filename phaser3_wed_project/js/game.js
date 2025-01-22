@@ -211,7 +211,7 @@ class Example extends Phaser.Scene {
 			cannonHead.rotation = angle + Math.PI / 2;
 
 			const shaftLengthStart = 150; // 시작 거리
-			const shaftLengthEnd = 200; // 끝 거리
+			const shaftLengthEnd = 250; // 끝 거리
 
 			let shaftLength = shaftLengthStart; // 초기 거리
 			let growing = true; // 길이 증가 여부
