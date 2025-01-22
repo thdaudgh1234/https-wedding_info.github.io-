@@ -1,4 +1,10 @@
 class Example extends Phaser.Scene {
+
+	constructor() {
+        super();
+        this.isGameStarted = false; // 게임 시작 상태 플래그
+    }
+
     preload() {
         this.load.setBaseURL('https://thdaudgh1234.github.io/https-wedding_info.github.io-/phaser3_wed_project/');
         this.load.image('backdrop', 'assets/540x960_bg.png');
@@ -80,6 +86,8 @@ class Example extends Phaser.Scene {
 
 
     startGame() {
+		
+		this.isGameStarted = true; // 게임 시작 상태로 전환
 
 		this.scale.lockOrientation('portrait');
 
@@ -339,6 +347,11 @@ class Example extends Phaser.Scene {
 	
 	
 	update() {
+
+		if (!this.isGameStarted) {
+            return; // 게임 시작 전에는 update 로직 실행 안 함
+        }
+
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
 			if (bullet.active && !bullet.isFalling) {
