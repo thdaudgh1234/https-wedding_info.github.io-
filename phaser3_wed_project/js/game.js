@@ -119,7 +119,7 @@ class Example extends Phaser.Scene {
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
             angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-            cannonHead.rotation = angle-90;
+            cannonHead.rotation = angle+90;
 
             const shaftLength = 128;
             const endX = cannonHead.x + Math.cos(angle) * shaftLength;
@@ -149,7 +149,7 @@ class Example extends Phaser.Scene {
             if (bullet) {
                 bullet.setActive(true);
                 bullet.setVisible(true);
-                bullet.setScale(2);
+                bullet.setScale(1);
                 bullet.body.setVelocity(0, 0); // 초기 속도 리셋
                 bullet.body.enable = true; // 물리 활성화
                 bullet.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
@@ -210,6 +210,9 @@ class Example extends Phaser.Scene {
                 fontSize: '48px',
                 color: '#ffffff',
             }).setOrigin(0.5);
+			
+			// 폭죽 애니메이션 실행
+			this.startFireworks();
 
             // Next 버튼 추가
             const nextButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 100, 'Next', {
@@ -232,6 +235,40 @@ class Example extends Phaser.Scene {
 
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
+
+	//폭죽 애니메이션
+	startFireworks() {
+		// 폭죽 애니메이션 타이머 시작
+		this.fireworkTimer = this.time.addEvent({
+			delay: Phaser.Math.Between(300, 1000), // 랜덤 시간 간격 (300ms ~ 1000ms)
+			loop: true, // 반복 실행
+			callback: () => {
+				// 랜덤 위치
+				const x = Phaser.Math.Between(50, this.scale.width - 50);
+				const y = Phaser.Math.Between(50, this.scale.height - 50);
+
+				// 랜덤 애니메이션 선택
+				const randomEffect = Phaser.Math.Between(1, 5); // 1부터 5까지 랜덤
+				const effectKey = `effect_shatter_${randomEffect}`;
+
+				// 폭죽 애니메이션 생성
+				const effect = this.add.sprite(x, y, effectKey);
+				effect.play(effectKey); // 랜덤 애니메이션 재생
+
+				// 애니메이션 완료 후 제거
+				effect.once('animationcomplete', () => {
+					effect.destroy(); // 애니메이션이 끝나면 제거
+				});
+			},
+		});
+	}
+
+	stopFireworks() {
+		if (this.fireworkTimer) {
+			this.fireworkTimer.remove(); // 타이머 이벤트 중단
+		}
+	}
+
 
     update() {
 		// 발사체가 하단 경계에 도달했는지 확인
