@@ -207,6 +207,7 @@ class Example extends Phaser.Scene {
 		
 		const graphics_cicle = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff, alpha: 0.5 } });
 
+
 		const shaftLengthStart = 150; // 시작 거리
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
@@ -215,6 +216,7 @@ class Example extends Phaser.Scene {
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 3; // 원의 반지름
 		const trajectoryLength = 2000; // 궤적 길이 (픽셀 단위)
+		const timeStep = 0.05; // 시간 간격
 
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
@@ -347,7 +349,6 @@ class Example extends Phaser.Scene {
 
 			// 궤적 업데이트
 			drawTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY, bulletWidth, bulletHeight);
-
 		});
 
 		
