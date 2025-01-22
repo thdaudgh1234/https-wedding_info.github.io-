@@ -294,7 +294,7 @@ class Example extends Phaser.Scene {
 						scaleX: 1.5,
 						scaleY: 1.5,
 						yoyo: true,
-						duration: 300,
+						duration: 200,
 						ease: 'Power2',
 						onComplete: () => {
 							// 크기 감소 애니메이션
@@ -302,7 +302,7 @@ class Example extends Phaser.Scene {
 								targets: bullet,
 								scaleX: 0,
 								scaleY: 0,
-								duration: 500,
+								duration: 100,
 								ease: 'Linear',
 								onComplete: () => {
 									// 발사체 제거
