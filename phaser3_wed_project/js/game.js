@@ -222,23 +222,41 @@ class Example extends Phaser.Scene {
 			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
 			const gravity = this.physics.world.gravity.y; // 중력 가속도
-			const maxPoints = 8; // 최대 포인트 개수
+			const maxPoints = 50; // 최대 포인트 개수
+			const maxBounces = 5; // 최대 반사 횟수
 			let pointCount = 0; // 현재 그린 포인트 개수
+			let bounceCount = 0; // 반사 횟수
+
+			let x = startX; // 현재 X 좌표
+			let y = startY; // 현재 Y 좌표
+			let vx = velocityX; // 현재 X 속도
+			let vy = velocityY; // 현재 Y 속도
 
 			// 포인트를 그리는 반복문
-			for (let t = 0; t < 2; t += timeStep) {
-				if (pointCount >= maxPoints) break; // 포인트 개수가 최대치를 넘으면 중단
+			for (let t = 0; pointCount < maxPoints; t += timeStep) {
+				// 중력 적용 후 예상 위치 계산
+				vy += gravity * timeStep; // Y축 속도에 중력 추가
+				x += vx * timeStep;
+				y += vy * timeStep;
 
-				// 예상 위치 계산
-				const x = startX + velocityX * t;
-				const y = startY + velocityY * t + 0.5 * gravity * t * t;
+				// 경계 충돌 시 반사 처리
+				if (x <= 0 || x >= this.scale.width) {
+					vx *= -1; // X축 속도 반전
+					bounceCount++;
+				}
+				if (y <= 0 || y >= this.scale.height) {
+					vy *= -1; // Y축 속도 반전
+					bounceCount++;
+				}
+
+				// 충돌 횟수가 최대치를 넘으면 중단
+				if (bounceCount > maxBounces) break;
 
 				// 화면을 벗어나면 중단
 				if (y > this.scale.height) break;
 
 				// 포인트 그리기
 				graphics_cicle.fillCircle(x, y, pointRadius);
-
 				pointCount++; // 포인트 개수 증가
 			}
 		};
