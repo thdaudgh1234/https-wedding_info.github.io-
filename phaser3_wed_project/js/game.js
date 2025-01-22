@@ -16,6 +16,7 @@ class Example extends Phaser.Scene {
 		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 96, frameHeight: 96 });
 
 		this.load.image('wall', 'assets/100x24_wall.png');
+		this.load.image('wall_fail', 'assets/100x24_wall.png');
 		this.load.image('particle', 'assets/effects/10x10_effect.png'); // 파티클 이미지
 
     }
@@ -40,6 +41,12 @@ class Example extends Phaser.Scene {
 		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2); // 화면 중앙으로 이동
 		backdrop.setDisplaySize(this.scale.width, this.scale.height);
 		
+		// 바닥 생성
+		const floor = this.physics.add.staticImage(this.scale.width / 2, this.scale.height, 'wall_fail') // wall_fail 이미지를 바닥으로 사용
+			.setOrigin(0.5, 1) // 하단 중심 기준으로 설정
+			.setDisplaySize(this.scale.width, 10) // 바닥의 너비를 화면 크기로 설정
+			.refreshBody(); // 물리 엔진에 업데이트
+
 		// 비율 유지하며 화면 크기에 맞춤
 		const scaleX = this.scale.width / backdrop.width;
 		const scaleY = this.scale.height / backdrop.height;
@@ -274,10 +281,48 @@ class Example extends Phaser.Scene {
 
 
     update() {
+
+		// 발사체와 바닥의 충돌 감지
+		this.physics.add.collider(this.bullets, floor, (bullet) => {
+			if (bullet.active && !bullet.isFalling) {
+				bullet.isFalling = true; // 상태 플래그 설정
+
+				// 충돌 후 크기 변화 애니메이션
+				this.tweens.add({
+					targets: bullet,
+					scaleX: 1.5,
+					scaleY: 1.5,
+					yoyo: true,
+					duration: 300,
+					ease: 'Power2',
+					onComplete: () => {
+						// 크기 감소 애니메이션
+						this.tweens.add({
+							targets: bullet,
+							scaleX: 0,
+							scaleY: 0,
+							duration: 500,
+							ease: 'Linear',
+							onUpdate: () => {
+								// 크기가 일정 이하로 작아지면 객체 제거
+								if (bullet.scaleX <= 0.1 && bullet.scaleY <= 0.1) {
+									bullet.setActive(false); // 그룹에서 비활성화
+									bullet.setVisible(false); // 화면에서 제거
+									bullet.body.stop(); // 속도 멈춤
+									bullet.body.enable = false; // 물리 비활성화
+									bullet.isFalling = false; // 상태 플래그 초기화
+								}
+							},
+						});
+					},
+				});
+			}
+		});
+/*
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
 			if (bullet.active && !bullet.isFalling) {
-				if (bullet.y >= this.scale.height - 10) {
+				if (bullet.y >= this.scale.height - 30) {
 					// 충돌 후 크기 변화 애니메이션 시작
 					bullet.isFalling = true; // 상태 플래그 설정
 
@@ -313,6 +358,9 @@ class Example extends Phaser.Scene {
 				}
 			}
 		});
+
+*/
+
 	}
 
 }
