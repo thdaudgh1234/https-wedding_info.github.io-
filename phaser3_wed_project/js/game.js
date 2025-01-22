@@ -147,7 +147,7 @@ class Example extends Phaser.Scene {
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
 		cannon.setScale(2);
 
-        //const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
+        const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
 
         let angle = 0;
 
@@ -204,58 +204,7 @@ class Example extends Phaser.Scene {
 
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
-		
-		const graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff } });
 
-		let shaftLength = 150; // 초기 길이
-		const arrowHeight = 30; // 삼각형 높이
-		const arrowWidth = 30;  // 삼각형 밑변 너비
-		let grow = true; // 길이 증가 방향
-
-		// 포인터 이동 시 조준선 업데이트
-		this.input.on('pointermove', (pointer) => {
-			const angle = Phaser.Math.Angle.Between(this.scale.width / 2, this.scale.height - 70, pointer.x, pointer.y);
-
-			// 조준선 끝 점 계산
-			const endX = this.scale.width / 2 + Math.cos(angle) * shaftLength;
-			const endY = this.scale.height - 70 + Math.sin(angle) * shaftLength;
-
-			// 삼각형 크기 계산 (shaftLength에 비례)
-			const scaledArrowHeight = arrowHeight * (shaftLength / 200);
-			const scaledArrowWidth = arrowWidth * (shaftLength / 200);
-
-			const arrowHead = new Phaser.Geom.Triangle(
-				endX, endY,
-				endX - Math.cos(angle - Math.PI / 2) * scaledArrowWidth / 2 - Math.cos(angle) * scaledArrowHeight,
-				endY - Math.sin(angle - Math.PI / 2) * scaledArrowWidth / 2 - Math.sin(angle) * scaledArrowHeight,
-				endX - Math.cos(angle + Math.PI / 2) * scaledArrowWidth / 2 - Math.cos(angle) * scaledArrowHeight,
-				endY - Math.sin(angle + Math.PI / 2) * scaledArrowWidth / 2 - Math.sin(angle) * scaledArrowHeight
-			);
-
-			// 그래픽 업데이트
-			graphics.clear();
-			graphics.lineStyle(2, 0xffffff);
-			graphics.beginPath();
-			graphics.moveTo(this.scale.width / 2, this.scale.height - 70);
-			graphics.lineTo(endX, endY);
-			graphics.strokePath();
-			graphics.fillStyle(0xffffff);
-			graphics.fillTriangleShape(arrowHead);
-		});
-
-		// shaftLength 변경 로직
-    this.time.addEvent({
-        delay: 20, // 20ms 간격으로 업데이트
-        loop: true, // 반복 실행
-        callback: () => {
-            shaftLength += 2; // 증가
-            if (shaftLength > 200) {
-                shaftLength = 150; // 다시 150으로 돌아감
-            }
-        },
-    });
-
-		/*
 
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
@@ -283,7 +232,7 @@ class Example extends Phaser.Scene {
             graphics.fillStyle(0xffffff);
             graphics.fillTriangleShape(arrowHead);
         });
-		*/
+		
 		
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
