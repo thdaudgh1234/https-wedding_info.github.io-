@@ -205,6 +205,8 @@ class Example extends Phaser.Scene {
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
 		
+		const graphics_cicle = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff, alpha: 0.5 } });
+
 		// 궤적을 시각화할 원의 반지름과 간격 설정
 		const pointRadius = 5; // 원의 반지름
 		const timeStep = 0.05; // 시간 간격
@@ -216,8 +218,8 @@ class Example extends Phaser.Scene {
 		
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY) => {
-			graphics.clear(); // 기존 그래픽 지우기
-			graphics.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
+			graphics_cicle.clear(); // 기존 그래픽 지우기
+			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
 			// 중력 가속도
 			const gravity = this.physics.world.gravity.y;
@@ -232,7 +234,7 @@ class Example extends Phaser.Scene {
 				if (y > this.scale.height) break;
 
 				// 포인트 그리기
-				graphics.fillCircle(x, y, pointRadius);
+				graphics_cicle.fillCircle(x, y, pointRadius);
 			}
 		};
 
@@ -321,7 +323,7 @@ class Example extends Phaser.Scene {
                 this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
 				
 				// 궤적 지우기
-				graphics.clear();
+				graphics_cicle.clear();
             }
         });
 		
