@@ -357,7 +357,7 @@ class Example extends Phaser.Scene {
 			const bulletHeight = bulletSample ? bulletSample.height : 54; // 기본 값: 54
 
 			// 궤적 업데이트
-			drawTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY, bulletWidth, bulletHeight);
+			drawMovingTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
 
 		
