@@ -205,7 +205,7 @@ class Example extends Phaser.Scene {
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
 		
-		const graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff } });
+		const graphics2 = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff } });
 
 		let shaftLength = 150; // 초기 길이
 		const arrowHeight = 30; // 삼각형 높이
@@ -240,8 +240,8 @@ class Example extends Phaser.Scene {
 					triangleY - Math.sin(angle + Math.PI / 2) * scaledArrowWidth / 2 - Math.sin(angle) * scaledArrowHeight
 				);
 
-				graphics.fillStyle(0xffffff, alpha); // 삼각형에 alpha 적용
-				graphics.fillTriangleShape(arrowHead);
+				graphics2.fillStyle(0xffffff, alpha); // 삼각형에 alpha 적용
+				graphics2.fillTriangleShape(arrowHead);
 			}
 		});
 
