@@ -213,22 +213,11 @@ class Example extends Phaser.Scene {
 		let shaftLength = shaftLengthStart; // 초기 거리
 		let angle = 90; // 초기 각도
 		
-		// 궤적 관련 변수
-		this.trajectory = {
-			startX: 0,
-			startY: 0,
-			velocityX: 0,
-			velocityY: 0,
-			bulletWidth: 50,
-			bulletHeight: 54,
-		};
-
-		/*
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 5; // 원의 반지름
 		const trajectoryLength = 500; // 궤적 길이 (픽셀 단위)
 		const timeStep = 0.03; // 시간 간격
-		
+
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
 			graphics_cicle.clear(); // 기존 그래픽 지우기
@@ -309,7 +298,7 @@ class Example extends Phaser.Scene {
 				y = nextY;
 			}
 		};
-*/
+
 
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
@@ -364,25 +353,13 @@ class Example extends Phaser.Scene {
 			const velocity = 1200;
 			const velocityX = Math.cos(angle) * velocity;
 			const velocityY = Math.sin(angle) * velocity;
-			
-			/*
+
 			// 발사체의 크기 가져오기
 			const bulletWidth = 50; // 기본 값: 50
 			const bulletHeight = 54; // 기본 값: 54
 
 			// 궤적 업데이트
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
-			*/
-
-			 // 궤적 관련 데이터 업데이트
-			this.trajectory = {
-				startX: cannonHead.x + Math.cos(angle) * 60, // 대포 앞부분으로 시작점 이동
-				startY: cannonHead.y + Math.sin(angle) * 60,
-				velocityX,
-				velocityY,
-				bulletWidth: 50,
-				bulletHeight: 54,
-			};
 		});
 
 		
