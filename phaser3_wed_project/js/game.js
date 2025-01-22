@@ -204,7 +204,64 @@ class Example extends Phaser.Scene {
 
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
+		
+		const graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff } });
 
+		let shaftLength = 150; // 초기 길이
+		const arrowHeight = 30; // 삼각형 높이
+		const arrowWidth = 30;  // 삼각형 밑변 너비
+		let grow = true; // 길이 증가 방향
+
+		// 포인터 이동 시 조준선 업데이트
+		this.input.on('pointermove', (pointer) => {
+			const angle = Phaser.Math.Angle.Between(this.scale.width / 2, this.scale.height - 70, pointer.x, pointer.y);
+
+			// 조준선 끝 점 계산
+			const endX = this.scale.width / 2 + Math.cos(angle) * shaftLength;
+			const endY = this.scale.height - 70 + Math.sin(angle) * shaftLength;
+
+			// 삼각형 추가
+			const triangleCount = 3; // 삼각형 개수
+			for (let i = 1; i <= triangleCount; i++) {
+				const positionFactor = i / (triangleCount + 1); // 삼각형의 위치 비율
+
+				const triangleX = startX + Math.cos(angle) * shaftLength * positionFactor;
+				const triangleY = startY + Math.sin(angle) * shaftLength * positionFactor;
+
+				// 삼각형 크기 계산 (shaftLength에 비례)
+				const scaledArrowHeight = arrowHeight * (shaftLength / 200);
+				const scaledArrowWidth = arrowWidth * (shaftLength / 200);
+
+				const arrowHead = new Phaser.Geom.Triangle(
+					triangleX, triangleY,
+					triangleX - Math.cos(angle - Math.PI / 2) * scaledArrowWidth / 2 - Math.cos(angle) * scaledArrowHeight,
+					triangleY - Math.sin(angle - Math.PI / 2) * scaledArrowWidth / 2 - Math.sin(angle) * scaledArrowHeight,
+					triangleX - Math.cos(angle + Math.PI / 2) * scaledArrowWidth / 2 - Math.cos(angle) * scaledArrowHeight,
+					triangleY - Math.sin(angle + Math.PI / 2) * scaledArrowWidth / 2 - Math.sin(angle) * scaledArrowHeight
+				);
+
+				graphics.fillStyle(0xffffff, alpha); // 삼각형에 alpha 적용
+				graphics.fillTriangleShape(arrowHead);
+			}
+		});
+
+		// shaftLength 변경 로직
+		this.time.addEvent({
+			delay: 20, // 20ms 간격으로 업데이트
+			loop: true, // 반복 실행
+			callback: () => {
+				shaftLength += 2; // 증가
+				if (shaftLength > 200) {
+					shaftLength = 150; // 다시 150으로 돌아감
+				}
+
+				// alpha 값 조정 (200에서 150으로 감소하면서 점점 투명해짐)
+				alpha = (shaftLength - 150) / 50; // 150~200 범위를 0~1로 매핑
+
+			},
+		});
+
+		/*
 
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
@@ -232,7 +289,7 @@ class Example extends Phaser.Scene {
             graphics.fillStyle(0xffffff);
             graphics.fillTriangleShape(arrowHead);
         });
-		
+		*/
 		
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
