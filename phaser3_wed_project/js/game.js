@@ -80,7 +80,7 @@ class Example extends Phaser.Scene {
 		});
 
 		// 화면 터치 이벤트
-        this.input.on('pointerdown', () => {
+        this.input.on('pointerup', () => {
             if (this.isGameStarted) {
                 return; // 게임이 이미 시작된 경우 터치 이벤트 무시
             }
