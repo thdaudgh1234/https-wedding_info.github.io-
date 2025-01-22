@@ -26,13 +26,13 @@ class Example extends Phaser.Scene {
 
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
 
-		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 20, repeat: 0 });
 
-		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 10, repeat: -1 });
-		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 10, repeat: -1 });
-		this.anims.create({ key: 'effect_shatter_3', frames: this.anims.generateFrameNumbers('effect_shatter_3'), frameRate: 10, repeat: -1 });
-		this.anims.create({ key: 'effect_shatter_4', frames: this.anims.generateFrameNumbers('effect_shatter_4'), frameRate: 10, repeat: -1 });
-		this.anims.create({ key: 'effect_shatter_5', frames: this.anims.generateFrameNumbers('effect_shatter_5'), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 30, repeat: 0 });
+		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 30, repeat: 0 });
+		this.anims.create({ key: 'effect_shatter_3', frames: this.anims.generateFrameNumbers('effect_shatter_3'), frameRate: 30, repeat: 0 });
+		this.anims.create({ key: 'effect_shatter_4', frames: this.anims.generateFrameNumbers('effect_shatter_4'), frameRate: 30, repeat: 0 });
+		this.anims.create({ key: 'effect_shatter_5', frames: this.anims.generateFrameNumbers('effect_shatter_5'), frameRate: 30, repeat: 0 });
 
         //this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 		const backdrop = this.add.image(0, 0, 'backdrop');
@@ -54,8 +54,7 @@ class Example extends Phaser.Scene {
 		).setDepth(1);
 
         const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 70, 'cannon_head').setDepth(1);
-		cannonHead.angle = 45;
-
+		
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
@@ -120,7 +119,7 @@ class Example extends Phaser.Scene {
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
             angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-            cannonHead.rotation = angle;
+            cannonHead.rotation = angle-45;
 
             const shaftLength = 128;
             const endX = cannonHead.x + Math.cos(angle) * shaftLength;
