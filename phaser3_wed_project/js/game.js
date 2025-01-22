@@ -342,7 +342,7 @@ class Example extends Phaser.Scene {
 			cannonHead.rotation = angle + Math.PI / 2;
 			
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
-			const offsetDistance = 40; // 대포 head 앞쪽 거리 (픽셀)
+			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
 			const startX = cannonHead.x + Math.cos(angle) * offsetDistance;
 			const startY = cannonHead.y + Math.sin(angle) * offsetDistance;
 
