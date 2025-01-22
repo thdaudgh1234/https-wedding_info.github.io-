@@ -216,14 +216,15 @@ class Example extends Phaser.Scene {
 		let shaftLength = shaftLengthStart; // 초기 거리
 		let angle = 90; // 초기 각도
 		
+
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY) => {
 			graphics_cicle.clear(); // 기존 그래픽 지우기
 			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
 			const gravity = this.physics.world.gravity.y; // 중력 가속도
-			const maxPoints = 50; // 최대 포인트 개수
-			const maxBounces = 5; // 최대 반사 횟수
+			const maxPoints = 15; // 최대 포인트 개수
+			const maxBounces = 3; // 최대 반사 횟수
 			let pointCount = 0; // 현재 그린 포인트 개수
 			let bounceCount = 0; // 반사 횟수
 
@@ -239,7 +240,7 @@ class Example extends Phaser.Scene {
 				x += vx * timeStep;
 				y += vy * timeStep;
 
-				// 경계 충돌 시 반사 처리
+				// 경계 충돌 처리
 				if (x <= 0 || x >= this.scale.width) {
 					vx *= -1; // X축 속도 반전
 					bounceCount++;
@@ -248,6 +249,25 @@ class Example extends Phaser.Scene {
 					vy *= -1; // Y축 속도 반전
 					bounceCount++;
 				}
+
+				// walls 그룹과 충돌 처리
+				walls.children.iterate((wall) => {
+					if (
+						x >= wall.body.left &&
+						x <= wall.body.right &&
+						y >= wall.body.top &&
+						y <= wall.body.bottom
+					) {
+						// 충돌 방향에 따른 반사 처리
+						if (x <= wall.body.left || x >= wall.body.right) {
+							vx *= -1; // X축 반사
+						}
+						if (y <= wall.body.top || y >= wall.body.bottom) {
+							vy *= -1; // Y축 반사
+						}
+						bounceCount++; // 반사 횟수 증가
+					}
+				});
 
 				// 충돌 횟수가 최대치를 넘으면 중단
 				if (bounceCount > maxBounces) break;
@@ -260,6 +280,7 @@ class Example extends Phaser.Scene {
 				pointCount++; // 포인트 개수 증가
 			}
 		};
+
 
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
