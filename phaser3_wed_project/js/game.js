@@ -119,7 +119,7 @@ class Example extends Phaser.Scene {
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
             angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-            cannonHead.rotation = angle+90;
+            cannonHead.rotation = angle+60;
 
             const shaftLength = 128;
             const endX = cannonHead.x + Math.cos(angle) * shaftLength;
@@ -251,8 +251,10 @@ class Example extends Phaser.Scene {
 				const randomEffect = Phaser.Math.Between(1, 5); // 1부터 5까지 랜덤
 				const effectKey = `effect_shatter_${randomEffect}`;
 
+
 				// 폭죽 애니메이션 생성
 				const effect = this.add.sprite(x, y, effectKey);
+				effect.setScale(2); // 크기를 2배로 설정
 				effect.play(effectKey); // 랜덤 애니메이션 재생
 
 				// 애니메이션 완료 후 제거
