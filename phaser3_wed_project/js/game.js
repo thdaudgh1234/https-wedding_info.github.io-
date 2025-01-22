@@ -207,58 +207,34 @@ class Example extends Phaser.Scene {
 		
 		const graphics_cicle = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff, alpha: 0.5 } });
 
-		// 벽 그룹 생성
-		//const walls = this.physics.add.staticGroup();
-
-		// 좌측 벽
-		walls.create(50, this.scale.height / 2, 'wall').setDisplaySize(20, this.scale.height).refreshBody();
-
-		// 우측 벽
-		walls.create(this.scale.width - 50, this.scale.height / 2, 'wall').setDisplaySize(20, this.scale.height).refreshBody();
-
+		// 궤적을 시각화할 원의 반지름과 간격 설정
+		const pointRadius = 5; // 원의 반지름
+		const timeStep = 0.05; // 시간 간격
 
 		const shaftLengthStart = 150; // 시작 거리
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
 		let angle = 90; // 초기 각도
 		
-		// 궤적을 시각화할 원의 반지름과 간격 설정
-		const pointRadius = 5; // 원의 반지름
-		const timeStep = 0.05; // 시간 간격
-		const maxTrajectoryTime = 1.0; // 궤적 최대 길이(초) - 이 값을 조정해서 길이 조정
-		const maxPoints = 8; // 궤적의 최대 포인트 개수
-
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY) => {
 			graphics_cicle.clear(); // 기존 그래픽 지우기
 			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
-			const gravity = this.physics.world.gravity.y; // 중력 가속도
+			// 중력 가속도
+			const gravity = this.physics.world.gravity.y;
 
-			let x = startX; // 현재 X 좌표
-			let y = startY; // 현재 Y 좌표
-			let vx = velocityX; // 현재 X 속도
-			let vy = velocityY; // 현재 Y 속도
+			// 포인트를 그리는 반복문
+			for (let t = 0; t < 2; t += timeStep) {
+				// 예상 위치 계산
+				const x = startX + velocityX * t;
+				const y = startY + velocityY * t + 0.5 * gravity * t * t;
 
-			let pointCount = 0; // 그려진 포인트 개수
-
-			// 반복적으로 궤적 계산
-			for (let t = 0; t < maxTrajectoryTime; t += timeStep) {
-				if (pointCount >= maxPoints) break; // 최대 포인트 개수를 초과하면 중단
-
-				// 중력 적용 후 예상 위치 계산
-				vx = vx; // X축 속도는 유지
-				vy += gravity * timeStep; // Y축 속도에 중력 추가
-				x += vx * timeStep;
-				y += vy * timeStep;
-
-				// 화면 바깥으로 나가면 중단
+				// 화면을 벗어나면 중단
 				if (y > this.scale.height) break;
 
-				// 궤적 포인트 그리기
+				// 포인트 그리기
 				graphics_cicle.fillCircle(x, y, pointRadius);
-
-				pointCount++; // 포인트 개수 증가
 			}
 		};
 
