@@ -460,6 +460,16 @@ class Example extends Phaser.Scene {
         this.physics.add.collider(bullets, goal, (bullet, goal) => {
             // 물리 동작 멈춤 (게임 정지)
             this.physics.pause();
+			
+			// 배경 음영 추가
+			const overlay = this.add.rectangle(
+				this.scale.width / 2,
+				this.scale.height / 2,
+				this.scale.width,
+				this.scale.height,
+				0x000000,
+				0.6 // 투명도 설정
+			);
 
             // Clear 메시지 표시
             this.add.text(this.scale.width / 2, this.scale.height / 2, 'Clear!', {
