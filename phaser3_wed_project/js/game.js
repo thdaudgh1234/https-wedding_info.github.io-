@@ -119,7 +119,7 @@ class Example extends Phaser.Scene {
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
             angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-            cannonHead.rotation = angle+45;
+            cannonHead.rotation = angle-90;
 
             const shaftLength = 128;
             const endX = cannonHead.x + Math.cos(angle) * shaftLength;
@@ -149,7 +149,7 @@ class Example extends Phaser.Scene {
             if (bullet) {
                 bullet.setActive(true);
                 bullet.setVisible(true);
-                bullet.setScale(1);
+                bullet.setScale(2);
                 bullet.body.setVelocity(0, 0); // 초기 속도 리셋
                 bullet.body.enable = true; // 물리 활성화
                 bullet.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
