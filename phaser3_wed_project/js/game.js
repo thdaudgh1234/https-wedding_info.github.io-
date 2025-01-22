@@ -21,7 +21,65 @@ class Example extends Phaser.Scene {
 
     }
 
-    create() {
+
+	create() {
+		// 뒷배경 설정
+		const backdrop = this.add.image(0, 0, 'backdrop').setOrigin(0.5, 0.5);
+		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2);
+		backdrop.setDisplaySize(this.scale.width, this.scale.height);
+
+		// 검은 음영 추가
+		const overlay = this.add.rectangle(
+			this.scale.width / 2,
+			this.scale.height / 2,
+			this.scale.width,
+			this.scale.height,
+			0x000000,
+			0.5 // 투명도 설정
+		);
+
+		// "신랑을 신부와 만나게 해주세요" 문구
+		const message = this.add.text(
+			this.scale.width / 2,
+			this.scale.height / 2 - 100,
+			'신랑을 신부와 만나게 해주세요',
+			{
+				fontSize: '32px',
+				color: '#ffffff',
+				fontFamily: 'Arial',
+			}
+		).setOrigin(0.5);
+
+		// 하단의 "터치해서 시작" 버튼
+		const startButton = this.add.text(
+			this.scale.width / 2,
+			this.scale.height - 100,
+			'터치해서 시작하기',
+			{
+				fontSize: '24px',
+				color: '#00ff00',
+				backgroundColor: '#000000',
+				padding: { x: 10, y: 10 },
+			}
+		).setOrigin(0.5);
+		startButton.setInteractive(); // 버튼 클릭 가능 설정
+
+		// "터치해서 시작" 버튼 클릭 이벤트
+		startButton.on('pointerdown', () => {
+			// 검은 음영 및 텍스트 제거
+			overlay.destroy();
+			message.destroy();
+			startButton.destroy();
+
+			// 게임 시작 로직 호출
+			this.startGame();
+		});
+	}
+
+
+
+
+    startGame() {
 
 		this.scale.lockOrientation('portrait');
 
