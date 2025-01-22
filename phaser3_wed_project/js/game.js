@@ -241,46 +241,6 @@ class Example extends Phaser.Scene {
 
         });
 
-		
-			
-		// 발사체와 바닥의 충돌 감지
-		this.physics.add.collider(bullets, floor, (bullet, floor) => {
-			if (bullet.active && !bullet.isFalling) {
-				bullet.isFalling = true; // 상태 플래그 설정
-
-				// 충돌 후 크기 변화 애니메이션
-				this.tweens.add({
-					targets: bullet, // 정확히 발사체를 대상으로 설정
-					scaleX: 1.5,
-					scaleY: 1.5,
-					yoyo: true,
-					duration: 200,
-					ease: 'Power2',
-					onComplete: () => {
-						// 크기 감소 애니메이션
-						this.tweens.add({
-							targets: bullet, // 다시 발사체를 대상으로 설정
-							scaleX: 0,
-							scaleY: 0,
-							duration: 300,
-							ease: 'Linear',
-							onUpdate: () => {
-								// 크기가 일정 이하로 작아지면 발사체 제거
-								if (bullet.scaleX <= 0.1 && bullet.scaleY <= 0.1) {
-									bullet.setActive(false); // 그룹에서 비활성화
-									bullet.setVisible(false); // 화면에서 제거
-									bullet.body.stop(); // 속도 멈춤
-									bullet.body.enable = false; // 물리 비활성화
-									bullet.isFalling = false; // 상태 플래그 초기화
-								}
-							},
-						});
-					},
-				});
-			}
-		});
-		
-
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
 
@@ -320,10 +280,50 @@ class Example extends Phaser.Scene {
 	}
 	
 	
+	update() {
+		// 발사체가 하단 경계에 도달했는지 확인
+		this.bullets.children.iterate((bullet) => {
+			if (bullet.active && !bullet.isFalling) {
+				// 발사체가 하단 경계에 닿았는지 확인
+				if (bullet.body.bottom >= this.scale.height) {
+					bullet.isFalling = true; // 상태 플래그 설정
 
-    update() {
+					// 크기 증가 애니메이션
+					this.tweens.add({
+						targets: bullet,
+						scaleX: 1.5,
+						scaleY: 1.5,
+						yoyo: true,
+						duration: 300,
+						ease: 'Power2',
+						onComplete: () => {
+							// 크기 감소 애니메이션
+							this.tweens.add({
+								targets: bullet,
+								scaleX: 0,
+								scaleY: 0,
+								duration: 500,
+								ease: 'Linear',
+								onComplete: () => {
+									// 발사체 제거
+									bullet.setActive(false); // 그룹에서 비활성화
+									bullet.setVisible(false); // 화면에서 제거
+									bullet.body.stop(); // 속도 멈춤
+									bullet.body.enable = false; // 물리 비활성화
+									bullet.isFalling = false; // 상태 플래그 초기화
+								},
+							});
+						},
+					});
+				}
+			}
+		});
+	}
 
 /*
+    update() {
+	
+
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
 			if (bullet.active && !bullet.isFalling) {
@@ -363,10 +363,9 @@ class Example extends Phaser.Scene {
 				}
 			}
 		});
-
-*/
-
 	}
+
+	*/
 
 }
 
