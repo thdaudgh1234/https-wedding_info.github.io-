@@ -253,12 +253,13 @@ class Example extends Phaser.Scene {
 					);
 
 					// 그래픽 업데이트
+
 					graphics.clear();
-					graphics.lineStyle(2, 0xffffff);
-					graphics.beginPath();
-					graphics.moveTo(startX, startY);
-					graphics.lineTo(triangleX, triangleY);
-					graphics.strokePath();
+					//graphics.lineStyle(2, 0xffffff);
+					//graphics.beginPath();
+					//graphics.moveTo(startX, startY);
+					//graphics.lineTo(triangleX, triangleY);
+					//graphics.strokePath();
 					graphics.fillStyle(0xffffff);
 					graphics.fillTriangleShape(arrowHead);
 				},
