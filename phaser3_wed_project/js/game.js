@@ -211,7 +211,7 @@ class Example extends Phaser.Scene {
             angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
             cannonHead.rotation = angle + Math.PI / 2;
 
-            const shaftLength = 128;
+            const shaftLength = 160;
             const endX = cannonHead.x + Math.cos(angle) * shaftLength;
             const endY = cannonHead.y + Math.sin(angle) * shaftLength;
 
