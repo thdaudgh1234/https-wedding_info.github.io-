@@ -215,6 +215,10 @@ class Example extends Phaser.Scene {
 		// 포인터 이동 시 조준선 업데이트
 		this.input.on('pointermove', (pointer) => {
 			const angle = Phaser.Math.Angle.Between(this.scale.width / 2, this.scale.height - 70, pointer.x, pointer.y);
+			
+			// 조준선 시작점
+			const startX = this.scale.width / 2;
+			const startY = this.scale.height - 70;
 
 			// 조준선 끝 점 계산
 			const endX = this.scale.width / 2 + Math.cos(angle) * shaftLength;
