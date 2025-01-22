@@ -207,15 +207,14 @@ class Example extends Phaser.Scene {
 		
 		const graphics_cicle = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff, alpha: 0.5 } });
 
-		// 궤적을 시각화할 원의 반지름과 간격 설정
-		const pointRadius = 5; // 원의 반지름
-		const timeStep = 0.05; // 시간 간격
-
 		const shaftLengthStart = 150; // 시작 거리
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
 		let angle = 90; // 초기 각도
 		
+		// 궤적을 시각화할 원의 반지름과 총 길이 설정
+		const pointRadius = 3; // 원의 반지름
+		const trajectoryLength = 2000; // 궤적 길이 (픽셀 단위)
 
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
@@ -223,9 +222,7 @@ class Example extends Phaser.Scene {
 			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
 			const gravity = this.physics.world.gravity.y; // 중력 가속도
-			const maxPoints = 10; // 최대 포인트 개수
-			const maxBounces = 3; // 최대 반사 횟수
-			let pointCount = 0; // 현재 그린 포인트 개수
+			const maxBounces = 5; // 최대 반사 횟수
 			let bounceCount = 0; // 반사 횟수
 
 			let x = startX; // 현재 X 좌표
@@ -233,36 +230,40 @@ class Example extends Phaser.Scene {
 			let vx = velocityX; // 현재 X 속도
 			let vy = velocityY; // 현재 Y 속도
 
-			// 포인트를 그리는 반복문
-			for (let t = 0; pointCount < maxPoints; t += timeStep) {
-				// 중력 적용 후 예상 위치 계산
-				vy += gravity * timeStep; // Y축 속도에 중력 추가
-				x += vx * timeStep;
-				y += vy * timeStep;
+			let currentLength = 0; // 현재 그려진 길이
+
+			// 궤적을 그리는 반복문
+			while (currentLength < trajectoryLength) {
+				// 중력 적용
+				vy += gravity * timeStep;
+
+				// 예상 위치 계산
+				const nextX = x + vx * timeStep;
+				const nextY = y + vy * timeStep;
 
 				// 경계 충돌 처리
-				if (x - bulletWidth / 2 <= 0 || x + bulletWidth / 2 >= this.scale.width) {
-					vx *= -1; // X축 속도 반전
+				if (nextX - bulletWidth / 2 <= 0 || nextX + bulletWidth / 2 >= this.scale.width) {
+					vx *= -1; // X축 반사
 					bounceCount++;
 				}
-				if (y - bulletHeight / 2 <= 0 || y + bulletHeight / 2 >= this.scale.height) {
-					vy *= -1; // Y축 속도 반전
+				if (nextY - bulletHeight / 2 <= 0 || nextY + bulletHeight / 2 >= this.scale.height) {
+					vy *= -1; // Y축 반사
 					bounceCount++;
 				}
 
 				// walls 그룹과 충돌 처리
 				walls.children.iterate((wall) => {
 					if (
-						x + bulletWidth / 2 >= wall.body.left &&
-						x - bulletWidth / 2 <= wall.body.right &&
-						y + bulletHeight / 2 >= wall.body.top &&
-						y - bulletHeight / 2 <= wall.body.bottom
+						nextX + bulletWidth / 2 >= wall.body.left &&
+						nextX - bulletWidth / 2 <= wall.body.right &&
+						nextY + bulletHeight / 2 >= wall.body.top &&
+						nextY - bulletHeight / 2 <= wall.body.bottom
 					) {
 						// 충돌 방향에 따른 반사 처리
-						if (x <= wall.body.left || x >= wall.body.right) {
+						if (nextX <= wall.body.left || nextX >= wall.body.right) {
 							vx *= -1; // X축 반사
 						}
-						if (y <= wall.body.top || y >= wall.body.bottom) {
+						if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
 							vy *= -1; // Y축 반사
 						}
 						bounceCount++; // 반사 횟수 증가
@@ -273,11 +274,19 @@ class Example extends Phaser.Scene {
 				if (bounceCount > maxBounces) break;
 
 				// 화면을 벗어나면 중단
-				if (y > this.scale.height) break;
+				if (nextY > this.scale.height) break;
 
-				// 포인트 그리기
-				graphics_cicle.fillCircle(x, y, pointRadius);
-				pointCount++; // 포인트 개수 증가
+				// 현재 점을 그리기
+				graphics_cicle.fillCircle(nextX, nextY, pointRadius);
+
+				// 현재 길이 갱신
+				const dx = nextX - x;
+				const dy = nextY - y;
+				currentLength += Math.sqrt(dx * dx + dy * dy);
+
+				// 위치 갱신
+				x = nextX;
+				y = nextY;
 			}
 		};
 
@@ -338,6 +347,7 @@ class Example extends Phaser.Scene {
 
 			// 궤적 업데이트
 			drawTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY, bulletWidth, bulletHeight);
+
 		});
 
 		
