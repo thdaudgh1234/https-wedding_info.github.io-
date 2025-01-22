@@ -56,30 +56,42 @@ class Example extends Phaser.Scene {
 			}
 		).setOrigin(0.5);
 
-		// 하단의 "터치해서 시작" 버튼
-		const startButton = this.add.text(
+		// "터치해서 시작하기" 문구
+		const touchToStart = this.add.text(
 			this.scale.width / 2,
-			this.scale.height - 100,
+			this.scale.height - 150,
 			'터치해서 시작하기',
 			{
 				fontSize: '24px',
-				color: '#00ff00',
-				backgroundColor: '#000000',
-				padding: { x: 10, y: 10 },
+				color: '#ffffff',
+				fontFamily: 'Arial',
 			}
 		).setOrigin(0.5);
+
+		// 글자 애니메이션 (커졌다 작아지는 효과)
+		this.tweens.add({
+			targets: touchToStart,
+			scaleX: 1.2,
+			scaleY: 1.2,
+			duration: 1000,
+			yoyo: true,
+			repeat: -1, // 무한 반복
+			ease: 'Sine.easeInOut',
+		});
+
 		startButton.setInteractive(); // 버튼 클릭 가능 설정
 
-		// "터치해서 시작" 버튼 클릭 이벤트
-		startButton.on('pointerdown', () => {
+		// 화면 터치 이벤트
+		this.input.on('pointerdown', () => {
 			// 검은 음영 및 텍스트 제거
 			overlay.destroy();
 			message.destroy();
-			startButton.destroy();
+			touchToStart.destroy();
 
 			// 게임 시작 로직 호출
 			this.startGame();
 		});
+
 	}
 
 
