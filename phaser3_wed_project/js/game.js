@@ -7,6 +7,14 @@ class Example extends Phaser.Scene {
         this.load.image('goal', 'assets/50x54_goal.png');
         this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 50, frameHeight: 54 });
 
+		this.load.spritesheet('effect_1', 'assets/effects/Effect_1.png', { frameWidth: 32, frameHeight: 32 });
+
+		this.load.spritesheet('effect_shatter_1', 'assets/effects/Effect_Shatter_1.png', { frameWidth: 96, frameHeight: 96 });
+		this.load.spritesheet('effect_shatter_2', 'assets/effects/Effect_Shatter_2.png', { frameWidth: 96, frameHeight: 96 });
+		this.load.spritesheet('effect_shatter_3', 'assets/effects/Effect_Shatter_3.png', { frameWidth: 96, frameHeight: 96 });
+		this.load.spritesheet('effect_shatter_4', 'assets/effects/Effect_Shatter_4.png', { frameWidth: 96, frameHeight: 96 });
+		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 96, frameHeight: 96 });
+
 		this.load.image('wall', 'assets/100x24_wall.png');
 		this.load.image('particle', 'assets/10x10_effect.png'); // 파티클 이미지
 
@@ -17,6 +25,14 @@ class Example extends Phaser.Scene {
 		this.scale.lockOrientation('portrait');
 
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
+
+		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 10, repeat: -1 });
+
+		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'effect_shatter_3', frames: this.anims.generateFrameNumbers('effect_shatter_3'), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'effect_shatter_4', frames: this.anims.generateFrameNumbers('effect_shatter_4'), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'effect_shatter_5', frames: this.anims.generateFrameNumbers('effect_shatter_5'), frameRate: 10, repeat: -1 });
 
         //this.add.image(0, 0, 'backdrop').setOrigin(0, 0);
 		const backdrop = this.add.image(0, 0, 'backdrop');
@@ -38,6 +54,8 @@ class Example extends Phaser.Scene {
 		).setDepth(1);
 
         const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 70, 'cannon_head').setDepth(1);
+		cannonHead.angle = 45;
+
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
@@ -147,9 +165,21 @@ class Example extends Phaser.Scene {
 		
 		// 발사체와 벽의 충돌 처리
         this.physics.add.collider(bullets, walls, (bullet, wall) => {
-		const velocity = bullet.body.velocity.clone();
-		velocity.y *= -1; // Y축 반사
-		bullet.body.setVelocity(velocity.x, velocity.y);
+
+			// 충돌 위치에 효과 표시
+			const effect = this.add.sprite(bullet.x, bullet.y, 'effect_1');
+			effect.play('effect_1'); // 애니메이션 재생
+			effect.angle = 45;
+
+			// 애니메이션 완료 후 효과 제거
+			effect.on('animationcomplete', () => {
+				effect.destroy(); // 애니메이션이 끝나면 스프라이트 제거
+			});
+			
+			// 발사체 반사 처리
+			const velocity = bullet.body.velocity.clone();
+			velocity.y *= -1; // Y축 반사
+			bullet.body.setVelocity(velocity.x, velocity.y);
 
 		});
 		
