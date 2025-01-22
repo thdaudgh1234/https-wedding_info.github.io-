@@ -181,22 +181,6 @@ class Example extends Phaser.Scene {
 		// 발사체와 벽의 충돌 처리
         this.physics.add.collider(bullets, walls, (bullet, wall) => {
 
-			// 발사체의 이동 각도 계산
-			const bulletAngle = Phaser.Math.Angle.Between(0, 0, bullet.body.velocity.x, bullet.body.velocity.y);
-
-			// 벽의 방향 계산 (수평 또는 수직 벽)
-			let wallAngle = 0;
-			if (wall.width > wall.height) {
-				// 수평 벽
-				wallAngle = Math.PI / 2; // 90도
-			} else {
-				// 수직 벽
-				wallAngle = 0; // 0도
-			}
-
-			// 충돌 각도 계산 (발사체 방향과 벽 방향의 차이)
-			const collisionAngle = Phaser.Math.RadToDeg(bulletAngle - wallAngle);
-
 			// 충돌 위치에 효과 표시
 			const effect = this.add.sprite(bullet.x, bullet.y, 'effect_1');
 			effect.play('effect_1'); // 애니메이션 재생
