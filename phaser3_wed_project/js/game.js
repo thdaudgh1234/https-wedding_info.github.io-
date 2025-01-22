@@ -205,7 +205,67 @@ class Example extends Phaser.Scene {
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
 	
+		// 포인터 이동 시 대포와 조준선 업데이트
+		this.input.on('pointermove', (pointer) => {
+			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			cannonHead.rotation = angle + Math.PI / 2;
 
+			const shaftLengthStart = 150; // 시작 거리
+			const shaftLengthEnd = 200; // 끝 거리
+
+			let shaftLength = shaftLengthStart; // 초기 거리
+			let growing = true; // 길이 증가 여부
+
+			graphics.clear();
+			graphics.lineStyle(2, 0xffffff);
+
+			// 조준선 시작점
+			const startX = cannonHead.x;
+			const startY = cannonHead.y;
+
+			// 삼각형을 움직이는 이벤트 생성
+			this.time.addEvent({
+				delay: 20, // 20ms 간격으로 업데이트
+				loop: true, // 반복 실행
+				callback: () => {
+					// 길이 증가 또는 감소
+					if (growing) {
+						shaftLength += 2; // 길이 증가
+						if (shaftLength >= shaftLengthEnd) growing = false; // 최대 길이에 도달하면 감소
+					} else {
+						shaftLength -= 2; // 길이 감소
+						if (shaftLength <= shaftLengthStart) growing = true; // 최소 길이에 도달하면 증가
+					}
+
+					// 삼각형 위치 및 크기 계산
+					const triangleX = startX + Math.cos(angle) * shaftLength;
+					const triangleY = startY + Math.sin(angle) * shaftLength;
+
+					const scale = 1 - ((shaftLength - shaftLengthStart) / (shaftLengthEnd - shaftLengthStart)); // 크기 계산
+					const arrowHeight = 30 * scale; // 삼각형 높이
+					const arrowWidth = 30 * scale; // 삼각형 밑변 너비
+
+					const arrowHead = new Phaser.Geom.Triangle(
+						triangleX, triangleY,
+						triangleX - Math.cos(angle - Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
+						triangleY - Math.sin(angle - Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight,
+						triangleX - Math.cos(angle + Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
+						triangleY - Math.sin(angle + Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight
+					);
+
+					// 그래픽 업데이트
+					graphics.clear();
+					graphics.lineStyle(2, 0xffffff);
+					graphics.beginPath();
+					graphics.moveTo(startX, startY);
+					graphics.lineTo(triangleX, triangleY);
+					graphics.strokePath();
+					graphics.fillStyle(0xffffff);
+					graphics.fillTriangleShape(arrowHead);
+				},
+			});
+		});
+/*
 		// 포인터 이동 시 대포와 조준선 업데이트
 		this.input.on('pointermove', (pointer) => {
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
@@ -257,7 +317,7 @@ class Example extends Phaser.Scene {
 				graphics.fillTriangleShape(arrowHead);
 			}
 		});
-
+*/
 /*
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
