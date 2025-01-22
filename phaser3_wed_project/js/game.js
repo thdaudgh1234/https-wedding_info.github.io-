@@ -87,8 +87,7 @@ class Example extends Phaser.Scene {
 
     startGame() {
 		
-		this.isGameStarted = true; // 게임 시작 상태로 전환
-
+		
 		this.scale.lockOrientation('portrait');
 
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
@@ -306,6 +305,8 @@ class Example extends Phaser.Scene {
 
 
         });
+		
+		this.isGameStarted = true; // 게임 시작 상태로 전환
 
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
