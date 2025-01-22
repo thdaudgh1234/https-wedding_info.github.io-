@@ -43,7 +43,7 @@ class Example extends Phaser.Scene {
 		
 		// 바닥 생성
 		const floor = this.physics.add.staticImage(this.scale.width / 2, this.scale.height, 'wall_fail') // wall_fail 이미지를 바닥으로 사용
-			.setOrigin(0.5, 0.5) // 하단 중심 기준으로 설정
+			.setOrigin(0.5, 0.0) // 하단 중심 기준으로 설정
 			.setDisplaySize(this.scale.width, 10) // 바닥의 너비를 화면 크기로 설정
 			.refreshBody(); // 물리 엔진에 업데이트
 
@@ -250,7 +250,7 @@ class Example extends Phaser.Scene {
 
 				// 충돌 후 크기 변화 애니메이션
 				this.tweens.add({
-					targets: bullet, // 정확히 bullet을 타겟으로 설정
+					targets: bullet, // 정확히 발사체를 대상으로 설정
 					scaleX: 1.5,
 					scaleY: 1.5,
 					yoyo: true,
@@ -259,13 +259,13 @@ class Example extends Phaser.Scene {
 					onComplete: () => {
 						// 크기 감소 애니메이션
 						this.tweens.add({
-							targets: bullet, // 다시 bullet을 타겟으로 설정
+							targets: bullet, // 다시 발사체를 대상으로 설정
 							scaleX: 0,
 							scaleY: 0,
 							duration: 300,
 							ease: 'Linear',
 							onUpdate: () => {
-								// 크기가 일정 이하로 작아지면 객체 제거
+								// 크기가 일정 이하로 작아지면 발사체 제거
 								if (bullet.scaleX <= 0.1 && bullet.scaleY <= 0.1) {
 									bullet.setActive(false); // 그룹에서 비활성화
 									bullet.setVisible(false); // 화면에서 제거
