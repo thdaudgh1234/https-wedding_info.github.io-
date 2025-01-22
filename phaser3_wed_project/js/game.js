@@ -211,6 +211,7 @@ class Example extends Phaser.Scene {
 		const arrowHeight = 30; // 삼각형 높이
 		const arrowWidth = 30;  // 삼각형 밑변 너비
 		let grow = true; // 길이 증가 방향
+		let alpha = 1; // 초기 투명도 (불투명)
 
 		// 포인터 이동 시 조준선 업데이트
 		this.input.on('pointermove', (pointer) => {
