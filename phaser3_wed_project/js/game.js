@@ -219,104 +219,78 @@ class Example extends Phaser.Scene {
 		const timeStep = 0.03; // 시간 간격
 
 		// 예상 궤적 그리기 함수
-const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
-    graphics_cicle.clear(); // 기존 그래픽 지우기
-    graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
+		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
+			graphics_cicle.clear(); // 기존 그래픽 지우기
+			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
-    const gravity = this.physics.world.gravity.y; // 중력 가속도
-    const maxBounces = 5; // 최대 반사 횟수
-    let bounceCount = 0; // 반사 횟수
+			const gravity = this.physics.world.gravity.y; // 중력 가속도
+			const maxBounces = 5; // 최대 반사 횟수
+			let bounceCount = 0; // 반사 횟수
 
-    let x = startX; // 현재 X 좌표
-    let y = startY; // 현재 Y 좌표
-    let vx = velocityX; // 현재 X 속도
-    let vy = velocityY; // 현재 Y 속도
+			let x = startX; // 현재 X 좌표
+			let y = startY; // 현재 Y 좌표
+			let vx = velocityX; // 현재 X 속도
+			let vy = velocityY; // 현재 Y 속도
 
-    let currentLength = 0; // 현재 그려진 길이
+			let currentLength = 0; // 현재 그려진 길이
 
-    // movingWall의 크기 가져오기
-    const movingWallWidth = movingWall.body.width;
-    const movingWallHeight = movingWall.body.height;
+			// 궤적을 그리는 반복문
+			while (currentLength < trajectoryLength) {
+				// 중력 적용
+				vy += gravity * timeStep;
 
-    // 궤적을 그리는 반복문
-    while (currentLength < trajectoryLength) {
-        // 중력 적용
-        vy += gravity * timeStep;
+				// 예상 위치 계산
+				const nextX = x + vx * timeStep;
+				const nextY = y + vy * timeStep;
 
-        // 예상 위치 계산
-        const nextX = x + vx * timeStep;
-        const nextY = y + vy * timeStep;
+				// 경계 충돌 처리
+				if (nextX - bulletWidth / 2 <= 0 || nextX + bulletWidth / 2 >= this.scale.width) {
+					vx *= -1; // X축 반사
+					bounceCount++;
+				}
+				if (nextY - bulletHeight / 2 <= 0 || nextY + bulletHeight / 2 >= this.scale.height) {
+					vy *= -1; // Y축 반사
+					bounceCount++;
+				}
 
-        // 경계 충돌 처리
-        if (nextX - bulletWidth / 2 <= 0 || nextX + bulletWidth / 2 >= this.scale.width) {
-            vx *= -1; // X축 반사
-            bounceCount++;
-        }
-        if (nextY - bulletHeight / 2 <= 0 || nextY + bulletHeight / 2 >= this.scale.height) {
-            vy *= -1; // Y축 반사
-            bounceCount++;
-        }
+				// walls 그룹과 충돌 처리
+				walls.children.iterate((wall) => {
+					if (
+						nextX + bulletWidth / 2 >= wall.body.left &&
+						nextX - bulletWidth / 2 <= wall.body.right &&
+						nextY + bulletHeight / 2 >= wall.body.top &&
+						nextY - bulletHeight / 2 <= wall.body.bottom
+					) {
+						// 충돌 방향에 따른 반사 처리
+						if (nextX <= wall.body.left || nextX >= wall.body.right) {
+							vx *= -1; // X축 반사
+						}
+						if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
+							vy *= -1; // Y축 반사
+						}
+						bounceCount++; // 반사 횟수 증가
+					}
+				});
 
-        // walls 그룹과 충돌 처리
-        walls.children.iterate((wall) => {
-            if (
-                nextX + bulletWidth / 2 >= wall.body.left &&
-                nextX - bulletWidth / 2 <= wall.body.right &&
-                nextY + bulletHeight / 2 >= wall.body.top &&
-                nextY - bulletHeight / 2 <= wall.body.bottom
-            ) {
-                // 충돌 방향에 따른 반사 처리
-                if (nextX <= wall.body.left || nextX >= wall.body.right) {
-                    vx *= -1; // X축 반사
-                }
-                if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
-                    vy *= -1; // Y축 반사
-                }
-                bounceCount++; // 반사 횟수 증가
-            }
-        });
+				// 충돌 횟수가 최대치를 넘으면 중단
+				if (bounceCount > maxBounces) break;
 
-        // movingWall과의 충돌 처리
-        const movingWallLeft = movingWall.body.left;
-        const movingWallRight = movingWall.body.right;
-        const movingWallTop = movingWall.body.top;
-        const movingWallBottom = movingWall.body.bottom;
+				// 화면을 벗어나면 중단
+				if (nextY > this.scale.height) break;
 
-        if (
-            nextX + bulletWidth / 2 >= movingWallLeft &&
-            nextX - bulletWidth / 2 <= movingWallRight &&
-            nextY + bulletHeight / 2 >= movingWallTop &&
-            nextY - bulletHeight / 2 <= movingWallBottom
-        ) {
-            // 충돌 방향에 따른 반사 처리
-            if (nextX <= movingWallLeft || nextX >= movingWallRight) {
-                vx *= -1; // X축 반사
-            }
-            if (nextY <= movingWallTop || nextY >= movingWallBottom) {
-                vy *= -1; // Y축 반사
-            }
-            bounceCount++; // 반사 횟수 증가
-        }
+				// 현재 점을 그리기
+				graphics_cicle.fillCircle(nextX, nextY, pointRadius);
 
-        // 충돌 횟수가 최대치를 넘으면 중단
-        if (bounceCount > maxBounces) break;
+				// 현재 길이 갱신
+				const dx = nextX - x;
+				const dy = nextY - y;
+				currentLength += Math.sqrt(dx * dx + dy * dy);
 
-        // 화면을 벗어나면 중단
-        if (nextY > this.scale.height) break;
-
-        // 현재 점을 그리기
-        graphics_cicle.fillCircle(nextX, nextY, pointRadius);
-
-        // 현재 길이 갱신
-        const dx = nextX - x;
-        const dy = nextY - y;
-        currentLength += Math.sqrt(dx * dx + dy * dy);
-
-        // 위치 갱신
-        x = nextX;
-        y = nextY;
-    }
-};
+				// 위치 갱신
+				x = nextX;
+				y = nextY;
+			}
+		};
 
 
 		// 대포 조준선 애니메이션 이벤트
