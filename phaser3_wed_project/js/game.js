@@ -80,15 +80,21 @@ class Example extends Phaser.Scene {
 		});
 
 		// 화면 터치 이벤트
-		this.input.on('pointerdown', () => {
-			// 검은 음영 및 텍스트 제거
-			overlay.destroy();
-			message.destroy();
-			touchToStart.destroy();
+        this.input.on('pointerdown', () => {
+            if (this.isGameStarted) {
+                return; // 게임이 이미 시작된 경우 터치 이벤트 무시
+            }
 
-			// 게임 시작 로직 호출
-			this.startGame();
-		});
+            this.isGameStarted = true; // 게임 시작 플래그 설정
+
+            // 검은 음영 및 텍스트 제거
+            overlay.destroy();
+            message.destroy();
+            touchToStart.destroy();
+
+            // 게임 시작 로직 호출
+            this.startGame();
+        });
 
 	}
 
@@ -316,7 +322,6 @@ class Example extends Phaser.Scene {
 
         });
 		
-		this.isGameStarted = true; // 게임 시작 상태로 전환
 
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
