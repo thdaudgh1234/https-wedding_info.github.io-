@@ -204,11 +204,37 @@ class Example extends Phaser.Scene {
 		
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
+		
+		// 궤적을 시각화할 원의 반지름과 간격 설정
+		const pointRadius = 5; // 원의 반지름
+		const timeStep = 0.05; // 시간 간격
 
 		const shaftLengthStart = 150; // 시작 거리
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
 		let angle = 90; // 초기 각도
+		
+		// 예상 궤적 그리기 함수
+		const drawTrajectory = (startX, startY, velocityX, velocityY) => {
+			graphics.clear(); // 기존 그래픽 지우기
+			graphics.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
+
+			// 중력 가속도
+			const gravity = this.physics.world.gravity.y;
+
+			// 포인트를 그리는 반복문
+			for (let t = 0; t < 2; t += timeStep) {
+				// 예상 위치 계산
+				const x = startX + velocityX * t;
+				const y = startY + velocityY * t + 0.5 * gravity * t * t;
+
+				// 화면을 벗어나면 중단
+				if (y > this.scale.height) break;
+
+				// 포인트 그리기
+				graphics.fillCircle(x, y, pointRadius);
+			}
+		};
 
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
@@ -253,6 +279,14 @@ class Example extends Phaser.Scene {
 		this.input.on('pointermove', (pointer) => {
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			cannonHead.rotation = angle + Math.PI / 2;
+
+			// 초기 속도 계산 (1200은 속도 크기)
+			const velocity = 1200;
+			const velocityX = Math.cos(angle) * velocity;
+			const velocityY = Math.sin(angle) * velocity;
+
+			// 궤적 업데이트
+			drawTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY);
 		});
 
 		
@@ -285,6 +319,9 @@ class Example extends Phaser.Scene {
 
                 // 발사 방향 속도 설정
                 this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
+				
+				// 궤적 지우기
+				graphics.clear();
             }
         });
 		
