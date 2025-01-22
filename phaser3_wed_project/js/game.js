@@ -340,6 +340,11 @@ class Example extends Phaser.Scene {
 		this.input.on('pointermove', (pointer) => {
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			cannonHead.rotation = angle + Math.PI / 2;
+			
+			// 대포의 head 앞쪽으로 궤적 시작점 계산
+			const offsetDistance = 50; // 대포 head 앞쪽 거리 (픽셀)
+			const startX = cannonHead.x + Math.cos(angle) * offsetDistance;
+			const startY = cannonHead.y + Math.sin(angle) * offsetDistance;
 
 			// 초기 속도 계산 (1200은 속도 크기)
 			const velocity = 1200;
@@ -351,7 +356,7 @@ class Example extends Phaser.Scene {
 			const bulletHeight = 54; // 기본 값: 54
 
 			// 궤적 업데이트
-			drawTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY, bulletWidth, bulletHeight);
+			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
 
 		
