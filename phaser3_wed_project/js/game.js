@@ -244,13 +244,13 @@ class Example extends Phaser.Scene {
 		
 			
 		// 발사체와 바닥의 충돌 감지
-		this.physics.add.collider(this.bullets, floor, (bullet, floor) => {
+		this.physics.add.collider(bullets, floor, (bullet, floor) => {
 			if (bullet.active && !bullet.isFalling) {
 				bullet.isFalling = true; // 상태 플래그 설정
 
 				// 충돌 후 크기 변화 애니메이션
 				this.tweens.add({
-					targets: bullet,
+					targets: bullet, // 정확히 bullet을 타겟으로 설정
 					scaleX: 1.5,
 					scaleY: 1.5,
 					yoyo: true,
@@ -259,7 +259,7 @@ class Example extends Phaser.Scene {
 					onComplete: () => {
 						// 크기 감소 애니메이션
 						this.tweens.add({
-							targets: bullet,
+							targets: bullet, // 다시 bullet을 타겟으로 설정
 							scaleX: 0,
 							scaleY: 0,
 							duration: 300,
