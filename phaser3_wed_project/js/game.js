@@ -54,7 +54,8 @@ class Example extends Phaser.Scene {
 		).setDepth(1);
 
         const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 70, 'cannon_head').setDepth(1);
-		
+		cannonHead.setOrigin(0.5, 1);
+
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
@@ -146,7 +147,9 @@ class Example extends Phaser.Scene {
 		
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
-            const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
+            //const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
+			const bullet = bullets.get(cannonHead.x, cannonHead.y);
+
             if (bullet) {
 
 				// 대포 헤드 확대 애니메이션
