@@ -185,7 +185,7 @@ class Example extends Phaser.Scene {
 			// 충돌 위치에 효과 표시
 			const effect = this.add.sprite(bullet.x, bullet.y, 'effect_1');
 			effect.play('effect_1'); // 애니메이션 재생
-			effect.angle = collisionAngle; // 충돌 각도에 따라 회전
+			effect.angle = 0; // 충돌 각도에 따라 회전
 			effect.setScale(2);
 
 			// 애니메이션 완료 후 효과 제거
