@@ -218,7 +218,7 @@ class Example extends Phaser.Scene {
 		
 
 		// 예상 궤적 그리기 함수
-		const drawTrajectory = (startX, startY, velocityX, velocityY) => {
+		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
 			graphics_cicle.clear(); // 기존 그래픽 지우기
 			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
@@ -241,11 +241,11 @@ class Example extends Phaser.Scene {
 				y += vy * timeStep;
 
 				// 경계 충돌 처리
-				if (x <= 0 || x >= this.scale.width) {
+				if (x - bulletWidth / 2 <= 0 || x + bulletWidth / 2 >= this.scale.width) {
 					vx *= -1; // X축 속도 반전
 					bounceCount++;
 				}
-				if (y <= 0 || y >= this.scale.height) {
+				if (y - bulletHeight / 2 <= 0 || y + bulletHeight / 2 >= this.scale.height) {
 					vy *= -1; // Y축 속도 반전
 					bounceCount++;
 				}
@@ -253,10 +253,10 @@ class Example extends Phaser.Scene {
 				// walls 그룹과 충돌 처리
 				walls.children.iterate((wall) => {
 					if (
-						x >= wall.body.left &&
-						x <= wall.body.right &&
-						y >= wall.body.top &&
-						y <= wall.body.bottom
+						x + bulletWidth / 2 >= wall.body.left &&
+						x - bulletWidth / 2 <= wall.body.right &&
+						y + bulletHeight / 2 >= wall.body.top &&
+						y - bulletHeight / 2 <= wall.body.bottom
 					) {
 						// 충돌 방향에 따른 반사 처리
 						if (x <= wall.body.left || x >= wall.body.right) {
@@ -331,8 +331,13 @@ class Example extends Phaser.Scene {
 			const velocityX = Math.cos(angle) * velocity;
 			const velocityY = Math.sin(angle) * velocity;
 
+			// 발사체의 크기 가져오기 (샘플로 첫 번째 발사체 사용)
+			const bulletSample = bullets.getFirstAlive() || bullets.get();
+			const bulletWidth = bulletSample ? bulletSample.width : 50; // 기본 값: 50
+			const bulletHeight = bulletSample ? bulletSample.height : 54; // 기본 값: 54
+
 			// 궤적 업데이트
-			drawTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY);
+			drawTrajectory(cannonHead.x, cannonHead.y, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
 
 		
