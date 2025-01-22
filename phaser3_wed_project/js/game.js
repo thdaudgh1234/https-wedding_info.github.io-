@@ -211,13 +211,13 @@ class Example extends Phaser.Scene {
 		const pointRadius = 5; // 원의 반지름
 		const timeStep = 0.05; // 시간 간격
 		// 벽 그룹 생성
-		const walls2 = this.physics.add.staticGroup();
+		//const walls = this.physics.add.staticGroup();
 
 		// 좌측 벽
-		walls2.create(50, this.scale.height / 2, 'wall').setDisplaySize(20, this.scale.height).refreshBody();
+		walls.create(50, this.scale.height / 2, 'wall').setDisplaySize(20, this.scale.height).refreshBody();
 
 		// 우측 벽
-		walls2.create(this.scale.width - 50, this.scale.height / 2, 'wall').setDisplaySize(20, this.scale.height).refreshBody();
+		walls.create(this.scale.width - 50, this.scale.height / 2, 'wall').setDisplaySize(20, this.scale.height).refreshBody();
 
 
 		const shaftLengthStart = 150; // 시작 거리
