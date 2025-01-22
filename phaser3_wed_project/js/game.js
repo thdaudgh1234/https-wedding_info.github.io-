@@ -79,8 +79,6 @@ class Example extends Phaser.Scene {
 			ease: 'Sine.easeInOut',
 		});
 
-		startButton.setInteractive(); // 버튼 클릭 가능 설정
-
 		// 화면 터치 이벤트
 		this.input.on('pointerdown', () => {
 			// 검은 음영 및 텍스트 제거
