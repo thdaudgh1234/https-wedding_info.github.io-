@@ -208,18 +208,19 @@ class Example extends Phaser.Scene {
 		const shaftLengthStart = 150; // 시작 거리
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
-		let growing = true; // 길이 증가 여부
 		let angle = 0; // 초기 각도
 
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
-			delay: 20, // 20ms 간격으로 업데이트
+			delay: 15, // 15ms 간격으로 업데이트
 			loop: true, // 반복 실행
 			callback: () => {
-				// 길이 증가 또는 감소
-				if (growing) {
-					shaftLength += 2;
-					shaftLength = shaftLengthStart; // 리셋
+				// 길이 증가
+				shaftLength += 2;
+
+				// 최대 길이에 도달하면 리셋
+				if (shaftLength > shaftLengthEnd) {
+					shaftLength = shaftLengthStart;
 				}
 
 				// 삼각형 위치 및 크기 계산
