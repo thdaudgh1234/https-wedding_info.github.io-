@@ -119,7 +119,7 @@ class Example extends Phaser.Scene {
         // 포인터 이동 시 대포와 조준선 업데이트
         this.input.on('pointermove', (pointer) => {
             angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-            cannonHead.rotation = angle+60;
+            cannonHead.rotation = angle + Math.PI / 2;
 
             const shaftLength = 128;
             const endX = cannonHead.x + Math.cos(angle) * shaftLength;
@@ -240,7 +240,7 @@ class Example extends Phaser.Scene {
 	startFireworks() {
 		// 폭죽 애니메이션 타이머 시작
 		this.fireworkTimer = this.time.addEvent({
-			delay: Phaser.Math.Between(300, 1000), // 랜덤 시간 간격 (300ms ~ 1000ms)
+			delay: Phaser.Math.Between(100, 500), // 랜덤 시간 간격 (300ms ~ 1000ms)
 			loop: true, // 반복 실행
 			callback: () => {
 				// 랜덤 위치
