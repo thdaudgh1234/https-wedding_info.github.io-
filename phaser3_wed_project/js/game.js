@@ -223,7 +223,7 @@ class Example extends Phaser.Scene {
 			bulletHeight: 54,
 		};
 
-		/*
+		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 5; // 원의 반지름
 		const trajectoryLength = 500; // 궤적 길이 (픽셀 단위)
@@ -309,7 +309,7 @@ class Example extends Phaser.Scene {
 				y = nextY;
 			}
 		};
-*/
+
 
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
