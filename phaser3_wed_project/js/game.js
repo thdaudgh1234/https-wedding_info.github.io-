@@ -354,37 +354,34 @@ class Example extends Phaser.Scene {
 		
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
-            //const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
-			const bullet = bullets.get(cannonHead.x, cannonHead.y);
+            const bullet = bullets.get(cannonHead.x, cannonHead.y);
 
-            if (bullet) {
+    if (bullet) {
+			// 발사체 초기화
+			bullet.setActive(true);
+			bullet.setVisible(true);
+			bullet.setScale(1);
+			bullet.body.setVelocity(0, 0); // 초기 속도 리셋
+			bullet.body.setGravity(0); // 중력 영향 제거
+			bullet.body.enable = false; // 물리 비활성화 (초기 상태)
 
-				// 대포 헤드 확대 애니메이션
-				this.tweens.add({
-					targets: cannonHead,
-					scaleX: 1.2, // X축으로 20% 확대
-					scaleY: 1.2, // Y축으로 20% 확대
-					duration: 100, // 0.1초 동안 확대
-					yoyo: true, // 확대 후 원래 크기로 복원
-					ease: 'Power2', // 부드러운 애니메이션 효과
-				});
-				
-			
-                bullet.setActive(true);
-                bullet.setVisible(true);
-                bullet.setScale(1);
-                bullet.body.setVelocity(0, 0); // 초기 속도 리셋
-                bullet.body.enable = true; // 물리 활성화
-                bullet.body.collideWorldBounds = true; // 화면 경계 충돌 활성화
-                bullet.body.bounce.set(1, 0); // X축 반사 활성화, Y축 반사 비활성화
-                bullet.play('fly'); // 애니메이션 재생
+			// 발사 준비 애니메이션
+			this.tweens.add({
+				targets: cannonHead,
+				scaleX: 1.2, // X축으로 20% 확대
+				scaleY: 1.2, // Y축으로 20% 확대
+				duration: 100, // 0.1초 동안 확대
+				yoyo: true, // 확대 후 원래 크기로 복원
+				ease: 'Power2', // 부드러운 애니메이션 효과
+			});
 
-                // 발사 방향 속도 설정
-                this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
-				
-				// 궤적 지우기
-				graphics_cicle.clear();
-            }
+			// 물리 활성화 및 발사 방향 설정
+			bullet.body.enable = true;
+			this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
+
+			// 궤적 지우기
+			graphics_cicle.clear();
+		}
         });
 		
 		
