@@ -143,19 +143,7 @@ class Example extends Phaser.Scene {
             graphics.fillTriangleShape(arrowHead);
         });
 		
-		// 연기 파티클 설정
-		const smokeParticles = this.add.particles('particle'); // 'particle'은 연기 효과 이미지
-		const smokeEmitter = smokeParticles.createEmitter({
-			x: 0, // 시작 위치는 이후 업데이트
-			y: 0, // 시작 위치는 이후 업데이트
-			lifespan: 500, // 파티클 수명 (500ms)
-			speed: { min: 100, max: 200 }, // 연기의 속도
-			scale: { start: 1, end: 0 }, // 크기가 점점 작아짐
-			alpha: { start: 0.8, end: 0 }, // 투명도가 점점 줄어듦
-			blendMode: 'ADD', // 블렌드 모드로 연기 효과 강화
-			quantity: 10, // 한 번에 생성되는 파티클 개수
-		});
-
+		
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
             const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
@@ -171,10 +159,7 @@ class Example extends Phaser.Scene {
 					ease: 'Power2', // 부드러운 애니메이션 효과
 				});
 				
-				// 연기 효과 재생
-				smokeEmitter.setPosition(cannonHead.x, cannonHead.y); // 대포 헤드 위치에서 연기 발생
-				smokeEmitter.explode(20); // 20개의 연기 파티클 생성
-
+			
                 bullet.setActive(true);
                 bullet.setVisible(true);
                 bullet.setScale(1);
