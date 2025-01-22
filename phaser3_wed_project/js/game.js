@@ -219,27 +219,29 @@ class Example extends Phaser.Scene {
 		const timeStep = 0.03; // 시간 간격
 
 		// 예상 궤적 그리기 함수
-		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
-			graphics_cicle.clear(); // 기존 그래픽 지우기
-			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
+		const drawMovingTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
+		// 기존 궤적 제거
+		graphics_cicle.clear();
 
-			const gravity = this.physics.world.gravity.y; // 중력 가속도
-			const maxBounces = 5; // 최대 반사 횟수
-			let bounceCount = 0; // 반사 횟수
+		const gravity = this.physics.world.gravity.y; // 중력 가속도
+		const maxBounces = 5; // 최대 반사 횟수
+		const pointCount = 20; // 총 점 개수
+		const pointGap = 15; // 점 간격 (픽셀)
+		const timeStep = 0.03; // 시간 간격
 
-			let x = startX; // 현재 X 좌표
-			let y = startY; // 현재 Y 좌표
-			let vx = velocityX; // 현재 X 속도
-			let vy = velocityY; // 현재 Y 속도
+		let x = startX; // 현재 X 좌표
+		let y = startY; // 현재 Y 좌표
+		let vx = velocityX; // 현재 X 속도
+		let vy = velocityY; // 현재 Y 속도
+		let bounceCount = 0; // 반사 횟수
 
-			let currentLength = 0; // 현재 그려진 길이
+		// 점들을 담을 배열 생성
+		const trajectoryPoints = [];
 
-			// 궤적을 그리는 반복문
-			while (currentLength < trajectoryLength) {
-				// 중력 적용
-				vy += gravity * timeStep;
-
-				// 예상 위치 계산
+		for (let i = 0; i < pointCount; i++) {
+			// 궤적 계산
+			while (true) {
+				vy += gravity * timeStep; // 중력 적용
 				const nextX = x + vx * timeStep;
 				const nextY = y + vy * timeStep;
 
@@ -253,7 +255,7 @@ class Example extends Phaser.Scene {
 					bounceCount++;
 				}
 
-				// walls 그룹과 충돌 처리
+				// walls와 충돌 처리
 				walls.children.iterate((wall) => {
 					if (
 						nextX + bulletWidth / 2 >= wall.body.left &&
@@ -261,37 +263,44 @@ class Example extends Phaser.Scene {
 						nextY + bulletHeight / 2 >= wall.body.top &&
 						nextY - bulletHeight / 2 <= wall.body.bottom
 					) {
-						// 충돌 방향에 따른 반사 처리
-						if (nextX <= wall.body.left || nextX >= wall.body.right) {
-							vx *= -1; // X축 반사
-						}
-						if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
-							vy *= -1; // Y축 반사
-						}
-						bounceCount++; // 반사 횟수 증가
+						if (nextX <= wall.body.left || nextX >= wall.body.right) vx *= -1;
+						if (nextY <= wall.body.top || nextY >= wall.body.bottom) vy *= -1;
+						bounceCount++;
 					}
 				});
 
-				// 충돌 횟수가 최대치를 넘으면 중단
-				if (bounceCount > maxBounces) break;
+				// 충돌 횟수가 초과되면 중단
+				if (bounceCount > maxBounces) return;
 
-				// 화면을 벗어나면 중단
-				if (nextY > this.scale.height) break;
-
-				// 현재 점을 그리기
-				graphics_cicle.fillCircle(nextX, nextY, pointRadius);
-
-				// 현재 길이 갱신
+				// 궤적의 길이 확인 후 점 추가
 				const dx = nextX - x;
 				const dy = nextY - y;
-				currentLength += Math.sqrt(dx * dx + dy * dy);
-
-				// 위치 갱신
+				if (Math.sqrt(dx * dx + dy * dy) >= pointGap) {
+					x = nextX;
+					y = nextY;
+					trajectoryPoints.push({ x, y });
+					break;
+				}
 				x = nextX;
 				y = nextY;
 			}
-		};
+		}
 
+		// 점 생성 및 이동 애니메이션
+		trajectoryPoints.forEach((point, index) => {
+			const pointAlpha = 1 - index / pointCount; // alpha는 멀어질수록 작아짐
+			const circle = this.add.circle(point.x, point.y, 5, 0xffffff, pointAlpha).setDepth(10);
+
+			// 점 이동 애니메이션
+			this.tweens.add({
+				targets: circle,
+				alpha: 0, // alpha 값을 점점 줄임
+				duration: 1000 + index * 100, // 점이 멀수록 오래 남아있도록 설정
+				ease: 'Linear',
+				onComplete: () => circle.destroy(), // 애니메이션 종료 후 점 제거
+			});
+		});
+	};
 
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
