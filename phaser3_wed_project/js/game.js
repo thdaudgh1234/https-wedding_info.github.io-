@@ -218,7 +218,7 @@ class Example extends Phaser.Scene {
 		const arrowWidth = 30; // 삼각형 밑변 너비
 
 		// 포인터 각도를 저장
-		let angle = 0;
+		//let angle = 0;
 
 		// 삼각형 애니메이션 (shaftLength 업데이트)
 		this.time.addEvent({
