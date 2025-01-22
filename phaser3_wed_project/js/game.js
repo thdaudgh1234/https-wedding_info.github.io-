@@ -147,7 +147,7 @@ class Example extends Phaser.Scene {
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
 		cannon.setScale(2);
 
-        const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
+        //const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
 
         let angle = 0;
 
@@ -204,7 +204,82 @@ class Example extends Phaser.Scene {
 
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
-	
+		
+
+
+		const graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff } });
+
+		const shaftLengthStart = 150; // 시작 거리
+		const shaftLengthEnd = 200; // 끝 거리
+		let shaftLength = shaftLengthStart; // 초기 거리
+		let growing = true; // 길이 증가 여부
+
+		const arrowHeight = 30; // 삼각형 높이
+		const arrowWidth = 30; // 삼각형 밑변 너비
+
+		// 포인터 각도를 저장
+		let angle = 0;
+
+		// 삼각형 애니메이션 (shaftLength 업데이트)
+		this.time.addEvent({
+			delay: 20, // 20ms 간격으로 업데이트
+			loop: true, // 반복 실행
+			callback: () => {
+				// 길이 증가/감소 로직
+				if (growing) {
+					shaftLength += 2;
+					if (shaftLength >= shaftLengthEnd) growing = false;
+				} else {
+					shaftLength -= 2;
+					if (shaftLength <= shaftLengthStart) growing = true;
+				}
+			},
+		});
+
+		// 포인터 이동 시 각도 업데이트
+		this.input.on('pointermove', (pointer) => {
+			angle = Phaser.Math.Angle.BetweenPoints(
+				{ x: this.scale.width / 2, y: this.scale.height - 70 }, // 대포의 중심점
+				{ x: pointer.x, y: pointer.y } // 포인터 위치
+			);
+		});
+
+		// 매 프레임마다 그래픽 업데이트
+		this.events.on('update', () => {
+			graphics.clear();
+			graphics.lineStyle(2, 0xffffff);
+
+			// 대포 중심점
+			const startX = this.scale.width / 2;
+			const startY = this.scale.height - 70;
+
+			// 삼각형 위치 계산
+			const triangleX = startX + Math.cos(angle) * shaftLength;
+			const triangleY = startY + Math.sin(angle) * shaftLength;
+
+			// 삼각형 크기 비율
+			const scale = 1 - ((shaftLength - shaftLengthStart) / (shaftLengthEnd - shaftLengthStart));
+			const scaledArrowHeight = arrowHeight * scale;
+			const scaledArrowWidth = arrowWidth * scale;
+
+			const arrowHead = new Phaser.Geom.Triangle(
+				triangleX, triangleY,
+				triangleX - Math.cos(angle - Math.PI / 2) * scaledArrowWidth / 2 - Math.cos(angle) * scaledArrowHeight,
+				triangleY - Math.sin(angle - Math.PI / 2) * scaledArrowWidth / 2 - Math.sin(angle) * scaledArrowHeight,
+				triangleX - Math.cos(angle + Math.PI / 2) * scaledArrowWidth / 2 - Math.cos(angle) * scaledArrowHeight,
+				triangleY - Math.sin(angle + Math.PI / 2) * scaledArrowWidth / 2 - Math.sin(angle) * scaledArrowHeight
+			);
+
+			// 선 및 삼각형 그리기
+			graphics.beginPath();
+			graphics.moveTo(startX, startY);
+			graphics.lineTo(triangleX, triangleY);
+			graphics.strokePath();
+			graphics.fillStyle(0xffffff);
+			graphics.fillTriangleShape(arrowHead);
+		});
+
+	/*
 		// 포인터 이동 시 대포와 조준선 업데이트
 		this.input.on('pointermove', (pointer) => {
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
@@ -265,6 +340,8 @@ class Example extends Phaser.Scene {
 				},
 			});
 		});
+
+		*/
 /*
 		// 포인터 이동 시 대포와 조준선 업데이트
 		this.input.on('pointermove', (pointer) => {
