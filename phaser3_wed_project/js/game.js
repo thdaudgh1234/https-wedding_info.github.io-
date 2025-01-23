@@ -511,20 +511,6 @@ class Example extends Phaser.Scene {
             return; // 게임 시작 전에는 update 로직 실행 안 함
         }
 		
-		// 발사체와 벽의 충돌 감지
-		this.physics.overlap(this.bullets, walls, (bullet, wall) => {
-			// 충돌 시 발사체 속도 반전 및 궤적 재계산
-			const velocity = bullet.body.velocity.clone();
-			velocity.y *= -1; // Y축 반사
-			bullet.body.setVelocity(velocity.x, velocity.y);
-
-			// 충돌 위치를 기준으로 새로운 궤적 계산
-			const startX = bullet.x;
-			const startY = bullet.y;
-			const velocityX = bullet.body.velocity.x;
-			const velocityY = bullet.body.velocity.y;
-			drawTrajectory(startX, startY, velocityX, velocityY, bullet.width, bullet.height);
-		});
 
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
