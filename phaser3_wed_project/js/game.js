@@ -468,88 +468,6 @@ class Example extends Phaser.Scene {
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
 
-	
-	// 예상 궤적 그리기 함수
-		drawTrajectory2(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight){
-			graphics_cicle.clear(); // 기존 그래픽 지우기
-			graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
-
-			const gravity = this.physics.world.gravity.y; // 중력 가속도
-			const maxBounces = 5; // 최대 반사 횟수
-			let bounceCount = 0; // 반사 횟수
-
-			let x = startX; // 현재 X 좌표
-			let y = startY; // 현재 Y 좌표
-			let vx = velocityX; // 현재 X 속도
-			let vy = velocityY; // 현재 Y 속도
-
-			let currentLength = 0; // 현재 그려진 길이
-			let currentAlpha = 1.0; // 초기 alpha 값
-
-			// 궤적을 그리는 반복문
-			while (currentLength < trajectoryLength) {
-				// 중력 적용
-				vy += gravity * timeStep;
-
-				// 예상 위치 계산
-				const nextX = x + vx * timeStep;
-				const nextY = y + vy * timeStep;
-
-				// 경계 충돌 처리
-				if (nextX - bulletWidth / 2 <= 0 || nextX + bulletWidth / 2 >= this.scale.width) {
-					vx *= -1; // X축 반사
-					bounceCount++;
-				}
-				if (nextY - bulletHeight / 2 <= 0 || nextY + bulletHeight / 2 >= this.scale.height) {
-					vy *= -1; // Y축 반사
-					bounceCount++;
-				}
-
-				// walls 그룹과 충돌 처리
-				walls.children.iterate((wall) => {
-					wall.body.updateFromGameObject(); // 벽의 물리 데이터를 갱신
-
-					if (
-						nextX + bulletWidth / 2 >= wall.body.left &&
-						nextX - bulletWidth / 2 <= wall.body.right &&
-						nextY + bulletHeight / 2 >= wall.body.top &&
-						nextY - bulletHeight / 2 <= wall.body.bottom
-					) {
-						// 충돌 방향에 따른 반사 처리
-						if (nextX <= wall.body.left || nextX >= wall.body.right) {
-							vx *= -1; // X축 반사
-						}
-						if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
-							vy *= -1; // Y축 반사
-						}
-						bounceCount++; // 반사 횟수 증가
-					}
-				});
-
-				// 충돌 횟수가 최대치를 넘으면 중단
-				if (bounceCount > maxBounces) break;
-
-				// 화면을 벗어나면 중단
-				if (nextY > this.scale.height) break;
-
-				// 현재 점을 그리기
-				graphics_cicle.fillStyle(0xffffff, currentAlpha); // 현재 alpha 값
-				graphics_cicle.fillCircle(nextX, nextY, pointRadius);
-
-				// 현재 길이 갱신
-				const dx = nextX - x;
-				const dy = nextY - y;
-				currentLength += Math.sqrt(dx * dx + dy * dy);
-
-				// alpha 값 점진적으로 감소
-				currentAlpha = Math.max(0, 1 - currentLength / trajectoryLength);
-
-				// 위치 갱신
-				x = nextX;
-				y = nextY;
-			}
-		};
-
 	//폭죽 애니메이션
 	startFireworks() {
 		// 폭죽 애니메이션 타이머 시작
@@ -593,25 +511,6 @@ class Example extends Phaser.Scene {
             return; // 게임 시작 전에는 update 로직 실행 안 함
         }
 		
-		angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-		cannonHead.rotation = angle + Math.PI / 2;
-		
-		// 대포의 head 앞쪽으로 궤적 시작점 계산
-		const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
-		const startX = cannonHead.x + Math.cos(angle) * offsetDistance;
-		const startY = cannonHead.y + Math.sin(angle) * offsetDistance;
-
-		// 초기 속도 계산 (1200은 속도 크기)
-		const velocity = 1200;
-		const velocityX = Math.cos(angle) * velocity;
-		const velocityY = Math.sin(angle) * velocity;
-
-		// 발사체의 크기 가져오기
-		const bulletWidth = 50; // 기본 값: 50
-		const bulletHeight = 54; // 기본 값: 54
-
-		// 궤적 업데이트
-		drawTrajectory2(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
