@@ -535,42 +535,44 @@ class Example extends Phaser.Scene {
 
 
 		// 발사체가 하단 경계에 도달했는지 확인
-		this.bullets.children.iterate((bullet) => {
-			if (bullet.active && !bullet.isFalling) {
-				// 발사체가 하단 경계에 닿았는지 확인
-				if (bullet.body.bottom >= this.scale.height) {
-					bullet.isFalling = true; // 상태 플래그 설정
+		if (this.bullets && this.bullets.children) {
+			this.bullets.children.iterate((bullet) => {
+				if (bullet.active && !bullet.isFalling) {
+					// 발사체가 하단 경계에 닿았는지 확인
+					if (bullet.body.bottom >= this.scale.height) {
+						bullet.isFalling = true; // 상태 플래그 설정
 
-					// 크기 증가 애니메이션
-					this.tweens.add({
-						targets: bullet,
-						scaleX: 1.5,
-						scaleY: 1.5,
-						yoyo: true,
-						duration: 200,
-						ease: 'Power2',
-						onComplete: () => {
-							// 크기 감소 애니메이션
-							this.tweens.add({
-								targets: bullet,
-								scaleX: 0,
-								scaleY: 0,
-								duration: 100,
-								ease: 'Linear',
-								onComplete: () => {
-									// 발사체 제거
-									bullet.setActive(false); // 그룹에서 비활성화
-									bullet.setVisible(false); // 화면에서 제거
-									bullet.body.stop(); // 속도 멈춤
-									bullet.body.enable = false; // 물리 비활성화
-									bullet.isFalling = false; // 상태 플래그 초기화
-								},
-							});
-						},
-					});
+						// 크기 증가 애니메이션
+						this.tweens.add({
+							targets: bullet,
+							scaleX: 1.5,
+							scaleY: 1.5,
+							yoyo: true,
+							duration: 200,
+							ease: 'Power2',
+							onComplete: () => {
+								// 크기 감소 애니메이션
+								this.tweens.add({
+									targets: bullet,
+									scaleX: 0,
+									scaleY: 0,
+									duration: 100,
+									ease: 'Linear',
+									onComplete: () => {
+										// 발사체 제거
+										bullet.setActive(false); // 그룹에서 비활성화
+										bullet.setVisible(false); // 화면에서 제거
+										bullet.body.stop(); // 속도 멈춤
+										bullet.body.enable = false; // 물리 비활성화
+										bullet.isFalling = false; // 상태 플래그 초기화
+									},
+								});
+							},
+						});
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	// drawTrajectory 함수 개선: 궤적 점을 실시간 확인
