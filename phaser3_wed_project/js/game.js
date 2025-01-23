@@ -215,7 +215,7 @@ class Example extends Phaser.Scene {
 		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 4; // 원의 반지름
-		const trajectoryLength = 300; // 궤적 길이 (픽셀 단위)
+		const trajectoryLength = 350; // 궤적 길이 (픽셀 단위)
 		const timeStep = 0.03; // 시간 간격
 
 		// 예상 궤적 그리기 함수
@@ -306,7 +306,7 @@ class Example extends Phaser.Scene {
 			loop: true, // 반복 실행
 			callback: () => {
 				// 길이 증가
-				//shaftLength += 2;
+				shaftLength += 2;
 
 				// 최대 길이에 도달하면 리셋
 				if (shaftLength > shaftLengthEnd) {
@@ -349,6 +349,13 @@ class Example extends Phaser.Scene {
 			
 			const minAngle = Phaser.Math.DegToRad(-180); // 왼쪽 아래 끝 (-180도)
 			const maxAngle = Phaser.Math.DegToRad(0);    // 위쪽 끝 (0도)
+			
+			// 각도를 범위 내로 제한
+			if (angle <= minAngle) {
+				angle = minAngle; // -180도보다 작으면 -180도로 고정
+			} else if (angle > maxAngle) {
+				angle = maxAngle; // 0도보다 크면 0도로 고정
+			}
 
 			// 각도를 범위 내로 클램핑
 			angle = Phaser.Math.Clamp(angle, minAngle, maxAngle);
