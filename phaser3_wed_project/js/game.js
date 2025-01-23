@@ -352,13 +352,7 @@ class Example extends Phaser.Scene {
 			const maxAngle = Phaser.Math.DegToRad(0);    // 0도
 
 			// 각도를 부드럽게 제한
-			if (angle < minAngle) {
-				angle = minAngle; // -180도 이하일 경우 -180도로 고정
-			} else if (angle > maxAngle) {
-				angle = maxAngle; // 0도 초과일 경우 0도로 고정
-			} else {
-				// 각도가 범위 내에 있을 경우 처리 (필요시 추가 동작)
-			}
+			angle = Phaser.Math.Clamp(angle, minAngle, maxAngle);
 
 			// 대포 머리의 회전 적용
 			cannonHead.rotation = angle + Math.PI / 2;
