@@ -610,24 +610,26 @@ class Example extends Phaser.Scene {
 			}
 
 			// 벽과의 충돌 체크
-			this.walls.children.iterate((wall) => {
-				wall.body.updateFromGameObject(); // 벽의 물리 데이터 갱신
-				if (
-					nextX + bulletWidth / 2 >= wall.body.left &&
-					nextX - bulletWidth / 2 <= wall.body.right &&
-					nextY + bulletHeight / 2 >= wall.body.top &&
-					nextY - bulletHeight / 2 <= wall.body.bottom
-				) {
-					// 충돌 방향 반사
-					if (nextX <= wall.body.left || nextX >= wall.body.right) {
-						vx *= -1;
+			if (this.walls && this.walls.children) {
+				this.walls.children.iterate((wall) => {
+					wall.body.updateFromGameObject(); // 벽의 물리 데이터 갱신
+					if (
+						nextX + bulletWidth / 2 >= wall.body.left &&
+						nextX - bulletWidth / 2 <= wall.body.right &&
+						nextY + bulletHeight / 2 >= wall.body.top &&
+						nextY - bulletHeight / 2 <= wall.body.bottom
+					) {
+						// 충돌 방향 반사
+						if (nextX <= wall.body.left || nextX >= wall.body.right) {
+							vx *= -1;
+						}
+						if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
+							vy *= -1;
+						}
+						bounceCount++;
 					}
-					if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
-						vy *= -1;
-					}
-					bounceCount++;
-				}
-			});
+				});
+			}
 
 			// 최대 충돌 횟수 초과 시 중단
 			if (bounceCount > maxBounces) break;
