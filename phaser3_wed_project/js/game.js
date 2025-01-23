@@ -577,9 +577,10 @@ class Example extends Phaser.Scene {
 	drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) {
 		if (this.graphics_cicle) {
 			this.graphics_cicle.clear();  // this.graphics_cicle이 정의되었을 때만 clear 호출
+			this.graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 		}
 		//this.graphics_cicle.clear(); // 기존 그래픽 지우기
-		this.graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
+		//this.graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
 		const gravity = this.physics.world.gravity.y; // 중력 가속도
 		const maxBounces = 5; // 최대 반사 횟수
@@ -632,8 +633,10 @@ class Example extends Phaser.Scene {
 			if (bounceCount > maxBounces) break;
 
 			// 현재 점을 그리기
-			this.graphics_cicle.fillStyle(0xffffff, currentAlpha);
-			this.graphics_cicle.fillCircle(nextX, nextY, this.pointRadius);
+			if (this.graphics_cicle) {
+				this.graphics_cicle.fillStyle(0xffffff, currentAlpha);
+				this.graphics_cicle.fillCircle(nextX, nextY, this.pointRadius);
+			}
 
 			// 궤적 길이 갱신
 			const dx = nextX - x;
