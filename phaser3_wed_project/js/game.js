@@ -100,12 +100,12 @@ class Example extends Phaser.Scene {
         });
 
 		// 초기 변수 설정
-		startX = /* 시작 X 좌표 */;
-		startY = /* 시작 Y 좌표 */;
-		velocityX = /* X 속도 */;
-		velocityY = /* Y 속도 */;
-		bulletWidth = /* 탄환 너비 */;
-		bulletHeight = /* 탄환 높이 */;
+		startX = 0/* 시작 X 좌표 */;
+		startY = 0/* 시작 Y 좌표 */;
+		velocityX = 0/* X 속도 */;
+		velocityY = 0/* Y 속도 */;
+		bulletWidth = 50/* 탄환 너비 */;
+		bulletHeight = 54/* 탄환 높이 */;
 
 		// 상태 변수 초기화
 		x = startX;
