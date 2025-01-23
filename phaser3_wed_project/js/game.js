@@ -141,7 +141,7 @@ class Example extends Phaser.Scene {
 			'goal'
 		).setDepth(1);
 
-        const cannonHead = this.add.image(this.scale.width / 2 -5, this.scale.height - 150, 'cannon_head').setDepth(1);
+        const cannonHead = this.add.image(this.scale.width / 2 -5, this.scale.height - 150 + 10, 'cannon_head').setDepth(1);
 		cannonHead.setOrigin(0.5, 1);
 
         const cannon = this.add.image(this.scale.width / 2, this.scale.height - 150, 'cannon_body').setDepth(2);
@@ -341,7 +341,16 @@ class Example extends Phaser.Scene {
 
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
-			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			//angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			//cannonHead.rotation = angle + Math.PI / 2;
+
+			// 포인터와 대포 머리 사이의 각도를 계산
+			angle1 = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+
+			// 각도를 0 ~ 180도 범위(라디안으로 0 ~ Math.PI)로 제한
+			angle = Phaser.Math.Clamp(angle1, 0, Math.PI);
+
+			// 대포 머리의 회전 적용
 			cannonHead.rotation = angle + Math.PI / 2;
 			
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
