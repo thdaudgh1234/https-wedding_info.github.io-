@@ -502,9 +502,9 @@ class Example extends Phaser.Scene {
 
 		const gravity = this.physics.world.gravity.y; // 중력 가속도
 		const maxBounces = 5; // 최대 반사 횟수
-		const timeStep = /* 시간 간격 */;
-		const trajectoryLength = /* 궤적 길이 */;
-		const pointRadius = /* 점의 반지름 */;
+		const timeStep = 0.03/* 시간 간격 */;
+		const trajectoryLength = 400/* 궤적 길이 */;
+		const pointRadius = 3/* 점의 반지름 */;
 		
 		// 궤적을 그리는 반복문
 		while (currentLength < trajectoryLength) {
