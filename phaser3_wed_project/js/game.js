@@ -496,7 +496,7 @@ class Example extends Phaser.Scene {
 
 	
 	//궤적그려주기
-	function drawTrajectory() {
+	drawTrajectory() {
 		graphics_cicle.clear(); // 기존 그래픽 지우기
 		graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
 
