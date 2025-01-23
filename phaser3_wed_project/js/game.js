@@ -145,7 +145,7 @@ class Example extends Phaser.Scene {
 		cannonHead.setOrigin(0.5, 1);
 
         const cannon = this.add.image(this.scale.width / 2, this.scale.height, 'cannon_body').setDepth(0);
-		cannon.setScale(2);
+		cannon.setScale(1);
 
 
         // 물리 세계 경계 설정 (화면 크기)
