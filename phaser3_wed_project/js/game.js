@@ -511,6 +511,23 @@ class Example extends Phaser.Scene {
             return; // 게임 시작 전에는 update 로직 실행 안 함
         }
 		
+		// 대포 머리의 앞쪽 기준으로 궤적 시작점 계산
+		const offsetDistance = 60; // 대포 머리 앞 거리
+		const startX = this.cannonHead.x + Math.cos(this.angle) * offsetDistance;
+		const startY = this.cannonHead.y + Math.sin(this.angle) * offsetDistance;
+
+		// 초기 속도 계산 (1200은 속도 크기)
+		const velocity = 1200; // 발사 속도
+		const velocityX = Math.cos(this.angle) * velocity;
+		const velocityY = Math.sin(this.angle) * velocity;
+
+		// 발사체 크기 (너비와 높이)
+		const bulletWidth = 50; // 기본 값: 50
+		const bulletHeight = 54; // 기본 값: 54
+
+		// 궤적 업데이트
+		this.drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
+
 
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
@@ -549,6 +566,79 @@ class Example extends Phaser.Scene {
 				}
 			}
 		});
+	}
+
+	// drawTrajectory 함수 개선: 궤적 점을 실시간 확인
+	drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) {
+		this.graphics_cicle.clear(); // 기존 그래픽 지우기
+		this.graphics_cicle.fillStyle(0xffffff, 0.8); // 원 색상과 투명도 설정
+
+		const gravity = this.physics.world.gravity.y; // 중력 가속도
+		const maxBounces = 5; // 최대 반사 횟수
+		let bounceCount = 0; // 반사 횟수
+
+		let x = startX; // 현재 X 좌표
+		let y = startY; // 현재 Y 좌표
+		let vx = velocityX; // 현재 X 속도
+		let vy = velocityY; // 현재 Y 속도
+
+		let currentLength = 0; // 현재 궤적 길이
+		let currentAlpha = 1.0; // 초기 투명도
+
+		while (currentLength < this.trajectoryLength) {
+			vy += gravity * this.timeStep; // 중력 적용
+			const nextX = x + vx * this.timeStep; // 다음 X 좌표
+			const nextY = y + vy * this.timeStep; // 다음 Y 좌표
+
+			// 경계 충돌 체크
+			if (nextX - bulletWidth / 2 <= 0 || nextX + bulletWidth / 2 >= this.scale.width) {
+				vx *= -1; // X축 반사
+				bounceCount++;
+			}
+			if (nextY - bulletHeight / 2 <= 0 || nextY + bulletHeight / 2 >= this.scale.height) {
+				vy *= -1; // Y축 반사
+				bounceCount++;
+			}
+
+			// 벽과의 충돌 체크
+			this.walls.children.iterate((wall) => {
+				wall.body.updateFromGameObject(); // 벽의 물리 데이터 갱신
+				if (
+					nextX + bulletWidth / 2 >= wall.body.left &&
+					nextX - bulletWidth / 2 <= wall.body.right &&
+					nextY + bulletHeight / 2 >= wall.body.top &&
+					nextY - bulletHeight / 2 <= wall.body.bottom
+				) {
+					// 충돌 방향 반사
+					if (nextX <= wall.body.left || nextX >= wall.body.right) {
+						vx *= -1;
+					}
+					if (nextY <= wall.body.top || nextY >= wall.body.bottom) {
+						vy *= -1;
+					}
+					bounceCount++;
+				}
+			});
+
+			// 최대 충돌 횟수 초과 시 중단
+			if (bounceCount > maxBounces) break;
+
+			// 현재 점을 그리기
+			this.graphics_cicle.fillStyle(0xffffff, currentAlpha);
+			this.graphics_cicle.fillCircle(nextX, nextY, this.pointRadius);
+
+			// 궤적 길이 갱신
+			const dx = nextX - x;
+			const dy = nextY - y;
+			currentLength += Math.sqrt(dx * dx + dy * dy);
+
+			// 투명도 점진적으로 감소
+			currentAlpha = Math.max(0, 1 - currentLength / this.trajectoryLength);
+
+			// 위치 갱신
+			x = nextX;
+			y = nextY;
+		}
 	}
 
 /*
