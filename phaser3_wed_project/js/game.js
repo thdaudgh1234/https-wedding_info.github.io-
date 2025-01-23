@@ -214,8 +214,8 @@ class Example extends Phaser.Scene {
 		let angle = 90; // 초기 각도
 		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
-		const pointRadius = 5; // 원의 반지름
-		const trajectoryLength = 400; // 궤적 길이 (픽셀 단위)
+		const pointRadius = 4; // 원의 반지름
+		const trajectoryLength = 300; // 궤적 길이 (픽셀 단위)
 		const timeStep = 0.03; // 시간 간격
 
 		// 예상 궤적 그리기 함수
@@ -321,8 +321,8 @@ class Example extends Phaser.Scene {
 				const triangleY = startY + Math.sin(angle) * shaftLength;
 
 				const scale = 1 - ((shaftLength - shaftLengthStart) / (shaftLengthEnd - shaftLengthStart)); // 크기 계산
-				const arrowHeight = 40 * scale; // 삼각형 높이
-				const arrowWidth = 40 * scale; // 삼각형 밑변 너비
+				const arrowHeight = 30 * scale; // 삼각형 높이
+				const arrowWidth = 30 * scale; // 삼각형 밑변 너비
 
 				const arrowHead = new Phaser.Geom.Triangle(
 					triangleX, triangleY,
@@ -348,8 +348,8 @@ class Example extends Phaser.Scene {
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			
 			// 각도를 위쪽 부채꼴 범위로 제한 (예: -90도 ~ +90도)
-			const minAngle = Phaser.Math.DegToRad(-90); // -90도 (위쪽 왼쪽 끝)
-			const maxAngle = Phaser.Math.DegToRad(90);  // +90도 (위쪽 오른쪽 끝)
+			const minAngle = Phaser.Math.DegToRad(-180); // -90도 (위쪽 왼쪽 끝)
+			const maxAngle = Phaser.Math.DegToRad(0);  // +90도 (위쪽 오른쪽 끝)
 
 			// 각도를 범위 내로 클램핑
 			angle = Phaser.Math.Clamp(angle, minAngle, maxAngle);
