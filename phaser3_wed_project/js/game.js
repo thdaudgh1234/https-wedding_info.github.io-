@@ -142,7 +142,7 @@ class Example extends Phaser.Scene {
 		).setDepth(1);
 
         const cannonHead = this.add.image(this.scale.width / 2 -5, this.scale.height - 150 + 10, 'cannon_head').setDepth(1);
-		cannonHead.setOrigin(0.5, 1);
+		cannonHead.setOrigin(0.5, 0.9);
 
         const cannon = this.add.image(this.scale.width / 2, this.scale.height - 150, 'cannon_body').setDepth(2);
 		cannon.setScale(1);
