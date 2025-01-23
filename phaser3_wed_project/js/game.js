@@ -298,7 +298,13 @@ class Example extends Phaser.Scene {
 				y = nextY;
 			}
 		};
-
+		
+		this.time.addEvent({
+			delay: 16, // 60FPS에 맞게 16ms마다 실행
+			callback: drawTrajectory,
+			callbackScope: this,
+			loop: true,
+		});
 
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
