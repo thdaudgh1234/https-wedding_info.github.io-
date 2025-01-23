@@ -367,9 +367,6 @@ class Example extends Phaser.Scene {
 				angle = maxAngle; // -1도 초과일 경우 -1도로 고정
 			}
 
-			// 다시 각도를 라디안으로 변환
-			angle = Phaser.Math.DegToRad(angleInDegrees);
-
 			// 대포 머리 회전 적용
 			cannonHead.rotation = angle + Math.PI / 2;
 			
