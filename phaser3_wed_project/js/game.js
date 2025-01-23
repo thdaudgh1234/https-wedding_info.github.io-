@@ -343,11 +343,11 @@ class Example extends Phaser.Scene {
 		this.input.on('pointermove', (pointer) => {
 
 			// 텍스트를 화면에 표시할 위치
-			const textX = 50;
-			const textY = 50;
+			//const textX = 50;
+			//const textY = 50;
 
 			// Phaser 텍스트 객체 생성
-			const angleText = this.add.text(textX, textY, '', { fontSize: '20px', fill: '#ffffff' });
+			//const angleText = this.add.text(textX, textY, '', { fontSize: '20px', fill: '#ffffff' });
 
 
 			//angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
@@ -396,7 +396,7 @@ class Example extends Phaser.Scene {
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 
 			// 텍스트에 각도 값을 표시
-			angleText.setText('Angle: ' + angleInDegrees.toFixed(2) + '°');
+			//angleText.setText('Angle: ' + angleInDegrees.toFixed(2) + '°');
 		});
 
 		
