@@ -349,7 +349,7 @@ class Example extends Phaser.Scene {
 			
 			// 각도를 -180도에서 0도 사이로 제한
 			const minAngle = Phaser.Math.DegToRad(-179); // -180도
-			const maxAngle = Phaser.Math.DegToRad(1);    // 0도
+			const maxAngle = Phaser.Math.DegToRad(-1);    // 0도
 
 			// 각도를 부드럽게 제한
 			angle = Phaser.Math.Clamp(angle, minAngle, maxAngle);
