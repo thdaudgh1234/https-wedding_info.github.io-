@@ -347,18 +347,12 @@ class Example extends Phaser.Scene {
 			// 포인터와 대포 머리 사이의 각도를 계산
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			
-			const minAngle = Phaser.Math.DegToRad(-180); // 왼쪽 아래 끝 (-180도)
-			const maxAngle = Phaser.Math.DegToRad(0);    // 위쪽 끝 (0도)
-			
-			// 각도를 범위 내로 제한
-			if (angle <= minAngle) {
-				angle = minAngle; // -180도보다 작으면 -180도로 고정
-			} else if (angle > maxAngle) {
-				angle = maxAngle; // 0도보다 크면 0도로 고정
+			// 각도를 -180도에서 0도 사이로 보정
+			if (angle < Phaser.Math.DegToRad(-180)) {
+				angle = Phaser.Math.DegToRad(-180); // -180도 이하일 경우 -180도로 고정
+			} else if (angle > Phaser.Math.DegToRad(0)) {
+				angle = Phaser.Math.DegToRad(0); // 0도 초과일 경우 0도로 고정
 			}
-
-			// 각도를 범위 내로 클램핑
-			//angle = Phaser.Math.Clamp(angle, minAngle, maxAngle);
 
 			// 대포 머리의 회전 적용
 			cannonHead.rotation = angle + Math.PI / 2;
