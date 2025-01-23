@@ -141,7 +141,7 @@ class Example extends Phaser.Scene {
 			'goal'
 		).setDepth(1);
 
-        const cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 20 - 150, 'cannon_head').setDepth(1);
+        this.cannonHead = this.add.image(this.scale.width / 2, this.scale.height - 20 - 150, 'cannon_head').setDepth(1);
 		cannonHead.setOrigin(0.5, 1);
 
         const cannon = this.add.image(this.scale.width / 2, this.scale.height - 150, 'cannon_body').setDepth(0);
@@ -211,7 +211,7 @@ class Example extends Phaser.Scene {
 		const shaftLengthStart = 150; // 시작 거리
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
-		let angle = 90; // 초기 각도
+		this.angle = 90; // 초기 각도
 		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 5; // 원의 반지름
@@ -511,6 +511,11 @@ class Example extends Phaser.Scene {
             return; // 게임 시작 전에는 update 로직 실행 안 함
         }
 		
+		if (!this.cannonHead) {
+			console.log("CannonHead is not defined yet!");
+			return;
+		}
+
 		// 대포 머리의 앞쪽 기준으로 궤적 시작점 계산
 		const offsetDistance = 60; // 대포 머리 앞 거리
 		const startX = this.cannonHead.x + Math.cos(this.angle) * offsetDistance;
