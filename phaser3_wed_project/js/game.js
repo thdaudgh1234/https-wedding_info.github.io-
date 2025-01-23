@@ -366,17 +366,17 @@ class Example extends Phaser.Scene {
 			// 각도가 -179도 이하일 경우 -179도로 고정
 			if (angleInDegrees <= minAngle) {
 				angleInDegrees = minAngle;
-				angle = Phaser.Math.DegToRad(-179);
+				//angle = Phaser.Math.DegToRad(-179);
 			} else if (angleInDegrees > maxAngle) {
 				angleInDegrees = maxAngle;
-				angle = Phaser.Math.DegToRad(angleInDegrees);
+				//angle = Phaser.Math.DegToRad(angleInDegrees);
 			}
 
 			// 다시 각도를 라디안으로 변환
 			//angle = Phaser.Math.DegToRad(angleInDegrees);
 
 			// 대포 머리 회전 적용
-			cannonHead.rotation = angle + Math.PI / 2;
+			cannonHead.rotation = angleInDegrees + Math.PI / 2;
 			
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
 			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
