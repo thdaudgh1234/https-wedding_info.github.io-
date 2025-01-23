@@ -96,77 +96,6 @@ class Example extends Phaser.Scene {
             this.startGame();
         });
 
-		// Graphics 객체 초기화
-        this.graphics_cicle = this.add.graphics();
-
-        // 궤적 관련 변수
-        this.startX = 100; // 궤적 시작 위치
-        this.startY = 100;
-        this.velocityX = 200; // 초기 속도 X
-        this.velocityY = -200; // 초기 속도 Y
-        this.bulletWidth = 10;
-        this.bulletHeight = 10;
-        this.trajectoryLength = 500; // 궤적 최대 길이
-        this.pointRadius = 2; // 점 크기
-        this.timeStep = 0.016; // 시뮬레이션 타임스텝 (약 60FPS)
-
-        // `drawTrajectory` 함수 정의
-        this.drawTrajectory = () => {
-            const graphics = this.graphics_cicle;
-            graphics.clear(); // 기존 그래픽 지우기
-            graphics.fillStyle(0xffffff, 0.8); // 색상 설정
-
-            const gravity = this.physics.world.gravity.y;
-            let x = this.startX;
-            let y = this.startY;
-            let vx = this.velocityX;
-            let vy = this.velocityY;
-
-            let currentLength = 0;
-            let currentAlpha = 1.0;
-            const maxBounces = 5;
-            let bounceCount = 0;
-
-            while (currentLength < this.trajectoryLength) {
-                vy += gravity * this.timeStep;
-
-                const nextX = x + vx * this.timeStep;
-                const nextY = y + vy * this.timeStep;
-
-                if (nextX <= 0 || nextX >= this.scale.width) {
-                    vx *= -1;
-                    bounceCount++;
-                }
-                if (nextY <= 0 || nextY >= this.scale.height) {
-                    vy *= -1;
-                    bounceCount++;
-                }
-
-                if (bounceCount > maxBounces) break;
-
-                graphics.fillStyle(0xffffff, currentAlpha);
-                graphics.fillCircle(nextX, nextY, this.pointRadius);
-
-                const dx = nextX - x;
-                const dy = nextY - y;
-                currentLength += Math.sqrt(dx * dx + dy * dy);
-
-                currentAlpha = Math.max(0, 1 - currentLength / this.trajectoryLength);
-
-                x = nextX;
-                y = nextY;
-            }
-        };
-
-        // 궤적을 주기적으로 업데이트
-        this.time.addEvent({
-            delay: 16, // 60FPS에 맞게 16ms마다 실행
-            callback: this.drawTrajectory,
-            callbackScope: this,
-            loop: true,
-        });
-
-
 	}
 
 
@@ -288,7 +217,7 @@ class Example extends Phaser.Scene {
 		const pointRadius = 5; // 원의 반지름
 		const trajectoryLength = 400; // 궤적 길이 (픽셀 단위)
 		const timeStep = 0.03; // 시간 간격
-		
+
 		// 예상 궤적 그리기 함수
 		const drawTrajectory = (startX, startY, velocityX, velocityY, bulletWidth, bulletHeight) => {
 			graphics_cicle.clear(); // 기존 그래픽 지우기
@@ -370,6 +299,7 @@ class Example extends Phaser.Scene {
 			}
 		};
 
+
 		// 대포 조준선 애니메이션 이벤트
 		this.time.addEvent({
 			delay: 15, // 15ms 간격으로 업데이트
@@ -429,7 +359,7 @@ class Example extends Phaser.Scene {
 			const bulletHeight = 54; // 기본 값: 54
 
 			// 궤적 업데이트
-			//drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
+			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
 
 		
