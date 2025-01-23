@@ -215,7 +215,7 @@ class Example extends Phaser.Scene {
 		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 5; // 원의 반지름
-		const trajectoryLength = 500; // 궤적 길이 (픽셀 단위)
+		const trajectoryLength = 400; // 궤적 길이 (픽셀 단위)
 		const timeStep = 0.03; // 시간 간격
 
 		// 예상 궤적 그리기 함수
@@ -264,6 +264,11 @@ class Example extends Phaser.Scene {
 						nextY + bulletHeight / 2 >= wall.body.top &&
 						nextY - bulletHeight / 2 <= wall.body.bottom
 					) {
+						
+						//벽과 충돌하면 궤적 그리지 x
+						currentAlpha = 0;
+
+						/*
 						// 충돌 방향에 따른 반사 처리
 						if (nextX <= wall.body.left || nextX >= wall.body.right) {
 							vx *= -1; // X축 반사
@@ -272,6 +277,7 @@ class Example extends Phaser.Scene {
 							vy *= -1; // Y축 반사
 						}
 						bounceCount++; // 반사 횟수 증가
+						*/
 					}
 				});
 
