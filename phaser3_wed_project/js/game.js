@@ -347,23 +347,19 @@ class Example extends Phaser.Scene {
 			// 라디안 값 계산
 			let angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			
-			// 라디안 값을 0에서 2π 범위로 변환
-			if (angle < 0) {
-				angle += Math.PI * 2;  // 음수 각도는 360도를 더해 0 ~ 2π 범위로 변환
+			// -179 라디안에서 -1 라디안 사이로 제한
+			const minAngle = Phaser.Math.DegToRad(-179); // -179도 -> 라디안
+			const maxAngle = Phaser.Math.DegToRad(-1);   // -1도 -> 라디안
+
+			// 각도를 범위 내로 제한
+			if (angle < minAngle) {
+				angle = minAngle; // -179 라디안 이하일 경우 -179 라디안으로 고정
+			} else if (angle > maxAngle) {
+				angle = maxAngle; // -1 라디안 초과일 경우 -1 라디안으로 고정
 			}
 
-			// 라디안을 0도에서 360도 범위로 변환 (도 단위로)
-			let degree = Phaser.Math.RadToDeg(angle);  // 라디안 -> 도
-
-			// 대포 회전 범위를 0도에서 180도 사이로 제한
-			if (degree < 0) {
-				degree = 0;  // 0도 미만일 경우 0으로 고정
-			} else if (degree > 180) {
-				degree = 180;  // 180도 초과일 경우 180으로 고정
-			}
-
-			// 대포 회전 적용 (라디안으로 변환해서 회전 적용)
-			cannonHead.rotation = Phaser.Math.DegToRad(degree);  // 도 -> 라디안으로 변환하여 회전 적용
+			// 대포 회전 적용
+			cannonHead.rotation = angle;
 
 			
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
