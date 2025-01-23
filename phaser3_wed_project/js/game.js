@@ -358,7 +358,7 @@ class Example extends Phaser.Scene {
 			}
 
 			// 각도를 범위 내로 클램핑
-			angle = Phaser.Math.Clamp(angle, minAngle, maxAngle);
+			//angle = Phaser.Math.Clamp(angle, minAngle, maxAngle);
 
 			// 대포 머리의 회전 적용
 			cannonHead.rotation = angle + Math.PI / 2;
