@@ -538,7 +538,7 @@ class Example extends Phaser.Scene {
             return; // 게임 시작 전에는 update 로직 실행 안 함
         }
 		
-		drawTrajectory.call(this); // 궤적 그리기 함수 호출
+		drawTrajectory(this); // 궤적 그리기 함수 호출
 
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
