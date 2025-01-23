@@ -341,6 +341,15 @@ class Example extends Phaser.Scene {
 
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
+
+			// 텍스트를 화면에 표시할 위치
+			const textX = 50;
+			const textY = 50;
+
+			// Phaser 텍스트 객체 생성
+			const angleText = this.add.text(textX, textY, '', { fontSize: '20px', fill: '#ffffff' });
+
+
 			//angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			//cannonHead.rotation = angle + Math.PI / 2;
 
@@ -357,7 +366,9 @@ class Example extends Phaser.Scene {
 			// 각도가 -179도보다 작으면 -179도로 고정
 			if (angle <= minAngle) {
 				angle = minAngle; // -179도 이하일 경우 -179도로 고정
-			} else if (angle > maxAngle) {
+			}
+			
+			if (angle >= maxAngle) {
 				angle = maxAngle; // -1도를 초과할 경우 -1도로 고정
 			}
 
@@ -383,6 +394,9 @@ class Example extends Phaser.Scene {
 
 			// 궤적 업데이트
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
+
+			// 텍스트에 각도 값을 표시
+			angleText.setText('Angle: ' + angleInDegrees.toFixed(2) + '°');
 		});
 
 		
