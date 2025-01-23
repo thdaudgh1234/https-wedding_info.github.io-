@@ -341,35 +341,30 @@ class Example extends Phaser.Scene {
 
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
-
-			// 텍스트를 화면에 표시할 위치
-			//const textX = 50;
-			//const textY = 50;
-
-			// Phaser 텍스트 객체 생성
-			//const angleText = this.add.text(textX, textY, '', { fontSize: '20px', fill: '#ffffff' });
-
-
 			//angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			//cannonHead.rotation = angle + Math.PI / 2;
 
+			// 라디안 값 계산
 			let angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-
-			// 각도를 -179도에서 -1도 사이로 제한 (각도 기준)
-			angle = Phaser.Math.RadToDeg(angle); // 라디안에서 각도로 변환
-
-			// 각도 범위를 -179도와 -1도 사이로 제한
-			if (angle < -179) {
-				angle = -179; // -179도 이하일 경우 -179도로 고정
-			} else if (angle > -1) {
-				angle = -1; // -1도 초과일 경우 -1도로 고정
+			
+			// 라디안 값을 0에서 2π 범위로 변환
+			if (angle < 0) {
+				angle += Math.PI * 2;  // 음수 각도는 360도를 더해 0 ~ 2π 범위로 변환
 			}
 
-			// 제한된 각도를 다시 라디안으로 변환
-			angle = Phaser.Math.DegToRad(angle);
+			// 라디안을 0도에서 360도 범위로 변환 (도 단위로)
+			let degree = Phaser.Math.RadToDeg(angle);  // 라디안 -> 도
 
-			// 대포 머리의 회전 적용
-			cannonHead.rotation = angle + Math.PI / 2;
+			// 대포 회전 범위를 0도에서 180도 사이로 제한
+			if (degree < 0) {
+				degree = 0;  // 0도 미만일 경우 0으로 고정
+			} else if (degree > 180) {
+				degree = 180;  // 180도 초과일 경우 180으로 고정
+			}
+
+			// 대포 회전 적용 (라디안으로 변환해서 회전 적용)
+			cannonHead.rotation = Phaser.Math.DegToRad(degree);  // 도 -> 라디안으로 변환하여 회전 적용
+
 			
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
 			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
@@ -387,9 +382,6 @@ class Example extends Phaser.Scene {
 
 			// 궤적 업데이트
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
-
-			// 텍스트에 각도 값을 표시
-			//angleText.setText('Angle: ' + angleInDegrees.toFixed(2) + '°');
 		});
 
 		
