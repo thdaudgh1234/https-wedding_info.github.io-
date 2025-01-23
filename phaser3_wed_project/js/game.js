@@ -1,21 +1,28 @@
 class Example extends Phaser.Scene {
 	
-	// 초기 설정 코드
-	let startX = 100; // 시작 X 좌표
-	let startY = 100; // 시작 Y 좌표
-	let velocityX = 200; // X 속도
-	let velocityY = 200; // Y 속도
-	let bulletWidth = 20; // 탄환 너비
-	let bulletHeight = 20; // 탄환 높이
-	let trajectoryLength = 1000; // 궤적 길이
-	let pointRadius = 5; // 점의 반지름
-	let timeStep = 0.016; // 시간 간격 (대략 60fps 기준)
-
-	let x, y, vx, vy, currentLength, currentAlpha, bounceCount;
+	
 
 	constructor() {
         super();
         this.isGameStarted = false; // 게임 시작 상태 플래그
+		// 초기 설정 코드
+		this.startX = 100; // 시작 X 좌표
+		this.startY = 100; // 시작 Y 좌표
+		this.velocityX = 200; // X 속도
+		this.velocityY = 200; // Y 속도
+		this.bulletWidth = 20; // 탄환 너비
+		this.bulletHeight = 20; // 탄환 높이
+		this.trajectoryLength = 1000; // 궤적 길이
+		this.pointRadius = 5; // 점의 반지름
+		this.timeStep = 0.016; // 시간 간격 (대략 60fps 기준)
+
+		this.x=0;
+		this.y=0;
+		this.vx=0;
+		this.vy=0;
+		this.currentLength=0;
+		this.currentAlpha=0;
+		this.bounceCount=0;
     }
 
     preload() {
