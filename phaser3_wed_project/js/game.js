@@ -29,6 +29,7 @@ class Example extends Phaser.Scene {
 
 
 	create() {
+
 		// 뒷배경 설정
 		const backdrop = this.add.image(0, 0, 'backdrop').setOrigin(0.5, 0.5);
 		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2);
@@ -160,6 +161,10 @@ class Example extends Phaser.Scene {
 		// 벽 그룹 생성
         const walls = this.physics.add.staticGroup();
 		
+		
+		// create 함수에서 초기화
+		this.physics.overlap(this.bullets, walls, this.handleBulletWallCollision, null, this);
+
 		/*
         // 랜덤 위치에 벽 생성 (cannon_head.y - 100 ~ 천장까지)
         for (let i = 0; i < 5; i++) {
@@ -265,10 +270,6 @@ class Example extends Phaser.Scene {
 						nextY - bulletHeight / 2 <= wall.body.bottom
 					) {
 						
-						//벽과 충돌하면 궤적 그리지 x
-						currentAlpha = 0;
-
-						/*
 						// 충돌 방향에 따른 반사 처리
 						if (nextX <= wall.body.left || nextX >= wall.body.right) {
 							vx *= -1; // X축 반사
@@ -277,7 +278,6 @@ class Example extends Phaser.Scene {
 							vy *= -1; // Y축 반사
 						}
 						bounceCount++; // 반사 횟수 증가
-						*/
 					}
 				});
 
@@ -473,6 +473,19 @@ class Example extends Phaser.Scene {
 
         this.bullets = bullets; // 업데이트 메서드에서 사용하기 위해 저장
     }
+	
+	// 충돌 이벤트 핸들러
+	handleBulletWallCollision(bullet, wall) {
+		// 충돌 시 궤적 재계산
+		const startX = bullet.x;
+		const startY = bullet.y;
+		const velocityX = bullet.body.velocity.x;
+		const velocityY = bullet.body.velocity.y;
+		drawTrajectory(startX, startY, velocityX, velocityY, bullet.width, bullet.height);
+
+		// 추가적인 충돌 처리 (예: 반사, 파괴 등)
+		
+	}
 
 	//폭죽 애니메이션
 	startFireworks() {
