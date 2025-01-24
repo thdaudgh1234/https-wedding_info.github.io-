@@ -341,23 +341,27 @@ class Example extends Phaser.Scene {
 
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
-			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
-			let angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			// 대포와 포인터 사이의 각도를 계산
+			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 
-			// 라디안을 도 단위로 변환
+			// 포인터와 대포 머리 사이의 각도를 도 단위로 변환
 			let newAngle = Phaser.Math.RadToDeg(angle);
 
-			// 기준 각도 +90도를 적용 (대포가 기본적으로 위쪽을 바라보게 설정)
+			// 기준 각도 +90도를 적용 (대포 기본 방향 설정)
 			newAngle += 90;
 
-			// 각도를 -90도에서 90도 범위로 제한
-			if (newAngle < -90) {
-				newAngle = -90; // -90도 이하로 내려가지 않도록 설정
-			} else if (newAngle > 90) {
-				newAngle = 90; // 90도 이상으로 넘어가지 않도록 설정
+			// 포인터 위치에 따라 3사분면인지 확인
+			if (pointer.x < cannonHead.x && pointer.y > cannonHead.y) {
+				// 포인터가 3사분면에 있을 경우 각도를 -90도로 고정
+				newAngle = -90;
+			} else {
+				// 각도 제한 (대포가 -90도에서 90도 사이에서만 회전)
+				if (newAngle < -90) {
+					newAngle = -90;
+				} else if (newAngle > 90) {
+					newAngle = 90;
+				}
 			}
-			
-			console.log(newAngle);
 
 			// 대포 머리 회전 적용
 			cannonHead.angle = newAngle;
