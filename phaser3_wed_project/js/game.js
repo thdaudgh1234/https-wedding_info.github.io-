@@ -345,23 +345,32 @@ class Example extends Phaser.Scene {
 			//cannonHead.rotation = angle + Math.PI / 2;
 
 			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
-			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			let newAngle = Phaser.Math.RadToDeg(Phaser.Math.Angle.BetweenPoints(cannonHead, pointer));
 
-			// 라디안 각도를 Deg로 변환 (-180 ~ 180 범위로 변환)
-			let angleInDegrees = Phaser.Math.RadToDeg(angle);
+			// 기존 대포 머리의 각도
+			let currentAngle = Phaser.Math.RadToDeg(cannonHead.rotation - Math.PI / 2);
 
-			// 각도를 제한 (-180도 ~ 0도)
-			if (angleInDegrees < -180) {
-				angleInDegrees = -180; // -180도로 고정
-			} else if (angleInDegrees > 0) {
-				angleInDegrees = 0; // 0도로 고정
+			// 각도 변화 보정 (360도 순환 문제 해결)
+			if (newAngle - currentAngle > 180) {
+				newAngle -= 360;
+			} else if (newAngle - currentAngle < -180) {
+				newAngle += 360;
 			}
 
-			// 각도를 다시 라디안으로 변환
-			angle = Phaser.Math.DegToRad(angleInDegrees);
+			// -180도 이하로 넘어가면 -180도에 고정
+			if (newAngle < -180) {
+				newAngle = -180;
+			}
 
-			// 대포 머리 회전 적용
-			cannonHead.rotation = angle + Math.PI / 2;
+			// 0도 이상으로 넘어가면 0도에 고정
+			if (newAngle > 0) {
+				newAngle = 0;
+			}
+			
+			angle = newAngle + 90;
+
+			// 대포 머리 회전 적용 (Phaser는 0도가 위쪽이므로 +90도 보정 필요)
+			cannonHead.rotation = Phaser.Math.DegToRad(angle);
 			
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
 			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
