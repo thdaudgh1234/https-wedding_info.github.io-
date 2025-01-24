@@ -341,34 +341,35 @@ class Example extends Phaser.Scene {
 
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
-			 // 포인터와 대포 머리 사이의 각도를 계산 (라디안)
-			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
+			let angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 
 			// 라디안을 도 단위로 변환
-			let newAngle = Phaser.Math.RadToDeg(angle); // `angle`을 도 단위로 변환
+			let newAngle = Phaser.Math.RadToDeg(angle);
 
-			// 기본 각도 +90을 적용
-			newAngle += 90; // 기본 각도를 +90으로 설정 (위쪽 방향을 기준으로 조정)
+			// 기준 각도 +90도를 적용 (대포가 기본적으로 위쪽을 바라보게 설정)
+			newAngle += 90;
 
-			// 각도 제한 (0~180도 범위로 제한)
+			// 각도를 -90도에서 90도 범위로 제한
 			if (newAngle < -90) {
 				newAngle = -90; // -90도 이하로 내려가지 않도록 설정
 			} else if (newAngle > 90) {
 				newAngle = 90; // 90도 이상으로 넘어가지 않도록 설정
 			}
 
-			// 대포 머리 회전 적용 (각도를 그대로 설정)
+			// 대포 머리 회전 적용
 			cannonHead.angle = newAngle;
 
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
 			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
-			const startX = cannonHead.x + Math.cos(Phaser.Math.DegToRad(newAngle - 90)) * offsetDistance;
-			const startY = cannonHead.y + Math.sin(Phaser.Math.DegToRad(newAngle - 90)) * offsetDistance;
+			const radianAngle = Phaser.Math.DegToRad(newAngle - 90); // 궤적 계산에 사용할 라디안 각도
+			const startX = cannonHead.x + Math.cos(radianAngle) * offsetDistance;
+			const startY = cannonHead.y + Math.sin(radianAngle) * offsetDistance;
 
 			// 초기 속도 계산 (1200은 속도 크기)
 			const velocity = 1200;
-			const velocityX = Math.cos(Phaser.Math.DegToRad(newAngle - 90)) * velocity;
-			const velocityY = Math.sin(Phaser.Math.DegToRad(newAngle - 90)) * velocity;
+			const velocityX = Math.cos(radianAngle) * velocity;
+			const velocityY = Math.sin(radianAngle) * velocity;
 
 			// 발사체의 크기 가져오기
 			const bulletWidth = 50; // 기본 값: 50
