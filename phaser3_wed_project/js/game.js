@@ -334,7 +334,7 @@ class Example extends Phaser.Scene {
 
 				// 그래픽 업데이트
 				graphics.clear();
-				graphics.fillStyle(0xffffff);
+				graphics.fillStyle(0xFF5733, 1); // 밝은 붉은색, 불투명
 				graphics.fillTriangleShape(arrowHead);
 			},
 		});
