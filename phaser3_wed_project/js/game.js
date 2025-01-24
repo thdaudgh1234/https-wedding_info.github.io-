@@ -380,7 +380,7 @@ class Example extends Phaser.Scene {
 			// 발사체의 크기 가져오기
 			const bulletWidth = 50; // 기본 값: 50
 			const bulletHeight = 54; // 기본 값: 54
-			
+
 			// 궤적 업데이트
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
