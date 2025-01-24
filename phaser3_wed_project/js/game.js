@@ -342,10 +342,10 @@ class Example extends Phaser.Scene {
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
 			// 대포와 포인터 사이의 각도를 계산
-			let angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			let angle_temp = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 
 			// 포인터와 대포 머리 사이의 각도를 도 단위로 변환
-			let newAngle = Phaser.Math.RadToDeg(angle);
+			let newAngle = Phaser.Math.RadToDeg(angle_temp);
 
 			// 기준 각도 +90도를 적용 (대포 기본 방향 설정)
 			newAngle += 90;
