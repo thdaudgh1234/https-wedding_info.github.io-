@@ -368,7 +368,7 @@ class Example extends Phaser.Scene {
 			// 대포 머리 회전 적용 (라디안으로 변환하지 않고 직접 설정)
 			cannonHead.angle = newAngle;
 			
-			angle_tra = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer)-90;
+			angle_tra = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer)- Math.PI / 2;
 
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
 			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
