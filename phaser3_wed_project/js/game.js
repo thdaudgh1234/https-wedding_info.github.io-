@@ -370,7 +370,7 @@ class Example extends Phaser.Scene {
 			cannonHead.angle = newAngle;
 
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
-			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
+			const offsetDistance = 100; // 대포 head 앞쪽 거리 (픽셀)
 			const radianAngle = Phaser.Math.DegToRad(newAngle - 90); // 궤적 계산에 사용할 라디안 각도
 			const startX = cannonHead.x + Math.cos(radianAngle) * offsetDistance;
 			const startY = cannonHead.y + Math.sin(radianAngle) * offsetDistance;
