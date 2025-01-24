@@ -356,6 +356,8 @@ class Example extends Phaser.Scene {
 			} else if (newAngle > 90) {
 				newAngle = 90; // 90도 이상으로 넘어가지 않도록 설정
 			}
+			
+			console.log(newAngle);
 
 			// 대포 머리 회전 적용
 			cannonHead.angle = newAngle;
