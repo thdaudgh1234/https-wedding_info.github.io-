@@ -342,8 +342,7 @@ class Example extends Phaser.Scene {
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-			//cannonHead.rotation = angle + Math.PI / 2;
-
+    
 			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
 			let newAngle = Phaser.Math.RadToDeg(Phaser.Math.Angle.BetweenPoints(cannonHead, pointer));
 
@@ -357,9 +356,9 @@ class Example extends Phaser.Scene {
 				newAngle += 360;
 			}
 
-			// 각도를 제한 (-180 ~ 0 사이)
-			if (newAngle < -180) {
-				newAngle = -180; // -180도 고정
+			// 각도를 제한 (-90 ~ 0 사이)
+			if (newAngle < -90) {
+				newAngle = -90; // -90도 고정
 			} else if (newAngle > 0) {
 				newAngle = 0; // 0도 고정
 			}
