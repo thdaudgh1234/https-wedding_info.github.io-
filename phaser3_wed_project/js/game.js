@@ -341,7 +341,7 @@ class Example extends Phaser.Scene {
 
 		// 포인터 이동 시 각도 업데이트
 		this.input.on('pointermove', (pointer) => {
-			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			//angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 			//cannonHead.rotation = angle + Math.PI / 2;
 
 			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
@@ -381,6 +381,8 @@ class Example extends Phaser.Scene {
 			const bulletWidth = 50; // 기본 값: 50
 			const bulletHeight = 54; // 기본 값: 54
 			
+			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+
 			// 궤적 업데이트
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
