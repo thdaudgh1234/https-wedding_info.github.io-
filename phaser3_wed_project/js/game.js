@@ -212,6 +212,7 @@ class Example extends Phaser.Scene {
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
 		let angle = 90; // 초기 각도
+		let angle_tra = 90;
 		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 4; // 원의 반지름
@@ -317,8 +318,8 @@ class Example extends Phaser.Scene {
 				const startX = cannonHead.x;
 				const startY = cannonHead.y;
 
-				const triangleX = startX + Math.cos(angle) * shaftLength;
-				const triangleY = startY + Math.sin(angle) * shaftLength;
+				const triangleX = startX + Math.cos(angle_tra) * shaftLength;
+				const triangleY = startY + Math.sin(angle_tra) * shaftLength;
 
 				const scale = 1 - ((shaftLength - shaftLengthStart) / (shaftLengthEnd - shaftLengthStart)); // 크기 계산
 				const arrowHeight = 30 * scale; // 삼각형 높이
@@ -326,10 +327,10 @@ class Example extends Phaser.Scene {
 
 				const arrowHead = new Phaser.Geom.Triangle(
 					triangleX, triangleY,
-					triangleX - Math.cos(angle - Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
-					triangleY - Math.sin(angle - Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight,
-					triangleX - Math.cos(angle + Math.PI / 2) * arrowWidth / 2 - Math.cos(angle) * arrowHeight,
-					triangleY - Math.sin(angle + Math.PI / 2) * arrowWidth / 2 - Math.sin(angle) * arrowHeight
+					triangleX - Math.cos(angle_tra - Math.PI / 2) * arrowWidth / 2 - Math.cos(angle_tra) * arrowHeight,
+					triangleY - Math.sin(angle_tra - Math.PI / 2) * arrowWidth / 2 - Math.sin(angle_tra) * arrowHeight,
+					triangleX - Math.cos(angle_tra + Math.PI / 2) * arrowWidth / 2 - Math.cos(angle_tra) * arrowHeight,
+					triangleY - Math.sin(angle_tra + Math.PI / 2) * arrowWidth / 2 - Math.sin(angle_tra) * arrowHeight
 				);
 
 				// 그래픽 업데이트
@@ -367,22 +368,23 @@ class Example extends Phaser.Scene {
 			// 대포 머리 회전 적용 (라디안으로 변환하지 않고 직접 설정)
 			cannonHead.angle = newAngle;
 			
+			angle_tra = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
 			const offsetDistance = 60; // 대포 head 앞쪽 거리 (픽셀)
-			const startX = cannonHead.x + Math.cos(angle) * offsetDistance;
-			const startY = cannonHead.y + Math.sin(angle) * offsetDistance;
+			const startX = cannonHead.x + Math.cos(angle_tra) * offsetDistance;
+			const startY = cannonHead.y + Math.sin(angle_tra) * offsetDistance;
 
 			// 초기 속도 계산 (1200은 속도 크기)
 			const velocity = 1200;
-			const velocityX = Math.cos(angle) * velocity;
-			const velocityY = Math.sin(angle) * velocity;
+			const velocityX = Math.cos(angle_tra) * velocity;
+			const velocityY = Math.sin(angle_tra) * velocity;
 
 			// 발사체의 크기 가져오기
 			const bulletWidth = 50; // 기본 값: 50
 			const bulletHeight = 54; // 기본 값: 54
 			
-			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
-
+		
 			// 궤적 업데이트
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
@@ -416,7 +418,7 @@ class Example extends Phaser.Scene {
                 bullet.play('fly'); // 애니메이션 재생
 
                 // 발사 방향 속도 설정
-                this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
+                this.physics.velocityFromRotation(angle_tra, 1200, bullet.body.velocity);
 				
 				// 궤적 지우기
 				graphics_cicle.clear();
