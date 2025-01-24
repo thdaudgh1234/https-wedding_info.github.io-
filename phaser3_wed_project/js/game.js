@@ -345,7 +345,7 @@ class Example extends Phaser.Scene {
 			//cannonHead.rotation = angle + Math.PI / 2;
 
 			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
-			let angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
 
 			// 각도를 특정 범위로 "정규화" (-π ~ π)
 			angle = Phaser.Math.Angle.Wrap(angle);
