@@ -334,6 +334,57 @@ class Example extends Phaser.Scene {
 
 				// 그래픽 업데이트
 				graphics.clear();
+
+
+				// 대포와 포인터 사이의 각도를 계산
+				let angle_temp = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
+
+				// 포인터와 대포 머리 사이의 각도를 도 단위로 변환
+				let newAngle = Phaser.Math.RadToDeg(angle_temp);
+
+				// 기준 각도 +90도를 적용 (대포 기본 방향 설정)
+				newAngle += 90;
+
+				// 포인터 위치에 따라 3사분면인지 확인
+				if (pointer.x < cannonHead.x && pointer.y > cannonHead.y) {
+					// 포인터가 3사분면에 있을 경우 각도를 -90도로 고정
+					newAngle = -90;
+				} else {
+					// 각도 제한 (대포가 -90도에서 90도 사이에서만 회전)
+					if (newAngle < -90) {
+						newAngle = -90;
+					} else if (newAngle > 90) {
+						newAngle = 90;
+					}
+				}
+				
+				 // `newAngle` 값을 라디안으로 변환하여 `angle` 업데이트
+				angle = Phaser.Math.DegToRad(newAngle - 90);
+				
+				// 대포 머리 회전 적용
+				//cannonHead.angle = newAngle;
+
+				// 대포의 head 앞쪽으로 궤적 시작점 계산
+				const offsetDistance = 90; // 대포 head 앞쪽 거리 (픽셀)
+				const radianAngle = Phaser.Math.DegToRad(newAngle - 90); // 궤적 계산에 사용할 라디안 각도
+				const startX = cannonHead.x + Math.cos(radianAngle) * offsetDistance;
+				const startY = cannonHead.y + Math.sin(radianAngle) * offsetDistance;
+
+				// 초기 속도 계산 (1200은 속도 크기)
+				const velocity = 1200;
+				const velocityX = Math.cos(radianAngle) * velocity;
+				const velocityY = Math.sin(radianAngle) * velocity;
+
+				// 발사체의 크기 가져오기
+				const bulletWidth = 50; // 기본 값: 50
+				const bulletHeight = 54; // 기본 값: 54
+
+				// 궤적 업데이트
+				drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
+				
+
+
+
 				graphics.fillStyle(0xFF5733, 1); // 밝은 붉은색, 불투명
 				graphics.fillTriangleShape(arrowHead);
 			},
@@ -385,7 +436,7 @@ class Example extends Phaser.Scene {
 			const bulletHeight = 54; // 기본 값: 54
 
 			// 궤적 업데이트
-			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
+			//drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
 		});
 
 		
