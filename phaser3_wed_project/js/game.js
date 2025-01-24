@@ -344,24 +344,8 @@ class Example extends Phaser.Scene {
 			angle = Phaser.Math.Angle.BetweenPoints(cannonHead, pointer);
     
 			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
-			let newAngle = Phaser.Math.RadToDeg(Phaser.Math.Angle.BetweenPoints(cannonHead, pointer));
+			let newAngle = Phaser.Math.RadToDeg(angle);  // `angle`을 도 단위로 변환
 
-			// 기존 대포 머리의 각도를 도 단위로 가져옴
-			let currentAngle = Phaser.Math.RadToDeg(cannonHead.rotation - Math.PI / 2);
-
-			// 각도 변화 보정 (360도 순환 문제 해결)
-			if (newAngle - currentAngle > 180) {
-				newAngle -= 360;
-			} else if (newAngle - currentAngle < -180) {
-				newAngle += 360;
-			}
-
-			// 각도를 제한 (-90 ~ 90 사이)
-			if (newAngle < -90) {
-				newAngle = -90; // -90도 고정
-			} else if (newAngle > 90) {
-				newAngle = 90; // 90도 고정
-			}
 			// 대포 머리 회전 적용 (라디안으로 변환하지 않고 직접 설정)
 			cannonHead.angle = newAngle;
 			
