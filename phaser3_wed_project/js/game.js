@@ -356,13 +356,12 @@ class Example extends Phaser.Scene {
 				newAngle += 360;
 			}
 
-			// 각도를 제한 (-90 ~ 0 사이)
+			// 각도를 제한 (-90 ~ 90 사이)
 			if (newAngle < -90) {
 				newAngle = -90; // -90도 고정
-			} else if (newAngle > 0) {
-				newAngle = 0; // 0도 고정
+			} else if (newAngle > 90) {
+				newAngle = 90; // 90도 고정
 			}
-
 			// 대포 머리 회전 적용 (라디안으로 변환하지 않고 직접 설정)
 			cannonHead.angle = newAngle;
 			
