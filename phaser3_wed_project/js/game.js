@@ -350,10 +350,10 @@ class Example extends Phaser.Scene {
 			newAngle += 90;  // 기본 각도를 +90으로 설정
 			
 			// 각도 제한 (0~180도 범위)
-			if (newAngle < 0) {
-				newAngle = 0;  // 0도 이하로 내려가지 않도록 설정
-			} else if (newAngle > 180) {
-				newAngle = 180;  // 180도 이상으로 넘어가지 않도록 설정
+			if (newAngle < 0+90) {
+				newAngle = 0+90;  // 0도 이하로 내려가지 않도록 설정
+			} else if (newAngle > 180+90) {
+				newAngle = 180+90;  // 180도 이상으로 넘어가지 않도록 설정
 			}
 
 			// 대포 머리 회전 적용 (라디안으로 변환하지 않고 직접 설정)
