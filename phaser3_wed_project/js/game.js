@@ -346,8 +346,8 @@ class Example extends Phaser.Scene {
 			// 포인터와 대포 머리 사이의 각도를 계산 (라디안)
 			let newAngle = Phaser.Math.RadToDeg(angle);  // `angle`을 도 단위로 변환
 			
-			// 기본 각도 -90을 적용
-			newAngle -= 90;  // 기본 각도를 -90으로 설정
+			// 기본 각도 +90을 적용
+			newAngle += 90;  // 기본 각도를 +90으로 설정
 
 			// 대포 머리 회전 적용 (라디안으로 변환하지 않고 직접 설정)
 			cannonHead.angle = newAngle;
