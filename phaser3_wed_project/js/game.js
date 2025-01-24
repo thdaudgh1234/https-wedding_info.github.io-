@@ -359,28 +359,28 @@ class Example extends Phaser.Scene {
 				}
 				
 				 // `newAngle` 값을 라디안으로 변환하여 `angle` 업데이트
-				angle = Phaser.Math.DegToRad(newAngle - 90);
+				//angle = Phaser.Math.DegToRad(newAngle - 90);
 				
 				// 대포 머리 회전 적용
 				//cannonHead.angle = newAngle;
 
 				// 대포의 head 앞쪽으로 궤적 시작점 계산
-				const offsetDistance = 90; // 대포 head 앞쪽 거리 (픽셀)
-				const radianAngle = Phaser.Math.DegToRad(newAngle - 90); // 궤적 계산에 사용할 라디안 각도
-				const startX = cannonHead.x + Math.cos(radianAngle) * offsetDistance;
-				const startY = cannonHead.y + Math.sin(radianAngle) * offsetDistance;
+				const offsetDistance2 = 90; // 대포 head 앞쪽 거리 (픽셀)
+				const radianAngle2 = Phaser.Math.DegToRad(newAngle - 90); // 궤적 계산에 사용할 라디안 각도
+				const startX2 = cannonHead.x + Math.cos(radianAngle2) * offsetDistance2;
+				const startY2 = cannonHead.y + Math.sin(radianAngle2) * offsetDistance2;
 
 				// 초기 속도 계산 (1200은 속도 크기)
-				const velocity = 1200;
-				const velocityX = Math.cos(radianAngle) * velocity;
-				const velocityY = Math.sin(radianAngle) * velocity;
+				const velocity2 = 1200;
+				const velocityX2 = Math.cos(radianAngle2) * velocity2;
+				const velocityY2 = Math.sin(radianAngle2) * velocity2;
 
 				// 발사체의 크기 가져오기
-				const bulletWidth = 50; // 기본 값: 50
-				const bulletHeight = 54; // 기본 값: 54
+				const bulletWidth2 = 50; // 기본 값: 50
+				const bulletHeight2 = 54; // 기본 값: 54
 
 				// 궤적 업데이트
-				drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
+				drawTrajectory(startX2, startY2, velocityX2, velocityY2, bulletWidth2, bulletHeight2);
 				
 
 
