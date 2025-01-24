@@ -211,7 +211,7 @@ class Example extends Phaser.Scene {
 		const shaftLengthStart = 150; // 시작 거리
 		const shaftLengthEnd = 220; // 끝 거리
 		let shaftLength = shaftLengthStart; // 초기 거리
-		let angle = 90; // 초기 각도
+		let angle = -Math.PI / 2; // 초기 각도 위쪽(-90도)
 		
 		// 궤적을 시각화할 원의 반지름과 총 길이 설정
 		const pointRadius = 4; // 원의 반지름
