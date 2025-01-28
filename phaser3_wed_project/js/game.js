@@ -181,6 +181,16 @@ class Example extends Phaser.Scene {
 			this.scale.height - this.scale.height / 3 - 100,
 			'wall'
 		);
+		/*
+		// 스프라이트 시트 애니메이션 설정
+		this.anims.create({
+			key: 'wall', // 애니메이션 키
+			frames: this.anims.generateFrameNumbers('wall', { start: 0, end: 7 }), // 프레임 범위
+			frameRate: 30, // 초당 프레임 수
+			repeat: -1 // 무한 반복
+		});
+		*/
+		movingWall.body.allowGravity = false;
 
 		// 움직이는 벽 Tween 설정
 		this.tweens.add({
