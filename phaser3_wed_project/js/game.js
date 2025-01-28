@@ -113,8 +113,8 @@ class Example extends Phaser.Scene {
 
 		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 30, repeat: 0 });
 
-		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0,1,2,3,4,5,6,7]), frameRate: 30, repeat: -1 });
-		this.anims.create({ key: 'wall_goal', frames: this.anims.generateFrameNumbers('wall_goal', [0,1,2]), frameRate: 30, repeat: -1 });
+		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0,1,2,3,4,5,6,7]), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'wall_goal', frames: this.anims.generateFrameNumbers('wall_goal', [0,1,2]), frameRate: 10, repeat: -1 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
@@ -182,12 +182,8 @@ class Example extends Phaser.Scene {
 			'wall'
 		);
 		
-		// 중력 비활성화 (충돌은 유지)
-		movingWall.body.setVelocity(0, 0);
-		movingWall.body.setGravityY(0);
-
-		// 애니메이션 설정 및 재생
-		movingWall.play('wall');
+		// 애니메이션 시작
+		movingWall.anims.play('wall', true);
 
 		// 움직이는 벽 Tween 설정
 		this.tweens.add({
@@ -213,9 +209,8 @@ class Example extends Phaser.Scene {
 		tempWall.destroy(); // 임시 객체 제거
 
 		// goal의 하단에 벽 생성
-		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
-		// 애니메이션 설정 및 재생
-		//walls.play('wall_goal');
+		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
+		
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
 		
