@@ -233,12 +233,13 @@ class Example extends Phaser.Scene {
 
         
 		// 임시 벽 객체 생성 후 높이 가져오기
-		const tempWall = this.add.image(0, 0, 'wall');
-		const wallHeight = tempWall.height; // 벽의 높이 가져오기
-		tempWall.destroy(); // 임시 객체 제거
+		//const tempWall = this.add.image(0, 0, 'wall');
+		//const wallHeight = tempWall.height; // 벽의 높이 가져오기
+		//tempWall.destroy(); // 임시 객체 제거
 
 		// goal의 하단에 벽 생성
-		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
+		//walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
+		walls.create(goal.x, goal.y + goal.height / 2, 'wall_goal');
 		
 		// 벽의 애니메이션을 추가할 스프라이트 생성
 		const wallGoalSprite = this.add.sprite(
