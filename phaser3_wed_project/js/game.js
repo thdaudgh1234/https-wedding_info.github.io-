@@ -196,7 +196,7 @@ class Example extends Phaser.Scene {
 		this.anims.create({
 			key: 'wall_spr', // 애니메이션 이름
 			frames: this.anims.generateFrameNumbers('wall', { start: 0, end: 7 }), // 애니메이션에 사용할 프레임 (예: 0~4번 프레임)
-			frameRate: 10, // 프레임 속도 (1초에 10프레임)
+			frameRate: 3, // 프레임 속도 (1초에 10프레임)
 			repeat: -1 // 무한 반복
 		});
 
