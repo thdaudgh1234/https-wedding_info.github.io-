@@ -240,6 +240,15 @@ class Example extends Phaser.Scene {
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
 		
+		// 벽의 애니메이션을 추가할 스프라이트 생성
+		const wallGoalSprite = this.add.sprite(
+			goal.x, 
+			goal.y, 
+			'wall_goal_spr' // 스프라이트 시트의 이름
+		);
+		// 애니메이션 시작
+		wallSprite.anims.play('wall_goal_spr', true);
+
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
 		
