@@ -182,6 +182,18 @@ class Example extends Phaser.Scene {
 			'wall'
 		);
 		
+		// 움직이는 벽의 애니메이션을 추가할 스프라이트 생성
+		const wallSprite = this.add.sprite(
+			movingWall.x, 
+			movingWall.y, 
+			'wall' // 스프라이트 시트의 이름
+		);
+		
+		// 애니메이션 시작
+		wallSprite.anims.play('wallAnimation', true); // 'wallAnimation'은 애니메이션 이름
+		
+		// 벽의 alpha 값을 0으로 설정하여 숨기기
+		//wallSprite.setAlpha(0); // 0이면 완전히 투명해짐
 
 		// 움직이는 벽 Tween 설정
 		this.tweens.add({
@@ -194,6 +206,10 @@ class Example extends Phaser.Scene {
 			onUpdate: () => {
 				// 위치 변경 시 충돌 데이터를 갱신
 				movingWall.body.updateFromGameObject();
+
+				// wallSprite도 이동에 맞게 동기화
+				wallSprite.x = movingWall.x;
+				wallSprite.y = movingWall.y;
 			},
 		});
 		
