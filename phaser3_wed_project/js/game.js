@@ -21,10 +21,10 @@ class Example extends Phaser.Scene {
 		this.load.spritesheet('effect_shatter_4', 'assets/effects/Effect_Shatter_4.png', { frameWidth: 96, frameHeight: 96 });
 		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 96, frameHeight: 96 });
 
-		//this.load.image('wall', 'assets/100x24_wall.png');
-		//this.load.image('wall_goal', 'assets/100x24_wall_goal.png');
-		this.load.spritesheet('wall', 'assets/100x24_wall.png', { frameWidth: 150, frameHeight: 50 });
-		this.load.spritesheet('wall_goal', 'assets/100x24_wall_goal.png', { frameWidth: 150, frameHeight: 50 });
+		this.load.image('wall', 'assets/125x40_wall.png');
+		this.load.image('wall_goal', 'assets/125x40_wall_goal.png');
+		this.load.spritesheet('wall_spr', 'assets/100x24_wall.png', { frameWidth: 150, frameHeight: 50 });
+		this.load.spritesheet('wall_goal_spr', 'assets/100x24_wall_goal.png', { frameWidth: 150, frameHeight: 50 });
 		this.load.image('wall_fail', 'assets/100x24_wall.png');
 		this.load.image('particle', 'assets/effects/10x10_effect.png'); // 파티클 이미지
 
@@ -186,11 +186,11 @@ class Example extends Phaser.Scene {
 		const wallSprite = this.add.sprite(
 			movingWall.x, 
 			movingWall.y, 
-			'wall' // 스프라이트 시트의 이름
+			'wall_spr' // 스프라이트 시트의 이름
 		);
 		
 		// 애니메이션 시작
-		wallSprite.anims.play('wall', true); // 'wallAnimation'은 애니메이션 이름
+		wallSprite.anims.play('wall_spr', true); // 'wallAnimation'은 애니메이션 이름
 		
 		// 벽의 alpha 값을 0으로 설정하여 숨기기
 		//wallSprite.setAlpha(0); // 0이면 완전히 투명해짐
