@@ -182,8 +182,6 @@ class Example extends Phaser.Scene {
 			'wall'
 		);
 		
-		// 애니메이션 시작
-		movingWall.anims.play('wall', true);
 
 		// 움직이는 벽 Tween 설정
 		this.tweens.add({
@@ -209,7 +207,7 @@ class Example extends Phaser.Scene {
 		tempWall.destroy(); // 임시 객체 제거
 
 		// goal의 하단에 벽 생성
-		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
+		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
 		
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
