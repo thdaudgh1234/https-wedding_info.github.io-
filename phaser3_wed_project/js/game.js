@@ -214,7 +214,7 @@ class Example extends Phaser.Scene {
 		// goal의 하단에 벽 생성
 		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
 		// 애니메이션 설정 및 재생
-		walls.play('wall_goal');
+		//walls.play('wall_goal');
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
 		
