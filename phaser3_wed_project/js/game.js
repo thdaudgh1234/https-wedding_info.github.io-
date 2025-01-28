@@ -21,7 +21,10 @@ class Example extends Phaser.Scene {
 		this.load.spritesheet('effect_shatter_4', 'assets/effects/Effect_Shatter_4.png', { frameWidth: 96, frameHeight: 96 });
 		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 96, frameHeight: 96 });
 
-		this.load.image('wall', 'assets/100x24_wall.png');
+		//this.load.image('wall', 'assets/100x24_wall.png');
+		//this.load.image('wall_goal', 'assets/100x24_wall_goal.png');
+		this.load.spritesheet('wall', 'assets/100x24_wall.png', { frameWidth: 150, frameHeight: 50 });
+		this.load.spritesheet('wall_goal', 'assets/100x24_wall_goal.png', { frameWidth: 150, frameHeight: 50 });
 		this.load.image('wall_fail', 'assets/100x24_wall.png');
 		this.load.image('particle', 'assets/effects/10x10_effect.png'); // 파티클 이미지
 
@@ -109,6 +112,9 @@ class Example extends Phaser.Scene {
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
 
 		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 30, repeat: 0 });
+
+		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0,1,2,3,4,5,6,7]), frameRate: 30, repeat: -1 });
+		this.anims.create({ key: 'wall_goal', frames: this.anims.generateFrameNumbers('wall_goal', [0,1,2]), frameRate: 30, repeat: -1 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
