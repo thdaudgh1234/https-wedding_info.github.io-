@@ -181,7 +181,10 @@ class Example extends Phaser.Scene {
 			this.scale.height - this.scale.height / 3 - 100,
 			'wall'
 		);
-		
+
+		// 중력 차단
+		movingWall.setGravityY(0);
+
 		// 애니메이션 시작
 		movingWall.anims.play('wall', true);
 
