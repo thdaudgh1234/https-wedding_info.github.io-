@@ -248,7 +248,7 @@ class Example extends Phaser.Scene {
 			'wall_goal_spr' // 스프라이트 시트의 이름
 		);
 		// origin을 중앙 상단으로 설정
-		wallGoalSprite.setOrigin(0.5, 0.5);
+		wallGoalSprite.setOrigin(0.5, 0);
 
 		// 애니메이션 시작
 		wallGoalSprite.anims.play('wall_goal_spr', true);
