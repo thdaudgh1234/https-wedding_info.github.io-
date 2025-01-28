@@ -190,7 +190,7 @@ class Example extends Phaser.Scene {
 		);
 		
 		// 애니메이션 시작
-		wallSprite.anims.play('wallAnimation', true); // 'wallAnimation'은 애니메이션 이름
+		wallSprite.anims.play('wall', true); // 'wallAnimation'은 애니메이션 이름
 		
 		// 벽의 alpha 값을 0으로 설정하여 숨기기
 		//wallSprite.setAlpha(0); // 0이면 완전히 투명해짐
