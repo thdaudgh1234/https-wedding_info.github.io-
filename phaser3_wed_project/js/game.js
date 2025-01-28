@@ -113,8 +113,8 @@ class Example extends Phaser.Scene {
 
 		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 30, repeat: 0 });
 
-		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0,1,2,3,4,5,6,7]), frameRate: 10, repeat: -1 });
-		this.anims.create({ key: 'wall_goal', frames: this.anims.generateFrameNumbers('wall_goal', [0,1,2]), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0,1,2,3,4,5,6,7]), frameRate: 30, repeat: -1 });
+		this.anims.create({ key: 'wall_goal', frames: this.anims.generateFrameNumbers('wall_goal', [0,1,2]), frameRate: 30, repeat: -1 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
@@ -176,15 +176,12 @@ class Example extends Phaser.Scene {
 		*/
 
 		// 좌우 움직이는 벽 생성 (x 좌표와 y 좌표 설정).
-		const movingWall = this.physics.add.sprite(
+		const movingWall = this.physics.add.staticImage(
 			Phaser.Math.Between(100, this.scale.width - 100),
 			this.scale.height - this.scale.height / 3 - 100,
 			'wall'
 		);
-
-		// 중력 차단
-		movingWall.setAllowGravity(false); // 중력 완전히 비활성화
-
+		
 		// 애니메이션 시작
 		movingWall.anims.play('wall', true);
 
