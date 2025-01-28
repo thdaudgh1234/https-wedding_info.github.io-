@@ -176,7 +176,7 @@ class Example extends Phaser.Scene {
 		*/
 
 		// 좌우 움직이는 벽 생성 (x 좌표와 y 좌표 설정).
-		const movingWall = this.physics.add.staticImage(
+		const movingWall = this.physics.add.sprite(
 			Phaser.Math.Between(100, this.scale.width - 100),
 			this.scale.height - this.scale.height / 3 - 100,
 			'wall'
@@ -206,7 +206,7 @@ class Example extends Phaser.Scene {
 		tempWall.destroy(); // 임시 객체 제거
 
 		// goal의 하단에 벽 생성
-		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall');
+		walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
 		
 
         const graphics = this.add.graphics({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
