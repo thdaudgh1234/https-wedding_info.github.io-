@@ -116,8 +116,8 @@ class Example extends Phaser.Scene {
 		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0]), frameRate: 30, repeat: 0 });
 		this.anims.create({ key: 'wall_goal', frames: this.anims.generateFrameNumbers('wall_goal', [0]), frameRate: 30, repeat: 0 });
 
-		this.anims.create({ key: 'wall_spr', frames: this.anims.generateFrameNumbers('wall_spr', [0,1,2,3,4,5,6,7]), frameRate: 3, repeat: -1 });
-		this.anims.create({ key: 'wall_goal_spr', frames: this.anims.generateFrameNumbers('wall_goal_spr', [0,1,2]), frameRate: 3, repeat: -1 });
+		//this.anims.create({ key: 'wall_spr', frames: this.anims.generateFrameNumbers('wall_spr', [0,1,2,3,4,5,6,7]), frameRate: 3, repeat: -1 });
+		//this.anims.create({ key: 'wall_goal_spr', frames: this.anims.generateFrameNumbers('wall_goal_spr', [0,1,2]), frameRate: 3, repeat: -1 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
@@ -192,17 +192,17 @@ class Example extends Phaser.Scene {
 			'wall_spr' // 스프라이트 시트의 이름
 		);
 		
-		/*
+		
 		// 애니메이션 생성 (frameRate를 조정하여 속도 조절)
 		this.anims.create({
-			key: 'wall_spr', // 애니메이션 이름
-			frames: this.anims.generateFrameNumbers('wall', { start: 0, end: 7 }), // 애니메이션에 사용할 프레임 (예: 0~4번 프레임)
+			key: 'moving_wall', // 애니메이션 이름
+			frames: this.anims.generateFrameNumbers('wall_spr', { start: 0, end: 7 }), // 애니메이션에 사용할 프레임 (예: 0~4번 프레임)
 			frameRate: 10, // 프레임 속도 (1초에 10프레임)
 			repeat: -1 // 무한 반복
 		});
-*/
+
 		// 애니메이션 시작
-		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
+		wallSprite.anims.play('moving_wall', true); // 'wall_spr'은 애니메이션 이름
 
 		// 애니메이션 시작
 		//wallSprite.anims.play('wall_spr', true); // 'wallAnimation'은 애니메이션 이름
