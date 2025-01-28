@@ -183,6 +183,7 @@ class Example extends Phaser.Scene {
 		);
 		
 		// 중력 비활성화 (충돌은 유지)
+		movingWall.body.setVelocity(0, 0);
 		movingWall.body.setGravityY(0);
 
 		// 애니메이션 설정 및 재생
