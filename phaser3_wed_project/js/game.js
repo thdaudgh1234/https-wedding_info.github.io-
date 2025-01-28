@@ -184,6 +184,9 @@ class Example extends Phaser.Scene {
 
 		// 중력 차단
 		movingWall.setGravityY(0);
+		
+		// 움직이지 않도록 설정
+		movingWall.setImmovable(true); // 벽이 다른 객체에 의해 밀리지 않도록 설정
 
 		// 애니메이션 시작
 		movingWall.anims.play('wall', true);
