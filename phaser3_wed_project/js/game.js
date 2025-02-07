@@ -526,7 +526,7 @@ class Example extends Phaser.Scene {
 						}
 					});
 					// wake 애니메이션의 마지막 프레임이 끝난 후
-					wakeTimer = this.time.delayedCall(3000, () => { // 1초 후 (wake 애니메이션 마지막 프레임)
+					wakeTimer = this.time.delayedCall(3000, () => { // 3초 후 (wake 애니메이션 마지막 프레임)
 						// idle 상태로 되돌리기
 						catSprite.setTexture('cat_idle_2');
 						catSprite.anims.play('cat_idle_2', true);
