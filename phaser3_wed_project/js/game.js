@@ -1,5 +1,34 @@
-class Example extends Phaser.Scene {
 
+const config = {
+    type: Phaser.AUTO,
+    width: 540, // 기본 너비
+    height: 960, // 기본 높이
+    parent: 'phaser-example',
+    pixelArt: true, // 픽셀 아트 최적화
+    resolution: window.devicePixelRatio, // 고해상도 지원
+    scale: {
+        mode: Phaser.Scale.FIT, // 화면 크기에 맞게 조정
+        autoCenter: Phaser.Scale.CENTER_BOTH, // 화면 중앙 정렬
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 500 },
+            debug: false,
+        },
+    },
+    scene: Example, // 사용하는 씬
+};
+
+let isWakingUp = false; // 상태를 추적하는 변수
+let wakeTimer; // 타이머 변수
+
+
+const game = new Phaser.Game(config);
+
+
+class Example extends Phaser.Scene {
+	
 	constructor() {
         super();
         this.isGameStarted = false; // 게임 시작 상태 플래그
@@ -37,9 +66,6 @@ class Example extends Phaser.Scene {
 
 
 	create() {
-
-		let isWakingUp = false; // 상태를 추적하는 변수
-		let wakeTimer; // 타이머 변수
 
 		// 뒷배경 설정
 		const backdrop = this.add.image(0, 0, 'backdrop').setOrigin(0.5, 0.5);
@@ -736,25 +762,3 @@ class Example extends Phaser.Scene {
 
 }
 
-const config = {
-    type: Phaser.AUTO,
-    width: 540, // 기본 너비
-    height: 960, // 기본 높이
-    parent: 'phaser-example',
-    pixelArt: true, // 픽셀 아트 최적화
-    resolution: window.devicePixelRatio, // 고해상도 지원
-    scale: {
-        mode: Phaser.Scale.FIT, // 화면 크기에 맞게 조정
-        autoCenter: Phaser.Scale.CENTER_BOTH, // 화면 중앙 정렬
-    },
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 500 },
-            debug: false,
-        },
-    },
-    scene: Example, // 사용하는 씬
-};
-
-const game = new Phaser.Game(config);
