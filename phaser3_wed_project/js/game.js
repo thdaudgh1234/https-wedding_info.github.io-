@@ -11,6 +11,10 @@ class Example extends Phaser.Scene {
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
         this.load.image('goal', 'assets/50x54_goal.png');
+
+		this.load.spritesheet('cat_idle', 'assets/100x100_cat_idle.png', { frameWidth: 100, frameHeight: 100 });
+		this.load.spritesheet('cat_wake', 'assets/100x100_cat_wake.png', { frameWidth: 100, frameHeight: 100 });
+
         this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 50, frameHeight: 54 });
 
 		this.load.spritesheet('effect_1', 'assets/effects/Effect_1.png', { frameWidth: 32, frameHeight: 32 });
@@ -118,6 +122,12 @@ class Example extends Phaser.Scene {
 
 		this.anims.create({ key: 'wall_spr', frames: this.anims.generateFrameNumbers('wall_spr', [0,1,2,3,4,5,6,7]), frameRate: 3, repeat: -1 });
 		this.anims.create({ key: 'wall_goal_spr', frames: this.anims.generateFrameNumbers('wall_goal_spr', [0,1,2]), frameRate: 3, repeat: -1 });
+		
+		this.anims.create({ key: 'cat_idle_1', frames: this.anims.generateFrameNumbers('cat_idle', [0]), frameRate: 30, repeat: 0 });
+		this.anims.create({ key: 'cat_idle_2', frames: this.anims.generateFrameNumbers('cat_idle', [0,1,2,3]), frameRate: 30, repeat: 0 });
+
+		this.anims.create({ key: 'cat_wake_1', frames: this.anims.generateFrameNumbers('cat_wake', [0]), frameRate: 30, repeat: 0 });
+		this.anims.create({ key: 'cat_wake_2', frames: this.anims.generateFrameNumbers('cat_wake', [0,1,2,3]), frameRate: 30, repeat: 0 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
@@ -192,6 +202,13 @@ class Example extends Phaser.Scene {
 			'wall_spr' // 스프라이트 시트의 이름
 		);
 		
+		// 좌우 움직이는 벽 생성 (x 좌표와 y 좌표 설정).
+		const catObj = this.physics.add.staticImage(
+			this.scale.width - 50,
+			this.scale.height - 50,
+			'cat_idle'
+		);
+
 		/*
 		// 애니메이션 생성 (frameRate를 조정하여 속도 조절)
 		this.anims.create({
@@ -203,6 +220,9 @@ class Example extends Phaser.Scene {
 */
 		// 애니메이션 시작
 		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
+		
+		//고양이 애니메이션 시작
+		catObj.anims.play('cat_idle_1', true);
 
 		// 애니메이션 시작
 		//wallSprite.anims.play('wall_spr', true); // 'wallAnimation'은 애니메이션 이름
