@@ -94,7 +94,7 @@ class Example extends Phaser.Scene {
 
             this.isGameStarted = true; // 게임 시작 플래그 설정
 			
-			var cat_state = 0;
+			
 
             // 검은 음영 및 텍스트 제거
             overlay.destroy();
@@ -112,6 +112,7 @@ class Example extends Phaser.Scene {
 
     startGame() {
 		
+		var cat_state = 0;
 		
 		this.scale.lockOrientation('portrait');
 
