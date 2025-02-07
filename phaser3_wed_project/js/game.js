@@ -132,6 +132,7 @@ class Example extends Phaser.Scene {
 
 		this.anims.create({ key: 'cat_wake_1', frames: this.anims.generateFrameNumbers('cat_wake', [0]), frameRate: 30, repeat: -1 });
 		this.anims.create({ key: 'cat_wake_2', frames: this.anims.generateFrameNumbers('cat_wake', [0,1,2,3]), frameRate: 10, repeat: -1 });
+		this.anims.create({ key: 'cat_wake_3', frames: this.anims.generateFrameNumbers('cat_wake', [3]), frameRate: 30, repeat: 0 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
@@ -511,14 +512,14 @@ class Example extends Phaser.Scene {
 				//고양이 애니메이션
 				if (!isWakingUp) {
 					isWakingUp = true;
-					catSprite.setTexture('cat_wake_2');
-					catSprite.anims.play('cat_wake_2', { repeat: 0 }); // 애니메이션을 한 번만 재생
+					catSprite.setTexture('cat_wake_3');
+					catSprite.anims.play('cat_wake_3', { repeat: 0 }); // 애니메이션을 한 번만 재생
 					//console.log('Animation Complete:', anim.key); // 이벤트가 호출되는지 확인
 					
 					// 애니메이션이 끝났을 때의 동작 정의
 					catSprite.once('animationcomplete', (anim) => {
 						console.log('Animation Complete:', anim.key); // 이벤트가 정상적으로 호출되는지 확인
-						if (anim.key === 'cat_wake_2') {
+						if (anim.key === 'cat_wake_3') {
 							// 애니메이션이 끝난 후 마지막 프레임으로 고정
 							catSprite.setFrame(3);  // 마지막 프레임으로 설정
 							catSprite.anims.stop(); // 애니메이션을 멈추고 더 이상 반복되지 않게 함
