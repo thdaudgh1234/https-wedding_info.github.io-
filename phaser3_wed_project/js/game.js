@@ -516,7 +516,7 @@ class Example extends Phaser.Scene {
 					catSprite.anims.play('cat_wake_2', { repeat: 0 }); // 애니메이션을 한 번만 재생
 					
 					// 애니메이션이 끝나면 마지막 프레임을 고정하도록 설정
-					catSprite.once('animationcomplete', (anim) => {
+					catSprite.on('animationcomplete', (anim) => {
 						console.log('Animation Complete:', anim.key); // 이벤트가 호출되는지 확인
 						if (anim.key === 'cat_wake_2') {
 							// 애니메이션이 끝난 후, 마지막 프레임으로 고정
