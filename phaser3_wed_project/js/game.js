@@ -517,6 +517,7 @@ class Example extends Phaser.Scene {
 					
 					// 애니메이션이 끝나면 마지막 프레임을 고정하도록 설정
 					catSprite.once('animationcomplete', (anim) => {
+						console.log('Animation Complete:', anim.key); // 이벤트가 호출되는지 확인
 						if (anim.key === 'cat_wake_2') {
 							// 애니메이션이 끝난 후, 마지막 프레임으로 고정
 							catSprite.setTexture('wall');  // 여기에 마지막 프레임의 텍스처를 설정
