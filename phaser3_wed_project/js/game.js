@@ -93,6 +93,8 @@ class Example extends Phaser.Scene {
             }
 
             this.isGameStarted = true; // 게임 시작 플래그 설정
+			
+			var cat_state = 0;
 
             // 검은 음영 및 텍스트 제거
             overlay.destroy();
@@ -203,17 +205,24 @@ class Example extends Phaser.Scene {
 		);
 		
 		// 고양이 생성 (x 좌표와 y 좌표 설정).
+		
 		const catObj = this.physics.add.staticImage(
 			this.scale.width - 90,
 			this.scale.height - 100,
 			'cat_idle_1'
 		);
-
+		
 		// 고양이 애니메이션을 추가할 스프라이트 생성
+		
 		const catSprite = this.add.sprite(
 			catObj.x, 
 			catObj.y, 
 			'cat_idle_2' // 스프라이트 시트의 이름
+		);
+		const catSprite2 = this.add.sprite(
+			catObj.x, 
+			catObj.y, 
+			'cat_wake_2' // 스프라이트 시트의 이름
 		);
 
 		/*
@@ -229,7 +238,12 @@ class Example extends Phaser.Scene {
 		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
 		
 		//고양이 애니메이션 시작
-		catSprite.anims.play('cat_idle_2', true);
+		if(cat_state == 0){
+			catSprite.anims.play('cat_idle_2', true);
+		}else{
+			catSprite2.anims.play('cat_wake_2', true);
+		}
+
 
 		// 애니메이션 시작
 		//wallSprite.anims.play('wall_spr', true); // 'wallAnimation'은 애니메이션 이름
@@ -471,6 +485,7 @@ class Example extends Phaser.Scene {
         this.input.on('pointerup', () => {
             //const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
 			const bullet = bullets.get(cannonHead.x, cannonHead.y);
+			cat_state = 1;
 
             if (bullet) {
 
@@ -622,6 +637,8 @@ class Example extends Phaser.Scene {
 				// 발사체가 하단 경계에 닿았는지 확인
 				if (bullet.body.bottom >= this.scale.height) {
 					bullet.isFalling = true; // 상태 플래그 설정
+					
+					cat_state = 0;
 
 					// 크기 증가 애니메이션
 					this.tweens.add({
