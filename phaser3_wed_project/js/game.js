@@ -132,6 +132,7 @@ class Example extends Phaser.Scene {
 
 		this.anims.create({ key: 'cat_wake_1', frames: this.anims.generateFrameNumbers('cat_wake', [0]), frameRate: 30, repeat: -1 });
 		this.anims.create({ key: 'cat_wake_2', frames: this.anims.generateFrameNumbers('cat_wake', [0,1,2,3]), frameRate: 30, repeat: -1 });
+		this.anims.create({ key: 'cat_wake_3', frames: this.anims.generateFrameNumbers('cat_wake', [3]), frameRate: 30, repeat: 0 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
@@ -221,13 +222,6 @@ class Example extends Phaser.Scene {
 			catObj.y, 
 			'cat_idle_2' // 스프라이트 시트의 이름
 		);
-
-		const catSprite2 = this.add.sprite(
-			catObj.x, 
-			catObj.y, 
-			'cat_wake_2' // 스프라이트 시트의 이름
-		);
-		
 
 		/*
 		// 애니메이션 생성 (frameRate를 조정하여 속도 조절)
@@ -486,11 +480,20 @@ class Example extends Phaser.Scene {
 
 			if (!isWakingUp) {
 				isWakingUp = true;
-				catSprite2.anims.play('cat_wake_2', true);
+				catSprite.setTexture('cat_wake_2');
+				catSprite.anims.play('cat_wake_2', true);
 				
+				// 애니메이션이 끝나면 마지막 프레임을 고정하도록 설정
+				catSprite.on('animationcomplete', (anim) => {
+					if (anim.key === 'cat_wake_2') {
+						// 애니메이션이 끝난 후, 마지막 프레임으로 고정
+						catSprite.setTexture('cat_wake_3');  // 여기에 마지막 프레임의 텍스처를 설정
+					}
+				});
 				// wake 애니메이션의 마지막 프레임이 끝난 후
 				wakeTimer = this.time.delayedCall(3000, () => { // 1초 후 (wake 애니메이션 마지막 프레임)
 					// idle 상태로 되돌리기
+					catSprite.setTexture('cat_idle_2');
 					catSprite.anims.play('cat_idle_2', true);
 					isWakingUp = false;
 				});
