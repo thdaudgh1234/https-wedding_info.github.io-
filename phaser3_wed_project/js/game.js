@@ -3,11 +3,9 @@ class Example extends Phaser.Scene {
 	constructor() {
         super();
         this.isGameStarted = false; // 게임 시작 상태 플래그
+
     }
 	
-	let isWakingUp = false; // 상태를 추적하는 변수
-	let wakeTimer; // 타이머 변수
-
     preload() {
         this.load.setBaseURL('https://thdaudgh1234.github.io/https-wedding_info.github.io-/phaser3_wed_project/');
         this.load.image('backdrop', 'assets/540x960_bg.png');
@@ -39,6 +37,10 @@ class Example extends Phaser.Scene {
 
 
 	create() {
+
+		let isWakingUp = false; // 상태를 추적하는 변수
+		let wakeTimer; // 타이머 변수
+
 		// 뒷배경 설정
 		const backdrop = this.add.image(0, 0, 'backdrop').setOrigin(0.5, 0.5);
 		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2);
