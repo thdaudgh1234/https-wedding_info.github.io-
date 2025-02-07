@@ -132,7 +132,7 @@ class Example extends Phaser.Scene {
 
 		this.anims.create({ key: 'cat_wake_1', frames: this.anims.generateFrameNumbers('cat_wake', [0]), frameRate: 30, repeat: -1 });
 		this.anims.create({ key: 'cat_wake_2', frames: this.anims.generateFrameNumbers('cat_wake', [0,1,2,3]), frameRate: 10, repeat: -1 });
-		this.anims.create({ key: 'cat_wake_3', frames: this.anims.generateFrameNumbers('cat_wake', [3]), frameRate: 30, repeat: 0 });
+		this.anims.create({ key: 'cat_wake_3', frames: this.anims.generateFrameNumbers('cat_wake', [0]), frameRate: 0, repeat: 0 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
 		this.anims.create({ key: 'effect_shatter_2', frames: this.anims.generateFrameNumbers('effect_shatter_2'), frameRate: 60, repeat: 0 });
