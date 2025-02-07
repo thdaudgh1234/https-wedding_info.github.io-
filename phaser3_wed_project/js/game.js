@@ -124,7 +124,7 @@ class Example extends Phaser.Scene {
 		this.anims.create({ key: 'wall_goal_spr', frames: this.anims.generateFrameNumbers('wall_goal_spr', [0,1,2]), frameRate: 3, repeat: -1 });
 		
 		this.anims.create({ key: 'cat_idle_1', frames: this.anims.generateFrameNumbers('cat_idle', [0]), frameRate: 30, repeat: -1 });
-		this.anims.create({ key: 'cat_idle_2', frames: this.anims.generateFrameNumbers('cat_idle', [0,1,2,3]), frameRate: 30, repeat: -1 });
+		this.anims.create({ key: 'cat_idle_2', frames: this.anims.generateFrameNumbers('cat_idle', [0,1,2,3]), frameRate: 20, repeat: -1 });
 
 		this.anims.create({ key: 'cat_wake_1', frames: this.anims.generateFrameNumbers('cat_wake', [0]), frameRate: 30, repeat: -1 });
 		this.anims.create({ key: 'cat_wake_2', frames: this.anims.generateFrameNumbers('cat_wake', [0,1,2,3]), frameRate: 30, repeat: -1 });
@@ -204,7 +204,7 @@ class Example extends Phaser.Scene {
 		
 		// 고양이 생성 (x 좌표와 y 좌표 설정).
 		const catObj = this.physics.add.staticImage(
-			this.scale.width - 100,
+			this.scale.width - 90,
 			this.scale.height - 100,
 			'cat_idle_1'
 		);
