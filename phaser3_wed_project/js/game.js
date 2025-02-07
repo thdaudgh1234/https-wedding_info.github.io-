@@ -222,7 +222,7 @@ class Example extends Phaser.Scene {
 		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
 		
 		//고양이 애니메이션 시작
-		catObj.anims.play('cat_idle_1', true);
+		catObj.anims.play('cat_idle', true);
 
 		// 애니메이션 시작
 		//wallSprite.anims.play('wall_spr', true); // 'wallAnimation'은 애니메이션 이름
