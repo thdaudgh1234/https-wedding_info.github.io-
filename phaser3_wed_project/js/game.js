@@ -202,11 +202,18 @@ class Example extends Phaser.Scene {
 			'wall_spr' // 스프라이트 시트의 이름
 		);
 		
-		// 좌우 움직이는 벽 생성 (x 좌표와 y 좌표 설정).
+		// 고양이 생성 (x 좌표와 y 좌표 설정).
 		const catObj = this.physics.add.staticImage(
 			this.scale.width - 50,
 			this.scale.height - 50,
-			'cat_idle'
+			'cat_idle_1'
+		);
+
+		// 고양이 애니메이션을 추가할 스프라이트 생성
+		const catSprite = this.add.sprite(
+			catObj.x, 
+			catObj.y, 
+			'cat_idle_2' // 스프라이트 시트의 이름
 		);
 
 		/*
@@ -222,7 +229,7 @@ class Example extends Phaser.Scene {
 		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
 		
 		//고양이 애니메이션 시작
-		catObj.anims.play('cat_idle', true);
+		catSprite.anims.play('cat_idle', true);
 
 		// 애니메이션 시작
 		//wallSprite.anims.play('wall_spr', true); // 'wallAnimation'은 애니메이션 이름
