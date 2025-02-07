@@ -481,7 +481,7 @@ class Example extends Phaser.Scene {
 			if (!isWakingUp) {
 				isWakingUp = true;
 				catSprite.setTexture('cat_wake_2');
-				catSprite.anims.play('cat_wake_2', true);
+				catSprite.anims.play('cat_wake_2', { repeat: 0 }); // 애니메이션을 한 번만 재생
 				
 				// 애니메이션이 끝나면 마지막 프레임을 고정하도록 설정
 				catSprite.on('animationcomplete', (anim) => {
