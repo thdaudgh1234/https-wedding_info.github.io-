@@ -650,7 +650,6 @@ class Example extends Phaser.Scene {
 				if (bullet.body.bottom >= this.scale.height) {
 					bullet.isFalling = true; // 상태 플래그 설정
 					
-					cat_state = 0;
 
 					// 크기 증가 애니메이션
 					this.tweens.add({
