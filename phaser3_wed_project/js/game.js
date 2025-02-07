@@ -4,6 +4,9 @@ class Example extends Phaser.Scene {
         super();
         this.isGameStarted = false; // 게임 시작 상태 플래그
     }
+	
+	let isWakingUp = false; // 상태를 추적하는 변수
+	let wakeTimer; // 타이머 변수
 
     preload() {
         this.load.setBaseURL('https://thdaudgh1234.github.io/https-wedding_info.github.io-/phaser3_wed_project/');
@@ -112,7 +115,6 @@ class Example extends Phaser.Scene {
 
     startGame() {
 		
-		var cat_state = 0;
 		
 		this.scale.lockOrientation('portrait');
 
@@ -220,11 +222,13 @@ class Example extends Phaser.Scene {
 			catObj.y, 
 			'cat_idle_2' // 스프라이트 시트의 이름
 		);
+
 		const catSprite2 = this.add.sprite(
 			catObj.x, 
 			catObj.y, 
 			'cat_wake_2' // 스프라이트 시트의 이름
 		);
+		
 
 		/*
 		// 애니메이션 생성 (frameRate를 조정하여 속도 조절)
@@ -239,12 +243,8 @@ class Example extends Phaser.Scene {
 		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
 		
 		//고양이 애니메이션 시작
-		if(cat_state == 0){
-			catSprite.anims.play('cat_idle_2', true);
-		}else{
-			catSprite2.anims.play('cat_wake_2', true);
-		}
-
+		catSprite.anims.play('cat_idle_2', true);
+		
 
 		// 애니메이션 시작
 		//wallSprite.anims.play('wall_spr', true); // 'wallAnimation'은 애니메이션 이름
@@ -484,9 +484,21 @@ class Example extends Phaser.Scene {
 		
         // 포인터 클릭 시 발사
         this.input.on('pointerup', () => {
+
+			if (!isWakingUp) {
+				isWakingUp = true;
+				catSprite2.anims.play('cat_wake_2', true);
+				
+				// wake 애니메이션의 마지막 프레임이 끝난 후
+				wakeTimer = this.time.delayedCall(3000, () => { // 1초 후 (wake 애니메이션 마지막 프레임)
+					// idle 상태로 되돌리기
+					catSprite.anims.play('cat_idle_2', true);
+					isWakingUp = false;
+				});
+			}
+
             //const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
 			const bullet = bullets.get(cannonHead.x, cannonHead.y);
-			cat_state = 1;
 
             if (bullet) {
 
