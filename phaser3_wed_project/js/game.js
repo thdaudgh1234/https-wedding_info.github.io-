@@ -128,10 +128,10 @@ class Example extends Phaser.Scene {
 		this.anims.create({ key: 'wall_goal_spr', frames: this.anims.generateFrameNumbers('wall_goal_spr', [0,1,2]), frameRate: 3, repeat: -1 });
 		
 		this.anims.create({ key: 'cat_idle_1', frames: this.anims.generateFrameNumbers('cat_idle', [0]), frameRate: 30, repeat: -1 });
-		this.anims.create({ key: 'cat_idle_2', frames: this.anims.generateFrameNumbers('cat_idle', [0,1,2,3]), frameRate: 20, repeat: -1 });
+		this.anims.create({ key: 'cat_idle_2', frames: this.anims.generateFrameNumbers('cat_idle', [0,1,2,3]), frameRate: 10, repeat: -1 });
 
 		this.anims.create({ key: 'cat_wake_1', frames: this.anims.generateFrameNumbers('cat_wake', [0]), frameRate: 30, repeat: -1 });
-		this.anims.create({ key: 'cat_wake_2', frames: this.anims.generateFrameNumbers('cat_wake', [0,1,2,3]), frameRate: 30, repeat: -1 });
+		this.anims.create({ key: 'cat_wake_2', frames: this.anims.generateFrameNumbers('cat_wake', [0,1,2,3]), frameRate: 10, repeat: -1 });
 		this.anims.create({ key: 'cat_wake_3', frames: this.anims.generateFrameNumbers('cat_wake', [3]), frameRate: 30, repeat: 0 });
 
 		this.anims.create({ key: 'effect_shatter_1', frames: this.anims.generateFrameNumbers('effect_shatter_1'), frameRate: 60, repeat: 0 });
@@ -488,6 +488,7 @@ class Example extends Phaser.Scene {
 					if (anim.key === 'cat_wake_2') {
 						// 애니메이션이 끝난 후, 마지막 프레임으로 고정
 						catSprite.setTexture('cat_wake_3');  // 여기에 마지막 프레임의 텍스처를 설정
+						catSprite.anims.play('cat_wake_3', true);
 					}
 				});
 				// wake 애니메이션의 마지막 프레임이 끝난 후
