@@ -204,8 +204,8 @@ class Example extends Phaser.Scene {
 		
 		// 고양이 생성 (x 좌표와 y 좌표 설정).
 		const catObj = this.physics.add.staticImage(
-			this.scale.width - 50,
-			this.scale.height - 50,
+			this.scale.width - 100,
+			this.scale.height - 100,
 			'cat_idle_1'
 		);
 
