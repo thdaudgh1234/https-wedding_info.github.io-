@@ -16,7 +16,7 @@ class Example extends Phaser.Scene {
 		this.load.spritesheet('cat_idle', 'assets/100x100_cat_idle.png', { frameWidth: 100, frameHeight: 100 });
 		this.load.spritesheet('cat_wake', 'assets/100x100_cat_wake.png', { frameWidth: 100, frameHeight: 100 });
 
-        this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 50, frameHeight: 54 });
+        this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 100, frameHeight: 116 });
 
 		this.load.spritesheet('effect_1', 'assets/effects/Effect_1.png', { frameWidth: 32, frameHeight: 32 });
 
