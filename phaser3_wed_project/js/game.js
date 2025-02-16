@@ -199,7 +199,7 @@ class Example extends Phaser.Scene {
 		// 목표의 애니메이션을 추가할 스프라이트 생성
 		const goalSprite = this.add.sprite(
 			goal.x+6, 
-			goal.y+4, 
+			goal.y, 
 			'goal_idle' // 스프라이트 시트의 이름
 		).setOrigin(0.5, 0.68);
 
