@@ -13,6 +13,8 @@ class Example extends Phaser.Scene {
         this.load.image('cannon_body', 'assets/100x100_body.png');
         this.load.image('goal', 'assets/90x106_goal.png');
 		
+		this.load.image('bullet_head', 'assets/bullet_head.png');
+		
 		this.load.spritesheet('cat_idle', 'assets/100x100_cat_idle.png', { frameWidth: 100, frameHeight: 100 });
 		this.load.spritesheet('cat_wake', 'assets/100x100_cat_wake.png', { frameWidth: 100, frameHeight: 100 });
 
@@ -169,6 +171,9 @@ class Example extends Phaser.Scene {
 		).setDepth(1);
 		goal.body.setOffset(0, -20);
 
+
+		
+
         const cannonHead = this.add.image(this.scale.width / 2 -3, this.scale.height - 150 -5, 'cannon_head').setDepth(1);
 		cannonHead.setOrigin(0.5, 0.85);
 
@@ -196,6 +201,14 @@ class Example extends Phaser.Scene {
             walls.create(x, y, 'wall');
         }
 		*/
+
+
+		// cannonHead는 이미 생성된 대포 머리 스프라이트라고 가정
+		const cannonHead2 = this.add.sprite(0, 0, 'bullet_head').setOrigin(0.5, 0.5);
+
+		// 대포 머리와 함께 움직일 bullet_head 생성 (원점은 중앙)
+		const bulletHead2 = this.add.sprite(cannonHead2.x, cannonHead2.y, 'bullet_head').setOrigin(0.5, 0.5);
+
 		// 목표의 애니메이션을 추가할 스프라이트 생성
 		const goalSprite = this.add.sprite(
 			goal.x+6, 
@@ -468,7 +481,7 @@ class Example extends Phaser.Scene {
 			
 			// 대포 머리 회전 적용
 			cannonHead.angle = newAngle;
-
+			
 			// 대포의 head 앞쪽으로 궤적 시작점 계산
 			const offsetDistance = 90; // 대포 head 앞쪽 거리 (픽셀)
 			const radianAngle = Phaser.Math.DegToRad(newAngle - 90); // 궤적 계산에 사용할 라디안 각도
@@ -483,6 +496,11 @@ class Example extends Phaser.Scene {
 			// 발사체의 크기 가져오기
 			const bulletWidth = 50; // 기본 값: 50
 			const bulletHeight = 54; // 기본 값: 54
+			
+			// 포인터 이동에 따라 대포 포문 쪽의 bullet_head 위치와 회전 업데이트
+			bulletHead2.setPosition(startX, startY);
+			bulletHead2.angle = newAngle;
+
 
 			// 궤적 업데이트
 			drawTrajectory(startX, startY, velocityX, velocityY, bulletWidth, bulletHeight);
