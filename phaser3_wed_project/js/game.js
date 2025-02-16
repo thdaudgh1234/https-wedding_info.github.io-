@@ -204,10 +204,10 @@ class Example extends Phaser.Scene {
 
 
 		// cannonHead는 이미 생성된 대포 머리 스프라이트라고 가정
-		const cannonHead2 = this.add.sprite(0, 0, 'bullet_head').setOrigin(0.5, 0.5);
+		const cannonHead2 = this.add.sprite(-1000, -1000, 'bullet_head').setOrigin(0.5, 0.5);
 
 		// 대포 머리와 함께 움직일 bullet_head 생성 (원점은 중앙)
-		const bulletHead2 = this.add.sprite(cannonHead2.x, cannonHead2.y, 'bullet_head').setOrigin(0.5, 0.5);
+		const bulletHead2 = this.add.sprite(cannonHead2.x, cannonHead2.y, 'bullet_head').setOrigin(0.5, 1);
 
 		// 목표의 애니메이션을 추가할 스프라이트 생성
 		const goalSprite = this.add.sprite(
@@ -512,6 +512,7 @@ class Example extends Phaser.Scene {
 
             //const bullet = bullets.get(cannon.x, cannon.y - 120); // 그룹에서 발사체 가져오기
 			const bullet = bullets.get(cannonHead.x, cannonHead.y);
+			bulletHead2.setVisible(false);
 
             if (bullet) {
 
@@ -717,6 +718,7 @@ class Example extends Phaser.Scene {
 									bullet.body.stop(); // 속도 멈춤
 									bullet.body.enable = false; // 물리 비활성화
 									bullet.isFalling = false; // 상태 플래그 초기화
+									bulletHead2.setVisible(true);
 								},
 							});
 						},
