@@ -522,9 +522,7 @@ class Example extends Phaser.Scene {
 				
 				// bullet의 충돌 범위를 원래 크기의 90%로 줄임
 				bullet.body.setSize(bullet.width * 0.9, bullet.height * 0.9);
-				// 충돌 바디가 스프라이트 중앙에 위치하도록 오프셋 조정
-				bullet.body.setOffset((bullet.width - bullet.body.width) / 2, (bullet.height - bullet.body.height) / 2);
-
+				
 				// 궤적 지우기
 				graphics_cicle.clear();
 				
