@@ -768,7 +768,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 500 },
-            debug: false,
+            debug: true,
         },
     },
     scene: Example, // 사용하는 씬
