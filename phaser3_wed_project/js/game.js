@@ -167,7 +167,7 @@ class Example extends Phaser.Scene {
 			Phaser.Math.Between(this.scale.height / 3 - 150, this.scale.height / 3 - 50), // y 좌표 범위: this.scale.height / 3 - 150 ~ this.scale.height / 3 - 50
 			'goal'
 		).setDepth(1);
-		goal.body.setOffset(0, 20);
+		goal.body.setOffset(0, -20);
 
         const cannonHead = this.add.image(this.scale.width / 2 -3, this.scale.height - 150 -5, 'cannon_head').setDepth(1);
 		cannonHead.setOrigin(0.5, 0.85);
@@ -288,7 +288,7 @@ class Example extends Phaser.Scene {
 
 		// goal의 하단에 벽 생성
 		//walls.create(goal.x, goal.y + goal.height / 2 + wallHeight / 2, 'wall_goal');
-		walls.create(goal.x, goal.y + goal.height / 2, 'wall_goal');
+		walls.create(goal.x, goal.y + goal.height / 2 -20, 'wall_goal');
 		
 		// 벽의 애니메이션을 추가할 스프라이트 생성
 		const wallGoalSprite = this.add.sprite(
