@@ -718,7 +718,7 @@ class Example extends Phaser.Scene {
 									bullet.body.stop(); // 속도 멈춤
 									bullet.body.enable = false; // 물리 비활성화
 									bullet.isFalling = false; // 상태 플래그 초기화
-									bulletHead2.setVisible(true);
+									this.bulletHead2.setVisible(true);
 								},
 							});
 						},
