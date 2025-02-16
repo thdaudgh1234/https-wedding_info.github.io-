@@ -244,7 +244,7 @@ class Example extends Phaser.Scene {
 		});
 */		
 		// 목표 애니메이션 시작
-		wallSprite.anims.play('goal_idle', true); // 'goal_idle'은 애니메이션 이름
+		goalSprite.anims.play('goal_idle', true); // 'goal_idle'은 애니메이션 이름
 
 		// 애니메이션 시작
 		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
