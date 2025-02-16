@@ -712,7 +712,7 @@ class Example extends Phaser.Scene {
 
 					// 현재 회전값(bullet.rotation)에서 목표 각도로 부드럽게 회전시킵니다.
 					// 0.05는 회전 스텝(라디안 단위)로, 값이 작을수록 더 부드럽게 회전합니다.
-					bullet.rotation = Phaser.Math.Angle.RotateTo(bullet.rotation, targetAngle, 0.05);
+					bullet.rotation = Phaser.Math.Angle.RotateTo(bullet.rotation, targetAngle, 0.2);
 				}
 
 				// 발사체가 하단 경계에 닿았는지 확인
