@@ -207,7 +207,7 @@ class Example extends Phaser.Scene {
 		const cannonHead2 = this.add.sprite(-1000, -1000, 'bullet_head').setOrigin(0.5, 0.5);
 
 		// 대포 머리와 함께 움직일 bullet_head 생성 (원점은 중앙)
-		this.bulletHead2 = this.add.sprite(cannonHead2.x, cannonHead2.y, 'bullet_head').setOrigin(0.5, 0.6);
+		const bulletHead2 = this.add.sprite(cannonHead2.x, cannonHead2.y, 'bullet_head').setOrigin(0.5, 0.6);
 
 		// 목표의 애니메이션을 추가할 스프라이트 생성
 		const goalSprite = this.add.sprite(
@@ -694,6 +694,7 @@ class Example extends Phaser.Scene {
 				if (bullet.body.bottom >= this.scale.height) {
 					bullet.isFalling = true; // 상태 플래그 설정
 					
+					bulletHead2.setVisible(true);
 
 					// 크기 증가 애니메이션
 					this.tweens.add({
@@ -718,7 +719,7 @@ class Example extends Phaser.Scene {
 									bullet.body.stop(); // 속도 멈춤
 									bullet.body.enable = false; // 물리 비활성화
 									bullet.isFalling = false; // 상태 플래그 초기화
-									this.bulletHead2.setVisible(true);
+									
 								},
 							});
 						},
