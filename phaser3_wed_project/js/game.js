@@ -167,7 +167,7 @@ class Example extends Phaser.Scene {
 			Phaser.Math.Between(this.scale.height / 3 - 150, this.scale.height / 3 - 50), // y 좌표 범위: this.scale.height / 3 - 150 ~ this.scale.height / 3 - 50
 			'goal'
 		).setDepth(1);
-		goal.body.setOffset(0, -20);
+		goal.body.setOffset(0, 20);
 
         const cannonHead = this.add.image(this.scale.width / 2 -3, this.scale.height - 150 -5, 'cannon_head').setDepth(1);
 		cannonHead.setOrigin(0.5, 0.85);
