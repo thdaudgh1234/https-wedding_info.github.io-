@@ -11,12 +11,13 @@ class Example extends Phaser.Scene {
         this.load.image('backdrop', 'assets/540x960_bg.png');
         this.load.image('cannon_head', 'assets/100x100_head.png');
         this.load.image('cannon_body', 'assets/100x100_body.png');
-        this.load.image('goal', 'assets/50x54_goal.png');
-
+        this.load.image('goal', 'assets/90x106_goal.png');
+		
 		this.load.spritesheet('cat_idle', 'assets/100x100_cat_idle.png', { frameWidth: 100, frameHeight: 100 });
 		this.load.spritesheet('cat_wake', 'assets/100x100_cat_wake.png', { frameWidth: 100, frameHeight: 100 });
 
         this.load.spritesheet('bullet', 'assets/50x54_bullet.png', { frameWidth: 100, frameHeight: 116 });
+		this.load.spritesheet('goal_idle', 'assets/50x54_goal.png', { frameWidth: 100, frameHeight: 116 });
 
 		this.load.spritesheet('effect_1', 'assets/effects/Effect_1.png', { frameWidth: 32, frameHeight: 32 });
 
@@ -119,6 +120,8 @@ class Example extends Phaser.Scene {
 
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
 
+		this.anims.create({ key: 'goal_idle', frames: this.anims.generateFrameNumbers('goal_idle', [0,1]), frameRate: 1, repeat: -1 });
+
 		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 30, repeat: 0 });
 
 		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0]), frameRate: 30, repeat: 0 });
@@ -192,6 +195,13 @@ class Example extends Phaser.Scene {
             walls.create(x, y, 'wall');
         }
 		*/
+		// 목표의 애니메이션을 추가할 스프라이트 생성
+		const goalSprite = this.add.sprite(
+			goal.x, 
+			goal.y, 
+			'goal_idle' // 스프라이트 시트의 이름
+		);
+
 
 		// 좌우 움직이는 벽 생성 (x 좌표와 y 좌표 설정).
 		const movingWall = this.physics.add.staticImage(
@@ -231,7 +241,10 @@ class Example extends Phaser.Scene {
 			frameRate: 3, // 프레임 속도 (1초에 10프레임)
 			repeat: -1 // 무한 반복
 		});
-*/
+*/		
+		// 목표 애니메이션 시작
+		wallSprite.anims.play('goal_idle', true); // 'goal_idle'은 애니메이션 이름
+
 		// 애니메이션 시작
 		wallSprite.anims.play('wall_spr', true); // 'wall_spr'은 애니메이션 이름
 		
