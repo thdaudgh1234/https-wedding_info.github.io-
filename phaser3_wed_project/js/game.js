@@ -520,8 +520,8 @@ class Example extends Phaser.Scene {
                 // 발사 방향 속도 설정
                 this.physics.velocityFromRotation(angle, 1200, bullet.body.velocity);
 				
-				// bullet의 충돌 범위를 원래 크기의 90%로 줄임
-				bullet.body.setSize(bullet.width * 0.9, bullet.height * 0.9);
+				// bullet의 충돌 범위를 원래 크기의 80%로 줄임
+				bullet.body.setSize(bullet.width * 0.8, bullet.height * 0.8);
 				
 				// 궤적 지우기
 				graphics_cicle.clear();
