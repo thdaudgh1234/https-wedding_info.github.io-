@@ -693,6 +693,28 @@ class Example extends Phaser.Scene {
 		// 발사체가 하단 경계에 도달했는지 확인
 		this.bullets.children.iterate((bullet) => {
 			if (bullet.active && !bullet.isFalling) {
+
+				// bullet의 현재 속도 (vx, vy) 가져오기
+				//현재 속도와 방향에 맞춰 회전
+				const vx = bullet.body.velocity.x;
+				const vy = bullet.body.velocity.y;
+
+				// 속도가 0이 아니라면 목표 각도를 계산
+				if (vx !== 0 || vy !== 0) {
+					// Math.atan2(y, x)는 이동 방향의 각도를 라디안 단위로 반환합니다.
+					let targetAngle = Math.atan2(vy, vx);
+					
+					// 만약 bullet의 기본 스프라이트가 예를 들어 "위쪽"을 바라본다면,
+					// sprite와 물리 속도의 기준이 다를 수 있으므로 보정각을 더할 수 있습니다.
+					// 예시: bullet 스프라이트가 기본적으로 위쪽을 바라본다면, 
+					 targetAngle += Phaser.Math.DegToRad(90); 
+					// 필요 시 주석을 해제하여 사용하세요.
+
+					// 현재 회전값(bullet.rotation)에서 목표 각도로 부드럽게 회전시킵니다.
+					// 0.05는 회전 스텝(라디안 단위)로, 값이 작을수록 더 부드럽게 회전합니다.
+					bullet.rotation = Phaser.Math.Angle.RotateTo(bullet.rotation, targetAngle, 0.05);
+				}
+
 				// 발사체가 하단 경계에 닿았는지 확인
 				if (bullet.body.bottom >= this.scale.height) {
 					bullet.isFalling = true; // 상태 플래그 설정
