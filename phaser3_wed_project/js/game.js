@@ -113,8 +113,7 @@ class Example extends Phaser.Scene {
 	}
 
 
-	let cannonHead2;
-	let bulletHead2;
+	
 
     startGame() {
 		
@@ -202,7 +201,8 @@ class Example extends Phaser.Scene {
             walls.create(x, y, 'wall');
         }
 		*/
-		
+		let cannonHead2;
+		let bulletHead2;
 
 		// cannonHead는 이미 생성된 대포 머리 스프라이트라고 가정
 		cannonHead2 = this.add.sprite(-1000, -1000, 'bullet_head').setOrigin(0.5, 0.5);
