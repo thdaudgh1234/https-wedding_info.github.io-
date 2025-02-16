@@ -297,6 +297,7 @@ class Example extends Phaser.Scene {
 		);
 		// origin을 중앙 상단으로 설정
 		wallGoalSprite.setOrigin(0.5, 0);
+		wallGoalSprite.body.setOffset(0, -20);
 
 		// 애니메이션 시작
 		wallGoalSprite.anims.play('wall_goal_spr', true);
