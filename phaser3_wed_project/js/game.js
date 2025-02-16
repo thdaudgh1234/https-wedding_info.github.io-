@@ -500,8 +500,8 @@ class Example extends Phaser.Scene {
 			const bulletHeight = 54; // 기본 값: 54
 			
 			// 포인터 이동에 따라 대포 포문 쪽의 bullet_head 위치와 회전 업데이트
-			bulletHead2.setPosition(startX, startY);
-			bulletHead2.angle = newAngle;
+			this.bulletHead2.setPosition(startX, startY);
+			this.bulletHead2.angle = newAngle;
 
 
 			// 궤적 업데이트
