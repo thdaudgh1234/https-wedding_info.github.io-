@@ -200,7 +200,7 @@ class Example extends Phaser.Scene {
 			goal.x, 
 			goal.y, 
 			'goal_idle' // 스프라이트 시트의 이름
-		);
+		).setOrigin(0.5, 1);
 
 
 		// 좌우 움직이는 벽 생성 (x 좌표와 y 좌표 설정).
