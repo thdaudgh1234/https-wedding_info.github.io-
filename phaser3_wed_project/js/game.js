@@ -641,15 +641,13 @@ class Example extends Phaser.Scene {
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
 			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5);
 
-			const ReplayButton = this.add.text(-1000, this.scale.height / 2 + 100, '다시하기', {
-                fontSize: '32px',
-                color: '#00ff00',
-                backgroundColor: '#000000',
-                padding: { x: 10, y: 10 },
-            })	
-				.setOrigin(0.5)
-                .setInteractive() // 버튼 클릭 가능하도록 설정
-				.setDepth(12);
+			// 버튼 텍스트 추가
+			const replayText = this.add.text(0, 0, '다시하기', {
+				fontSize: '32px',
+				color: '#00ff00',
+				backgroundColor: '#000000',
+				padding: { x: 10, y: 10 },
+			}).setOrigin(0.5);
 
 			// 컨테이너에 아이콘과 텍스트를 추가
 			replayButtonContainer.add([replayIcon, replayText]);
@@ -657,6 +655,12 @@ class Example extends Phaser.Scene {
 			// 컨테이너를 인터랙티브하게 만듦 (컨테이너 내부의 모든 오브젝트가 함께 클릭 처리됨)
 			replayButtonContainer.setSize(replayText.width, replayText.height + 30);
 			replayButtonContainer.setInteractive();
+			
+			// 컨테이너의 중앙을 기준으로 테두리를 그림
+			const border2 = this.add.graphics();
+			border2.lineStyle(2, 0xffffff, 1);
+			border2.strokeRect(-replayButtonContainer.width/2, -replayButtonContainer.height/2, replayButtonContainer.width, replayButtonContainer.height);
+			replayButtonContainer.add(border2);
 
 			// 클릭 이벤트 예시
 			replayButtonContainer.on('pointerup', () => {
@@ -672,15 +676,13 @@ class Example extends Phaser.Scene {
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
 			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5);
 
-            const nextButton = this.add.text(-1000, this.scale.height / 2 + 100, '다음으로', {
-                fontSize: '32px',
-                color: '#00ff00',
-                backgroundColor: '#000000',
-                padding: { x: 10, y: 10 },
-            })
-                .setOrigin(0.5)
-                .setInteractive() // 버튼 클릭 가능하도록 설정
-				.setDepth(12);
+            // 버튼 텍스트 추가
+			const nextText = this.add.text(0, 0, '다음으로', {
+				fontSize: '32px',
+				color: '#00ff00',
+				backgroundColor: '#000000',
+				padding: { x: 10, y: 10 },
+			}).setOrigin(0.5);
 			
 			// 컨테이너에 아이콘과 텍스트 추가
 			nextButtonContainer.add([nextIcon, nextText]);
@@ -689,6 +691,15 @@ class Example extends Phaser.Scene {
 			nextButtonContainer.setSize(nextText.width, nextText.height + 30);
 			// 컨테이너를 인터랙티브하게 만듦 (컨테이너 내부의 모든 오브젝트가 함께 클릭 처리됨)
 			nextButtonContainer.setInteractive();
+			
+
+			// 컨테이너의 중앙을 기준으로 테두리를 그림
+			const border = this.add.graphics();
+			border.lineStyle(2, 0xffffff, 1);
+			border.strokeRect(-nextButtonContainer.width/2, -nextButtonContainer.height/2, nextButtonContainer.width, nextButtonContainer.height);
+			nextButtonContainer.add(border);
+
+
 
 			// 버튼 사이의 간격 (픽셀 단위)
 			const gap = 20;
