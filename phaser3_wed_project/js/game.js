@@ -624,7 +624,7 @@ class Example extends Phaser.Scene {
 			).setDepth(10);
 
             // Clear 메시지 표시
-            this.add.text(this.scale.width / 2, this.scale.height / 2-190, '두사람이 만났어요!', {
+            this.add.text(this.scale.width / 2, this.scale.height / 2-190, '신랑신부가 만났어요!', {
                 fontSize: '40px',
                 color: '#ffffff',
 				padding: { top: 10, bottom: 10, left: 10, right: 10 }
