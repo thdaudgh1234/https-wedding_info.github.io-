@@ -70,9 +70,9 @@ class Example extends Phaser.Scene {
 		const message = this.add.text(
 			this.scale.width / 2,
 			this.scale.height / 2 - 100,
-			'신랑을 신부와 만나게 해주세요',
+			'신랑과 신부를 만나게 해주세요~!',
 			{
-				fontSize: '32px',
+				fontSize: '40px',
 				color: '#ffffff',
 				fontFamily: 'Arial',
 			}
@@ -81,10 +81,10 @@ class Example extends Phaser.Scene {
 		// "터치해서 시작하기" 문구
 		const touchToStart = this.add.text(
 			this.scale.width / 2,
-			this.scale.height - 150,
+			this.scale.height - 250,
 			'터치해서 시작하기',
 			{
-				fontSize: '24px',
+				fontSize: '30px',
 				color: '#ffffff',
 				fontFamily: 'Arial',
 			}
@@ -639,7 +639,7 @@ class Example extends Phaser.Scene {
 			).setOrigin(0.5).setDepth(11);
 
 			// 목표 애니메이션 시작
-			endingSprite.anims.play('ending', true); // 'goal_idle'은 애니메이션 이름
+			endingSprite.anims.play('ending', true); //
 
 			// ending 이미지 생성 (클리어 위에 배치)
 			//const endingImage = this.add.image(this.scale.width / 2, this.scale.height / 2 - 50, 'ending');
