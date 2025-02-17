@@ -620,13 +620,13 @@ class Example extends Phaser.Scene {
 			).setDepth(10);
 
             // Clear 메시지 표시
-            this.add.text(this.scale.width / 2, this.scale.height / 2-200, '두사람이 만났어요!', {
+            this.add.text(this.scale.width / 2, this.scale.height / 2-190, '두사람이 만났어요!', {
                 fontSize: '40px',
                 color: '#ffffff',
             }).setOrigin(0.5, 0).setDepth(12);
 			
 			// ending 이미지 생성 (클리어 위에 배치)
-			const endingImage = this.add.image(this.scale.width / 2, this.scale.height / 2 - 100, 'ending');
+			const endingImage = this.add.image(this.scale.width / 2, this.scale.height / 2 - 50, 'ending');
 			endingImage.setOrigin(0.5);
 			endingImage.setDepth(11); // 클리어보다 높은 depth로 설정하면 위에 표시됨
 
@@ -640,7 +640,7 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'replay_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
+			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5,0).setDepth(11).setScale(3);
 
 			// 버튼 텍스트 추가
 			const replayText = this.add.text(0, 0, '다시하기', {
@@ -676,7 +676,7 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'next_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
+			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5,0).setDepth(11).setScale(3);
 
             // 버튼 텍스트 추가
 			const nextText = this.add.text(0, 0, '다음으로', {
