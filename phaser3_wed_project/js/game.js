@@ -661,7 +661,7 @@ class Example extends Phaser.Scene {
 			// 버튼 텍스트 추가
 			const replayText = this.add.text(0, 0, '다시하기', {
 				fontSize: '32px',
-				color: '#5fcde4',
+				color: '#6be2fa',
 				backgroundColor: 'transparent', // 60% 투명한 검은색
 				padding: { x: 10, y: 10 },
 				stroke: '#000000',            // 흰색 테두리
