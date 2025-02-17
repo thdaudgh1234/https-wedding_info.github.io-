@@ -19,8 +19,10 @@ class Example extends Phaser.Scene {
 		this.load.image('replay_icon', 'assets/replay_icon.png');
 		this.load.image('next_icon', 'assets/next_icon.png');
 
-		this.load.image('ending', 'assets/ending.png');
-		
+		//this.load.image('ending', 'assets/ending.png');
+		this.load.spritesheet('ending', 'assets/ending.png', { frameWidth: 200, frameHeight: 116 });
+
+
 		this.load.image('bullet_head', 'assets/bullet_head.png');
 		
 		this.load.spritesheet('cat_idle', 'assets/100x100_cat_idle.png', { frameWidth: 100, frameHeight: 100 });
@@ -131,6 +133,8 @@ class Example extends Phaser.Scene {
         this.anims.create({ key: 'fly', frames: this.anims.generateFrameNumbers('bullet', [0]), frameRate: 1, repeat: -1 });
 
 		this.anims.create({ key: 'goal_idle', frames: this.anims.generateFrameNumbers('goal_idle', [0,1]), frameRate: 1, repeat: -1 });
+		
+		this.anims.create({ key: 'ending_idle', frames: this.anims.generateFrameNumbers('ending', [0,1]), frameRate: 1, repeat: -1 });
 
 		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 30, repeat: 0 });
 
@@ -616,7 +620,7 @@ class Example extends Phaser.Scene {
 				this.scale.width,
 				this.scale.height,
 				0x000000,
-				0.6 // 투명도 설정
+				0.7 // 투명도 설정
 			).setDepth(10);
 
             // Clear 메시지 표시
@@ -626,10 +630,21 @@ class Example extends Phaser.Scene {
 				padding: { top: 10, bottom: 10, left: 10, right: 10 }
             }).setOrigin(0.5, 0).setDepth(12);
 			
+
+			
 			// ending 이미지 생성 (클리어 위에 배치)
-			const endingImage = this.add.image(this.scale.width / 2, this.scale.height / 2 - 50, 'ending');
-			endingImage.setOrigin(0.5);
-			endingImage.setDepth(11); // 클리어보다 높은 depth로 설정하면 위에 표시됨
+			const endingSprite = this.add.sprite(
+				this.scale.width / 2, this.scale.height / 2 - 50, 
+				'ending' // 스프라이트 시트의 이름
+			).setOrigin(0.5).setDepth(11);
+
+			// 목표 애니메이션 시작
+			endingSprite.anims.play('ending', true); // 'goal_idle'은 애니메이션 이름
+
+			// ending 이미지 생성 (클리어 위에 배치)
+			//const endingImage = this.add.image(this.scale.width / 2, this.scale.height / 2 - 50, 'ending');
+			//endingImage.setOrigin(0.5);
+			//endingImage.setDepth(11); // 클리어보다 높은 depth로 설정하면 위에 표시됨
 
 			// 폭죽 애니메이션 실행
 			this.startFireworks();
