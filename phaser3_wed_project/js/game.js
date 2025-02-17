@@ -620,7 +620,7 @@ class Example extends Phaser.Scene {
 			).setDepth(10);
 
             // Clear 메시지 표시
-            this.add.text(this.scale.width / 2, this.scale.height / 2, '두사람이 만났어요!', {
+            this.add.text(this.scale.width / 2, this.scale.height / 2-200, '두사람이 만났어요!', {
                 fontSize: '40px',
                 color: '#ffffff',
             }).setOrigin(0.5).setDepth(12);
@@ -636,6 +636,7 @@ class Example extends Phaser.Scene {
 			// Replay 버튼 추가
             // Replay 버튼 컨테이너 생성 (중앙 위치)
 			const replayButtonContainer = this.add.container(this.scale.width / 2, this.scale.height / 2 + 100);
+			replayButtonContainer.setDepth(11); // depth 설정
 
 			// 아이콘 추가 (예: 'replay_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
@@ -645,7 +646,7 @@ class Example extends Phaser.Scene {
 			const replayText = this.add.text(0, 0, '다시하기', {
 				fontSize: '32px',
 				color: '#00ff00',
-				backgroundColor: '#ffffff',
+				backgroundColor: '#000000',
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5);
 
@@ -671,6 +672,7 @@ class Example extends Phaser.Scene {
             // Next 버튼 추가
 			// Next 버튼 컨테이너 생성 (중앙 위치)
 			const nextButtonContainer = this.add.container(this.scale.width / 2, this.scale.height / 2 + 100);
+			nextButtonContainer.setDepth(11); // depth 설정
 
 			// 아이콘 추가 (예: 'next_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
@@ -680,7 +682,7 @@ class Example extends Phaser.Scene {
 			const nextText = this.add.text(0, 0, '다음으로', {
 				fontSize: '32px',
 				color: '#00ff00',
-				backgroundColor: '#ffffff',
+				backgroundColor: '#000000',
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5);
 			
@@ -701,15 +703,14 @@ class Example extends Phaser.Scene {
 
 
 
-			// 버튼 사이의 간격 (픽셀 단위)
-			const gap = 20;
+			// --- 버튼 위치 조정 ---
+			// 두 컨테이너를 중앙 기준으로 좌우에 배치하기 위해 전체 너비와 간격을 계산
+			const gap = 20; // 두 버튼 사이의 간격 (픽셀 단위)
+			const totalWidth = replayButtonContainer.width + gap + nextButtonContainer.width;
 
-			// 각 버튼의 너비를 가져온 후 전체 그룹의 너비 계산
-			const totalWidth = replayText.width + gap + nextText.width;
-
-			// 중앙을 기준으로 좌우 버튼의 x좌표 계산
-			replayText.x = this.scale.width / 2 - totalWidth / 2 + replayText.width / 2;
-			nextText.x = this.scale.width / 2 + totalWidth / 2 - nextText.width / 2;
+			// 중앙을 기준으로 좌우 컨테이너의 x좌표 재설정
+			replayButtonContainer.x = this.scale.width / 2 - totalWidth / 2 + replayButtonContainer.width / 2;
+			nextButtonContainer.x = this.scale.width / 2 + totalWidth / 2 - nextButtonContainer.width / 2;
 
 			// Replay 버튼 클릭 이벤트
             replayButtonContainer.on('pointerup', () => {
