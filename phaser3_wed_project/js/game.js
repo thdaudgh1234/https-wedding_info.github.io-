@@ -705,11 +705,11 @@ class Example extends Phaser.Scene {
 			const gap = 20;
 
 			// 각 버튼의 너비를 가져온 후 전체 그룹의 너비 계산
-			const totalWidth = ReplayButton.width + gap + nextButton.width;
+			const totalWidth = replayText.width + gap + nextText.width;
 
 			// 중앙을 기준으로 좌우 버튼의 x좌표 계산
-			ReplayButton.x = this.scale.width / 2 - totalWidth / 2 + ReplayButton.width / 2;
-			nextButton.x = this.scale.width / 2 + totalWidth / 2 - nextButton.width / 2;
+			replayText.x = this.scale.width / 2 - totalWidth / 2 + replayText.width / 2;
+			nextText.x = this.scale.width / 2 + totalWidth / 2 - nextText.width / 2;
 
 			// Replay 버튼 클릭 이벤트
             replayButtonContainer.on('pointerup', () => {
