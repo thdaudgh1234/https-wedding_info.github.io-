@@ -72,7 +72,7 @@ class Example extends Phaser.Scene {
 			this.scale.height / 2 - 100,
 			'신랑과 신부를 만나게 해주세요~!',
 			{
-				fontSize: '40px',
+				fontSize: '36px',
 				color: '#ffffff',
 				fontFamily: 'Arial',
 			}
