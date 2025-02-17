@@ -645,8 +645,8 @@ class Example extends Phaser.Scene {
 			// 버튼 텍스트 추가
 			const replayText = this.add.text(0, 0, '다시하기', {
 				fontSize: '32px',
-				color: '#00ff00',
-				backgroundColor: '#000000',
+				color: '#236ff8',
+				backgroundColor: 'transparent',
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5,0.5);
 
@@ -682,7 +682,7 @@ class Example extends Phaser.Scene {
 			const nextText = this.add.text(0, 0, '다음으로', {
 				fontSize: '32px',
 				color: '#00ff00',
-				backgroundColor: '#000000',
+				backgroundColor: 'transparent',
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5,0.5);
 			
