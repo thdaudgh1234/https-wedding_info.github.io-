@@ -664,10 +664,10 @@ class Example extends Phaser.Scene {
 
 				// 폭죽 애니메이션 생성
 				const effect = this.add.sprite(x, y, effectKey);
-				effect.setScale(2); // 크기를 2배로 설정
+				effect.setScale(3); // 크기를 2배로 설정
 				effect.play(effectKey); // 랜덤 애니메이션 재생
 				effect.setDepth(11);
-				effect.setScale(2);
+		
 
 				// 애니메이션 완료 후 제거
 				effect.once('animationcomplete', () => {
