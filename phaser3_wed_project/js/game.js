@@ -649,6 +649,8 @@ class Example extends Phaser.Scene {
 				color: '#1769ff',
 				backgroundColor: 'transparent', // 60% 투명한 검은색
 				padding: { x: 10, y: 10 },
+				stroke: '#ffffff',            // 흰색 테두리
+				strokeThickness: 2            // 테두리 두께
 			}).setDepth(11).setOrigin(0.5,0.5);
 
 			// 컨테이너에 아이콘과 텍스트를 추가
@@ -686,6 +688,8 @@ class Example extends Phaser.Scene {
 				color: '#00ff00',
 				backgroundColor: 'transparent', // 60% 투명한 검은색
 				padding: { x: 10, y: 10 },
+				stroke: '#ffffff',            // 흰색 테두리
+				strokeThickness: 2            // 테두리 두께
 			}).setDepth(11).setOrigin(0.5,0.5);
 			
 			// 컨테이너에 아이콘과 텍스트 추가
