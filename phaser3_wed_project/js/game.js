@@ -641,13 +641,13 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'replay_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
+			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5,0.3).setDepth(11).setScale(3);
 
 			// 버튼 텍스트 추가
 			const replayText = this.add.text(0, 0, '다시하기', {
 				fontSize: '32px',
-				color: '#236ff8',
-				backgroundColor: 'rgba(0, 0, 0, 0.6)', // 60% 투명한 검은색
+				color: '#1769ff',
+				backgroundColor: 'rgba(0, 0, 0, 0.5)', // 60% 투명한 검은색
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5,0.5);
 
@@ -658,12 +658,13 @@ class Example extends Phaser.Scene {
 			replayButtonContainer.setSize(replayText.width, replayText.height + 30);
 			replayButtonContainer.setInteractive();
 			
+			/*
 			// 컨테이너의 중앙을 기준으로 테두리를 그림
 			const border2 = this.add.graphics();
 			border2.lineStyle(2, 0xffffff, 1);
 			border2.strokeRect(-replayButtonContainer.width/2, -replayButtonContainer.height/2, replayButtonContainer.width, replayButtonContainer.height);
 			replayButtonContainer.add(border2);
-
+			*/
 			// 클릭 이벤트 예시
 			replayButtonContainer.on('pointerup', () => {
 				window.location.reload();
@@ -677,13 +678,13 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'next_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
+			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5,0.25).setDepth(11).setScale(3);
 
             // 버튼 텍스트 추가
 			const nextText = this.add.text(0, 0, '다음으로', {
 				fontSize: '32px',
 				color: '#00ff00',
-				backgroundColor: 'rgba(0, 0, 0, 0.6)', // 60% 투명한 검은색
+				backgroundColor: 'rgba(0, 0, 0, 0.5)', // 60% 투명한 검은색
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5,0.5);
 			
@@ -695,14 +696,13 @@ class Example extends Phaser.Scene {
 			// 컨테이너를 인터랙티브하게 만듦 (컨테이너 내부의 모든 오브젝트가 함께 클릭 처리됨)
 			nextButtonContainer.setInteractive();
 			
-
+			/*
 			// 컨테이너의 중앙을 기준으로 테두리를 그림
 			const border = this.add.graphics();
 			border.lineStyle(2, 0xffffff, 1);
 			border.strokeRect(-nextButtonContainer.width/2, -nextButtonContainer.height/2, nextButtonContainer.width, nextButtonContainer.height);
 			nextButtonContainer.add(border);
-
-
+			*/
 
 			// --- 버튼 위치 조정 ---
 			// 두 컨테이너를 중앙 기준으로 좌우에 배치하기 위해 전체 너비와 간격을 계산
