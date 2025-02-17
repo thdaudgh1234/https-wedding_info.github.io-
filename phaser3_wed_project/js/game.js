@@ -623,10 +623,10 @@ class Example extends Phaser.Scene {
             this.add.text(this.scale.width / 2, this.scale.height / 2-200, '두사람이 만났어요!', {
                 fontSize: '40px',
                 color: '#ffffff',
-            }).setOrigin(0.5).setDepth(12);
+            }).setOrigin(0.5, 0).setDepth(12);
 			
 			// ending 이미지 생성 (클리어 위에 배치)
-			const endingImage = this.add.image(this.scale.width / 2, this.scale.height / 2 - 130, 'ending');
+			const endingImage = this.add.image(this.scale.width / 2, this.scale.height / 2 - 100, 'ending');
 			endingImage.setOrigin(0.5);
 			endingImage.setDepth(11); // 클리어보다 높은 depth로 설정하면 위에 표시됨
 
@@ -640,7 +640,7 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'replay_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5).setDepth(11).setScale(3);
+			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
 
 			// 버튼 텍스트 추가
 			const replayText = this.add.text(0, 0, '다시하기', {
@@ -648,7 +648,7 @@ class Example extends Phaser.Scene {
 				color: '#00ff00',
 				backgroundColor: '#000000',
 				padding: { x: 10, y: 10 },
-			}).setDepth(11).setOrigin(0.5);
+			}).setDepth(11).setOrigin(0.5,0.5);
 
 			// 컨테이너에 아이콘과 텍스트를 추가
 			replayButtonContainer.add([replayIcon, replayText]);
@@ -676,7 +676,7 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'next_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5).setDepth(11).setScale(3);
+			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
 
             // 버튼 텍스트 추가
 			const nextText = this.add.text(0, 0, '다음으로', {
@@ -684,7 +684,7 @@ class Example extends Phaser.Scene {
 				color: '#00ff00',
 				backgroundColor: '#000000',
 				padding: { x: 10, y: 10 },
-			}).setDepth(11).setOrigin(0.5);
+			}).setDepth(11).setOrigin(0.5,0.5);
 			
 			// 컨테이너에 아이콘과 텍스트 추가
 			nextButtonContainer.add([nextIcon, nextText]);
@@ -705,7 +705,7 @@ class Example extends Phaser.Scene {
 
 			// --- 버튼 위치 조정 ---
 			// 두 컨테이너를 중앙 기준으로 좌우에 배치하기 위해 전체 너비와 간격을 계산
-			const gap = 20; // 두 버튼 사이의 간격 (픽셀 단위)
+			const gap = 30; // 두 버튼 사이의 간격 (픽셀 단위)
 			const totalWidth = replayButtonContainer.width + gap + nextButtonContainer.width;
 
 			// 중앙을 기준으로 좌우 컨테이너의 x좌표 재설정
