@@ -640,13 +640,13 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'replay_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5,0).setDepth(11).setScale(3);
+			const replayIcon = this.add.image(0, -30, 'replay_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
 
 			// 버튼 텍스트 추가
 			const replayText = this.add.text(0, 0, '다시하기', {
 				fontSize: '32px',
 				color: '#236ff8',
-				backgroundColor: 'transparent',
+				backgroundColor: 'rgba(0, 0, 0, 0.6)', // 60% 투명한 검은색
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5,0.5);
 
@@ -676,13 +676,13 @@ class Example extends Phaser.Scene {
 
 			// 아이콘 추가 (예: 'next_icon' 키의 이미지)
 			// 아이콘은 버튼 텍스트보다 위쪽에 위치하도록 y값을 음수로 조정 (예: -30)
-			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5,0).setDepth(11).setScale(3);
+			const nextIcon = this.add.image(0, -30, 'next_icon').setOrigin(0.5,0.5).setDepth(11).setScale(3);
 
             // 버튼 텍스트 추가
 			const nextText = this.add.text(0, 0, '다음으로', {
 				fontSize: '32px',
 				color: '#00ff00',
-				backgroundColor: 'transparent',
+				backgroundColor: 'rgba(0, 0, 0, 0.6)', // 60% 투명한 검은색
 				padding: { x: 10, y: 10 },
 			}).setDepth(11).setOrigin(0.5,0.5);
 			
