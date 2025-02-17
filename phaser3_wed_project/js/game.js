@@ -134,7 +134,7 @@ class Example extends Phaser.Scene {
 
 		this.anims.create({ key: 'goal_idle', frames: this.anims.generateFrameNumbers('goal_idle', [0,1]), frameRate: 1, repeat: -1 });
 		
-		this.anims.create({ key: 'ending_idle', frames: this.anims.generateFrameNumbers('ending', [0,1]), frameRate: 1, repeat: -1 });
+		this.anims.create({ key: 'ending', frames: this.anims.generateFrameNumbers('ending', [0,1]), frameRate: 1, repeat: -1 });
 
 		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 30, repeat: 0 });
 
