@@ -593,7 +593,7 @@ class Example extends Phaser.Scene {
 			const effect = this.add.sprite(bullet.x, bullet.y, 'effect_1');
 			effect.play('effect_1'); // 애니메이션 재생
 			effect.angle = 0; // 충돌 각도에 따라 회전
-			effect.setScale(2);
+			effect.setScale(3);
 
 			// 애니메이션 완료 후 효과 제거
 			effect.on('animationcomplete', () => {
