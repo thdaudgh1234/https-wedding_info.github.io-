@@ -735,7 +735,7 @@ class Example extends Phaser.Scene {
 	startFireworks() {
 		// 폭죽 애니메이션 타이머 시작
 		this.fireworkTimer = this.time.addEvent({
-			delay: Phaser.Math.Between(100, 500), // 랜덤 시간 간격 (300ms ~ 1000ms)
+			delay: Phaser.Math.Between(300, 800), // 랜덤 시간 간격 (300ms ~ 1000ms)
 			loop: true, // 반복 실행
 			callback: () => {
 				// 랜덤 위치
