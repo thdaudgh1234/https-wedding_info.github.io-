@@ -623,6 +623,7 @@ class Example extends Phaser.Scene {
             this.add.text(this.scale.width / 2, this.scale.height / 2-190, '두사람이 만났어요!', {
                 fontSize: '40px',
                 color: '#ffffff',
+				padding: { top: 10, bottom: 10, left: 10, right: 10 }
             }).setOrigin(0.5, 0).setDepth(12);
 			
 			// ending 이미지 생성 (클리어 위에 배치)
