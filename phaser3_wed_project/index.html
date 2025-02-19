@@ -10,18 +10,21 @@
 		overflow: hidden;
 		height: 100%;
 	}
-	#phaser-example {
-		margin: 0 auto;
-		display: block;
-		width: 100vw;
-		height: 100vh;
-		/* 하단에 안전 영역 패딩 추가 */
-		padding-bottom: env(safe-area-inset-bottom);
-	}
+	/* Phaser 게임 컨테이너 */
+    #phaser-example {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      /* 필요하다면 안전 영역 관련 padding-top을 조정
+         padding-top: env(safe-area-inset-top); */
+    }
   </style>
   <title>Lee & Song Wedding Game</title>
 </head>
 <body>
+<div id="phaser-example"></div>
 <script src="./js/phaser.js"></script>
   <script src="./js/phaser.min.js"></script> <!-- Phaser 파일 추가 -->
   <script src="./js/game.js"></script>  <!-- 커스텀 게임 스크립트 -->
