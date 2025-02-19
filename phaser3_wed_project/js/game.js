@@ -262,10 +262,10 @@ class Example extends Phaser.Scene {
 
 		// 말풍선 애니메이션을 추가할 스프라이트 생성
 		const bubbleSprite = this.add.sprite(
-			goalSprite.x, 
-			goalSprite.y-50, 
+			goalSprite.x-10, 
+			goalSprite.y-100, 
 			'bubble' // 스프라이트 시트의 이름
-		);
+		).setScale(2);
 
 		/*
 		// 애니메이션 생성 (frameRate를 조정하여 속도 조절)
