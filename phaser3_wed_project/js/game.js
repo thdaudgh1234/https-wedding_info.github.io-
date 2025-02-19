@@ -162,13 +162,13 @@ class Example extends Phaser.Scene {
 		backdrop.setOrigin(0.5, 0.5); // 중심점을 이미지의 중앙으로 설정
 		backdrop.setPosition(this.scale.width / 2, this.scale.height / 2); // 화면 중앙으로 이동
 		backdrop.setDisplaySize(this.scale.width, this.scale.height);
-		
+		/*
 		// 바닥 생성
 		const floor = this.physics.add.staticImage(this.scale.width / 2, this.scale.height, 'wall_fail') // wall_fail 이미지를 바닥으로 사용
 			.setOrigin(0.5, 1.0) // 하단 중심 기준으로 설정
 			.setDisplaySize(this.scale.width, 10) // 바닥의 너비를 화면 크기로 설정
 			.refreshBody(); // 물리 엔진에 업데이트
-
+		*/
 		// 비율 유지하며 화면 크기에 맞춤
 		const scaleX = this.scale.width / backdrop.width;
 		const scaleY = this.scale.height / backdrop.height;
