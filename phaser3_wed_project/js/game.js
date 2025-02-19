@@ -21,8 +21,9 @@ class Example extends Phaser.Scene {
 
 		//this.load.image('ending', 'assets/ending.png');
 		this.load.spritesheet('ending', 'assets/ending.png', { frameWidth: 200, frameHeight: 116 });
-
-
+		
+		this.load.spritesheet('bubble', 'assets/bubble.png', { frameWidth: 100, frameHeight: 60 });
+		
 		this.load.image('bullet_head', 'assets/bullet_head.png');
 		
 		this.load.spritesheet('cat_idle', 'assets/100x100_cat_idle.png', { frameWidth: 100, frameHeight: 100 });
@@ -136,6 +137,8 @@ class Example extends Phaser.Scene {
 		
 		this.anims.create({ key: 'ending', frames: this.anims.generateFrameNumbers('ending', [0,1]), frameRate: 1, repeat: -1 });
 
+		this.anims.create({ key: 'bubble', frames: this.anims.generateFrameNumbers('bubble', [0,1,2,3,4,5,6,7,8]), frameRate: 5, repeat: -1 });
+		
 		this.anims.create({ key: 'effect_1', frames: this.anims.generateFrameNumbers('effect_1'), frameRate: 30, repeat: 0 });
 
 		this.anims.create({ key: 'wall', frames: this.anims.generateFrameNumbers('wall', [0]), frameRate: 30, repeat: 0 });
@@ -244,7 +247,6 @@ class Example extends Phaser.Scene {
 		);
 		
 		// 고양이 생성 (x 좌표와 y 좌표 설정).
-		
 		const catObj = this.physics.add.staticImage(
 			this.scale.width - 90,
 			this.scale.height - 100,
@@ -252,11 +254,17 @@ class Example extends Phaser.Scene {
 		);
 		
 		// 고양이 애니메이션을 추가할 스프라이트 생성
-		
 		const catSprite = this.add.sprite(
 			catObj.x, 
 			catObj.y, 
 			'cat_idle_2' // 스프라이트 시트의 이름
+		);
+
+		// 말풍선 애니메이션을 추가할 스프라이트 생성
+		const bubbleSprite = this.add.sprite(
+			goalSprite.x, 
+			goalSprite.y-50, 
+			'bubble' // 스프라이트 시트의 이름
 		);
 
 		/*
@@ -268,6 +276,8 @@ class Example extends Phaser.Scene {
 			repeat: -1 // 무한 반복
 		});
 */		
+		bubbleSprite.anims.play('bubble', true); // 'bubble'은 애니메이션 이름
+
 		// 목표 애니메이션 시작
 		goalSprite.anims.play('goal_idle', true); // 'goal_idle'은 애니메이션 이름
 
