@@ -28,15 +28,15 @@
 </head>
 <body>
 <div id="phaser-example"></div>
+
+<script>
+// DOM이 생성된 즉시 컨테이너 높이를 window.innerHeight로 설정
+document.getElementById('phaser-example').style.height = window.innerHeight + 'px';
+</script>
+
 <!--<script src="./js/phaser.js"></script>-->
   <script src="./js/phaser.min.js"></script> <!-- Phaser 파일 추가 -->
   <script src="./js/game.js"></script>  <!-- 커스텀 게임 스크립트 -->
 </body>
-
-<script>
-  window.addEventListener('load', function() {
-    document.getElementById('phaser-example').style.height = window.innerHeight + 'px';
-  });
-</script>
 
 </html>
