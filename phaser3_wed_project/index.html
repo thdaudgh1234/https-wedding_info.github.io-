@@ -12,11 +12,12 @@
 	}
 	/* Phaser 게임 컨테이너 */
     #phaser-example {
-      position: absolute;
-    top: -10px; /* 상단을 10px 위로 이동 */
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		/* 모바일에서 안전 영역(하단 메뉴 높이)을 자동으로 빼고, PC에서는 env(safe-area-inset-bottom)이 0으로 처리됨 */
+		height: calc(100vh - env(safe-area-inset-bottom));
     }
   </style>
   <title>Lee & Song Wedding Game</title>
