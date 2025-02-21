@@ -34,11 +34,11 @@ class Example extends Phaser.Scene {
 
 		this.load.spritesheet('effect_1', 'assets/effects/Effect_1.png', { frameWidth: 32, frameHeight: 32 });
 
-		this.load.spritesheet('effect_shatter_1', 'assets/effects/Effect_Shatter_1.png', { frameWidth: 96, frameHeight: 96 });
-		this.load.spritesheet('effect_shatter_2', 'assets/effects/Effect_Shatter_2.png', { frameWidth: 96, frameHeight: 96 });
-		this.load.spritesheet('effect_shatter_3', 'assets/effects/Effect_Shatter_3.png', { frameWidth: 96, frameHeight: 96 });
-		this.load.spritesheet('effect_shatter_4', 'assets/effects/Effect_Shatter_4.png', { frameWidth: 96, frameHeight: 96 });
-		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 96, frameHeight: 96 });
+		this.load.spritesheet('effect_shatter_1', 'assets/effects/Effect_Shatter_1.png', { frameWidth: 48, frameHeight: 48 });
+		this.load.spritesheet('effect_shatter_2', 'assets/effects/Effect_Shatter_2.png', { frameWidth: 48, frameHeight: 48 });
+		this.load.spritesheet('effect_shatter_3', 'assets/effects/Effect_Shatter_3.png', { frameWidth: 48, frameHeight: 48 });
+		this.load.spritesheet('effect_shatter_4', 'assets/effects/Effect_Shatter_4.png', { frameWidth: 48, frameHeight: 48 });
+		this.load.spritesheet('effect_shatter_5', 'assets/effects/Effect_Shatter_5.png', { frameWidth: 48, frameHeight: 48 });
 
 		this.load.image('wall', 'assets/125x40_wall.png');
 		this.load.image('wall_goal', 'assets/125x40_wall_goal.png');
@@ -778,7 +778,7 @@ class Example extends Phaser.Scene {
 
 				// 폭죽 애니메이션 생성
 				const effect = this.add.sprite(x, y, effectKey);
-				effect.setScale(3); // 크기를 2배로 설정
+				effect.setScale(5); // 크기를 2배로 설정
 				effect.play(effectKey); // 랜덤 애니메이션 재생
 				effect.setDepth(11);
 		
